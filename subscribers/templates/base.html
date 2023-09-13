@@ -1,0 +1,36 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Journal Subscription System</title>
+    <!-- Add any common CSS or JS includes here -->
+</head>
+<body>
+    <header>
+        <h1>Journal Subscription System</h1>
+        <!-- You can add navigation links here if needed -->
+    </header>
+
+    <section id="content">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        <!-- Content from child templates will appear here -->
+        {% endblock %}
+    </section>
+
+    <footer>
+        <!-- Common footer content -->
+    </footer>
+</body>
+</html>
+

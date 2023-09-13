@@ -1,0 +1,10 @@
+<!-- templates/register.html -->
+{% extends 'base.html' %}
+{% block content %}
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name() }}
+    <!-- ... same for other fields ... -->
+    {{ form.submit() }}
+  </form>
+{% endblock %}

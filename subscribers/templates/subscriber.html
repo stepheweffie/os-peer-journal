@@ -1,0 +1,14 @@
+<!-- templates/read_subscriber.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2>Subscriber Details</h2>
+
+<p><strong>Name:</strong> {{ subscriber.name }}</p>
+<p><strong>Email:</strong> {{ subscriber.email }}</p>
+<!-- ... other fields ... -->
+
+<a href="{{ url_for('update_subscriber', subscriber_id=subscriber.id) }}">Update</a>
+<form method="post" action="{{ url_for('delete_subscriber', subscriber_id=subscriber.id) }}">
+    <input type="submit" value="Delete">
+</form>
+{% endblock %}
