@@ -10,7 +10,7 @@ from models import Base
 # import os
 from templates.dash_body import BODY
 from templates.dash_navbar import NAVBAR
-from templates.pages import READ
+from routes import READ
 from flask import Flask, session
 from flask_session import Session
 import dash_core_components as dcc
@@ -36,15 +36,17 @@ SessionLocal = sessionmaker(bind=engine)
 
 
 app = dash.Dash(external_stylesheets=[dbc.themes.VAPOR], server=server, suppress_callback_exceptions=True)
+MAIN = html.Div(id='display-url-info')
 
 app.layout = html.Div([
     dcc.Location(id='url'),
+    # HEAD,
     NAVBAR,
-    html.Div(id='display-url-info'),
+    MAIN,
+    # FOOTER,
 ])
 
 paths = dict()
-
 paths['/'] = BODY
 paths['/read'] = READ
 paths['/subscribe'] = 'subscribe_layout'
@@ -78,10 +80,6 @@ def display_url(href, pathname):
     ]
 
 
-@app.callback(
-    Output("us-map", "figure"),
-    Input("us-map", "relayoutData")
-)
 @app.callback(
     Output("email-output", "children"),
     Input("email-button", "n_clicks"),

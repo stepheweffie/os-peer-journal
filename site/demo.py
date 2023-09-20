@@ -1,9 +1,9 @@
-import dash
 import dash_core_components as dcc
 from dash import html
 from dash.dependencies import Input, Output
 from templates.dash_navbar import NAVBAR
 from templates.dash_body import BODY
+import dash
 app = dash.Dash(__name__)
 
 READ = html.Div([
