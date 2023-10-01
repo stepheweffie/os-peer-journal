@@ -7,10 +7,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_utils import add_email, add_contact
 from models import Base
-# import os
+import os
 from templates.dash_body import BODY
 from templates.dash_navbar import NAVBAR
-from routes import READ
 from flask import Flask, session
 from flask_session import Session
 import dash_core_components as dcc
@@ -45,7 +44,7 @@ app.layout = html.Div([
     MAIN,
     # FOOTER,
 ])
-
+READ = os.get_env('READ')
 paths = dict()
 paths['/'] = BODY
 paths['/read'] = READ
