@@ -12,10 +12,9 @@ for p in paths:
     pages.append([html.Div([[html.H1(f'{capitalized_name}')]])])
     p_empty = p.replace(' ', ' ')
     p_with_slash = "/" + p_empty
-    # paths.pop(0)
-    print(p_with_slash)
-assert len(pages) == len(page_vars)
+    # print(p_with_slash)
+# assert len(pages) == len(page_vars)
 for l1, l2 in zip(pages, contents):
     l1.extend(l2)
-print(pages)
+print(pages[0][1])
 # PAGES = zip(page_vars, pages)

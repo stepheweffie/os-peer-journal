@@ -67,21 +67,21 @@ toast1 = dbc.Toast(
      html.H1("Read Freely.", className="mb-0"),
      html.H1("Cite Responsibly.", className="mb-0"),
      ],
-    header="",
+    header_style={"background-color": "black", "color": "white", "width": "100%"},
     dismissable=False,
     is_open=True,
-    style={"background-color": "#ffc107", "color": "black", "width": "100%"},
+    style={"background-color": "black", "color": "white", "width": "100%"},
 
 )
 
 
 placeholder = html.Div(
     [
-        dbc.Placeholder(button=True, size='lg', color='dark', loading_state=False,
+        dbc.Placeholder(button=True, size='lg', color='black', loading_state=False,
                         className="w-100"),
-        dbc.Placeholder(button=True,size='lg', color='primary', loading_state=False, className="w-100"),
     ]
 )
+
 
 toast2 = dbc.Toast(
     [html.H3('Researchers never have to login to read published articles and notebooks.', className="mb-0"),
@@ -90,7 +90,8 @@ toast2 = dbc.Toast(
      html.H1("Publish In Jupyter or PDF.", className="mb-0"),
      html.H1("Never Pay To Have Your Work Recognized.", className="mb-0"),
      html.H1("Get Paid To Review And Write.", className="mb-0")],
-    header="",
+    header_style={"background-color": "black", "color": "white", "width": "100%"},
+
     dismissable=False,
     is_open=True,
     style={"background-color": "white", "color": "black", "width": "100%"},
@@ -112,37 +113,6 @@ carousel = dbc.Container(
                 interval=3600,
                 ride="carousel",
                 className="carousel-fade",))
-
-contact_form = dbc.Form([
-    dbc.Container([
-        dbc.Label("For More Information About Subscribing", className="mr-2"),
-        dbc.Row([
-            dbc.Col([
-                dbc.Input(type="text", id="name-input", placeholder="First Name", className="mt-2"),
-                    ]),
-            dbc.Col([
-                dbc.Input(type="text", id='last-name-input', placeholder="Last Name", className="mt-2"),
-                    ])
-                ]),
-        dbc.Row([
-            dbc.Col([
-                dbc.Input(type="text", id="institution-input", placeholder="Institution", className="mt-2"),
-                ]),
-            dbc.Col([
-                dbc.Input(type="text", id="phone-input", placeholder="Phone Number", className="mt-2"),
-                ])
-            ]),
-        dbc.Row([
-            dbc.Col([
-                dbc.Input(type="email", id="contact-email-input", placeholder="Email", className="mt-2"),
-                    ]),
-            dbc.Col([
-                dbc.Button("Submit", id="contact-button", className="mt-3", color="primary"),
-                    ])
-                ]),
-    ]),
-    html.Div(id="contact-output")
-])
 
 
 def update_map():
@@ -169,7 +139,7 @@ def update_map():
             showscale=False,
             hoverinfo="text",
             text=hover_text,  # Use the generated hover text
-            marker_line_color='white',  # Lines between states
+            marker_line_color='whitesmoke',  # Lines between states
         )
     )
 
@@ -185,7 +155,7 @@ def update_map():
             lakecolor="rgb(255, 255, 255)",
             showsubunits=True,
         ),
-        title_text="For Computer and Brain Science Programs in the US",
+        title_text="",
         title_x=0.5,  # Center the title
         autosize=True,
         margin=dict(t=40, b=40, l=40, r=40),
@@ -199,15 +169,19 @@ BODY = html.Div([
                 html.Br(),
             ]),
         carousel,
-        dbc.Container(
-            toast1
-        ),
-        placeholder,
-        html.H2("States in black respect abortion rights.", style={'textAlign': 'center'}),
-        html.H1("Subscription Eligible States", style={'textAlign': 'center'}),
+        dbc.Container([
+            toast1,
+            placeholder,
+        ]),
+        html.Div([
+            dcc.Graph(id='animated-graph'),
+            dcc.Interval(
+                id='graph-update',
+                interval=100,  # Update every 100 ms
+                ),
+            cookie_offcanvas,
+        ]),
+        html.H1("Entities in These States May Subscribe", style={'textAlign': 'center', 'color': 'white'}),
         dcc.Graph(id="us-map", style={'height': '85vh'}, figure=update_map()),
         toast2,
-        html.H1('Contact Sales', style={'textAlign': 'center'}),
-        contact_form,
-        cookie_offcanvas,
-        ])
+    ])

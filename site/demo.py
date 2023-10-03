@@ -1,8 +1,7 @@
-import dash_core_components as dcc
-from dash import html
+from dash import html, dcc
 from dash.dependencies import Input, Output
-from templates.dash_navbar import NAVBAR
-from templates.dash_body import BODY
+from pages.dash_navbar import NAVBAR
+from pages.dash_body import BODY
 import dash
 app = dash.Dash(__name__)
 
