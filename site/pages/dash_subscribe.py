@@ -49,7 +49,7 @@ SUBSCRIBE = dbc.Container([
                     dbc.Col(
                         html.H2("Education"), className="text-center"),
                     html.Hr(),
-                    html.H5("For Librarians and Educators"),
+                    html.H5("Librarians"),
                     html.H6("Explain what it means here and how it works")],
                         className="col-xl-12 p-2 m-6"),
                         className="col-xl-12 m-1 p-2", style={
@@ -63,7 +63,7 @@ SUBSCRIBE = dbc.Container([
                     dbc.Col(
                         html.H2("Corporate"), className="text-center"),
                     html.Hr(),
-                    html.H5("For Businesses"),
+                    html.H5("Businesses"),
                     html.H6("Explain what it means here and how it works")],
                                  className="col-xl-12 p-2 m-6"),
                         className="col-xl-12 m-1 p-2", style={
@@ -77,7 +77,7 @@ SUBSCRIBE = dbc.Container([
                     dbc.Col(
                         html.H2("NonProfit"), className="text-center"),
                     html.Hr(),
-                    html.H5("For Organizations"),
+                    html.H5("Organizations"),
                     html.H6("Explain what it means here and how it works")],
                                  className="col-xl-12 p-2 m-6"),
                         className="col-xl-12 m-1 p-2", style={
@@ -91,7 +91,7 @@ SUBSCRIBE = dbc.Container([
                     dbc.Col(
                         html.H2("Government"), className="text-center"),
                     html.Hr(),
-                    html.H5("For Agencies and Offices"),
+                    html.H5("Agencies"),
                     html.H6("Explain what it means here and how it works")],
                                  className="col-xl-12 p-2 m-6"),
                         className="col-xl-12 m-1 p-2", style={

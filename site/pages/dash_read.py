@@ -1,4 +1,4 @@
-from dash import html, dcc
+from dash import html
 import dash_bootstrap_components as dbc
 
 
@@ -23,22 +23,22 @@ first_card = dbc.Container([
                             html.H4("Read The Blurb", className="card-title"),
                             html.P(
                                 f'{text_1}',
-                                className="card-text",
+                                className="card-text col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6",
+                                style={'width': '100%'},
                             ),
                             html.Div(
                         [
-                            dbc.Button("Go To It", color="dark"),
+                            dbc.Button("Go To It", color="secondary"),
                         ],
-                                className="d-grid gap-2",
+                                className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'},
                             ),
-                        ],
+                        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}
                     ),
 
                 ),
-            ],
-            style={"width": "28rem"},
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}
         ),
-        ])
+        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'})
 
 
 second_card = dbc.Container([
@@ -55,24 +55,22 @@ second_card = dbc.Container([
                             html.H4("Read The Journal", className="card-title"),
                             html.P(
                                 f'{text_2}',
-                                className="card-text",
+                                className="card-text col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6",
+                                style={'width': '100%'},
                             ),
-
                             html.Div(
                         [
-                            dbc.Button("Go To It", color="dark"),
+                            dbc.Button("Go To It", color="secondary"),
                         ],
-                                className="d-grid gap-2",
+                                className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'},
                             ),
-                        ],
+                        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}
                     ),
 
                 ),
-            ],
-            style={"width": "28rem"},
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}
         ),
-        ])
-
+        ], className="mb-3", style={'width': '100%'})
 
 READ = dbc.Container([
     dbc.Row([
@@ -81,22 +79,20 @@ READ = dbc.Container([
             html.Hr(),
     ])
     ]),
-    dbc.Container([
-        dbc.Col(html.Div([
-            dbc.Col(
-                html.H2("Blog"), className="m-3 text-left"),
-            dbc.Col(first_card, className='m-1 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-3'),
-            ]),
-            className='m-3 col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3'),
-        html.Hr(),
-        dbc.Col(html.Div([
-            dbc.Col(
-                html.H2("Peer-Review"), className="m-3 text-left"),
-            dbc.Col(second_card, className='m-1 col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-3'),
-            ]),
-            className='m-3 col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3'),
-        html.Hr(),
-        ])
-    ])
 
-# Define callback to update graph
+    dbc.Row([
+        dbc.Container([
+        dbc.Col([
+            html.H2('Sciencey Stuff Blog', className='m-3 text-left'),
+            first_card,
+            ]),
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+        dbc.Container([
+        dbc.Col([
+            html.H2('Peer-Reviewed Articles', className='m-3 text-left'),
+            second_card,
+            ]),
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+    ]),
+    ], fluid=False)
+

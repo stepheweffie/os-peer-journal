@@ -2,7 +2,6 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 
-
 EXCLUDED_STATES = ['Alabama', 'Arizona', 'Arkansas', 'Georgia', 'Florida', 'Idaho', 'Indiana', 'Louisiana', 'Kentucky',
                    'Mississippi', 'Missouri', 'Nebraska', 'North Carolina', 'North Dakota', 'Oklahoma', 'South Carolina',
                    'South Dakota', 'Tennessee', 'Texas', 'Utah', 'West Virginia', 'Wisconsin']
@@ -34,32 +33,39 @@ cookie_offcanvas = dbc.Offcanvas(
 
 
 email_input = dbc.Form([
-    html.H2("Stay In The Know.", className="mt-3"),
+    html.H2("Stay In The Know."),
     dbc.Label("We Won't Forget To Update You When An Article Is Published", className="mr-2"),
-    dbc.Row([
-        dbc.Col([
-            dbc.Input(type="text", id="username-updates--input", placeholder="Enter A Name You Use"),
-            dbc.Button("Submit", id="email-button", className="mt-3", color="primary"),
-        ], width=6, className="mr-3"),
-        dbc.Col([
-            dbc.Input(type="email", id="email-updates--input", placeholder="Enter Your Email Address"),
-            html.H3("Confirm Your Email For The Most Updated Information.", className="mt-3"),
-        ], width=6, className="mr-3"),
-    ]),
-    html.Div(id="email-output",  style={"width": "6"}, className="mt-3"),
-])
 
-card1 = dbc.Card(
-    [
-        dbc.CardImg(src="/static/logo.svg", top=True),
-        dbc.CardBody(
-            [
-                email_input
-            ]
-        ),
-    ],
-    style={"width": '100%'},
-)
+    dbc.Col([
+        dbc.Input(type="text", id="username-updates--input", placeholder="Enter A Name You Use"),
+    ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
+    dbc.Col([
+        dbc.Input(type="email", id="email-updates--input", placeholder="Enter Your Email Address"),
+        html.H3("Confirm Your Email For The Most Updated Information.", className="mt-3"),
+    ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
+
+    dbc.Button("Submit", id="email-button", className="mt-3", color="dark"),
+    html.Div(id="email-output",  style={"width": "6"}, className="mt-3"),
+], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'})
+
+email_form = dbc.Container([
+    email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6",
+    style={'width': '100%', "color": "white"})
+
+
+toast0 = dbc.Container([
+    dbc.Toast(
+        [html.H2('Welcome to Research.', className="mb-0"),
+            html.H1("Science on the very edge.", className="mb-0"),
+            html.H1("In a post P vs NP world.", className="mb-0"),
+            html.H1("Reverse engineering the brain.", className="mb-0"),
+            ], className="col-xs-12 col-sm-12 col-md-12",
+        header_style={"background-color": "black", "color": "white"},
+        dismissable=False,
+        is_open=True,
+        style={"background-color": "black", "color": "white", "width": "100%"},
+    ),
+    ])
 
 toast1 = dbc.Toast(
     [html.H2('Welcome to the Journal Without Walls.', className="mb-0"),
@@ -91,7 +97,6 @@ toast2 = dbc.Toast(
      html.H1("Never Pay To Have Your Work Recognized.", className="mb-0"),
      html.H1("Get Paid To Review And Write.", className="mb-0")],
     header_style={"background-color": "black", "color": "white", "width": "100%"},
-
     dismissable=False,
     is_open=True,
     style={"background-color": "white", "color": "black", "width": "100%"},
@@ -165,9 +170,21 @@ def update_map():
 
 
 BODY = html.Div([
-        dbc.Container([card1,
-                html.Br(),
+        dbc.Container([
+            dbc.CardImg(src="/static/logo.svg", top=True),
             ]),
+        dbc.Container([
+            dbc.Row([
+                dbc.Container([
+                    dbc.Col([
+                        toast0]),
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+                dbc.Container([
+                    dbc.Col([
+                        email_form]),
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+            ]),
+        ]),
         carousel,
         dbc.Container([
             toast1,
@@ -184,4 +201,4 @@ BODY = html.Div([
         html.H1("Entities in These States May Subscribe", style={'textAlign': 'center', 'color': 'white'}),
         dcc.Graph(id="us-map", style={'height': '85vh'}, figure=update_map()),
         toast2,
-    ])
+    ],)
