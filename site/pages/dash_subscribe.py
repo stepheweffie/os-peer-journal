@@ -9,23 +9,37 @@ contact_form = html.Div([
             dbc.Container([
                 dbc.Label("For More Information About Subscribing", className="mr-2"),
                 dbc.Row([
-                    dbc.Col(dbc.Input(type="text", id="name-input", placeholder="First Name", className="mt-2")),
-                    dbc.Col(dbc.Input(type="text", id='last-name-input', placeholder="Last Name", className="mt-2"))
-                ]),
+                    dbc.Container([
+                        dbc.Col(dbc.Input(type="text", id="name-input", placeholder="First Name",
+                        ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+                    dbc.Container([
+                        dbc.Col(dbc.Input(type="text", id='last-name-input', placeholder="Last Name",
+                        ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"),
                 dbc.Row([
-                    dbc.Col(dbc.Input(type="text", id="institution-input", placeholder="Institution", className="mt-2")),
-                    dbc.Col(dbc.Input(type="text", id="phone-input", placeholder="Phone Number", className="mt-2"))
-                ]),
+                    dbc.Container([
+                        dbc.Col(dbc.Input(type="text", id="institution-input", placeholder="Institution",
+                        ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+                    dbc.Container([
+                        dbc.Col(dbc.Input(type="text", id="phone-input", placeholder="Phone Number",
+                        ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"),
                 dbc.Row([
-                    dbc.Col(dbc.Input(type="email", id="contact-email-input", placeholder="Email", className="mt-2")),
+                    dbc.Container([
+                        dbc.Col(dbc.Input(type="email", id="contact-email-input", placeholder="Email",
+                        ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"),
+                dbc.Row([
                     dbc.Col(dbc.Button("Submit", id="contact-button", className="mt-3", color="primary"))
+                ])
                 ]),
-            ]),
             html.Div(id="contact-output")
         ]),
         id="collapse"
     )
-])
+], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8")
+
+
 SUBSCRIBE = dbc.Container([
     dbc.Row([
         dbc.Col([

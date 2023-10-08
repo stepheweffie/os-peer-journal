@@ -12,9 +12,9 @@ ABOUT = dbc.Container([
     dbc.Container([
         dbc.Col([
             html.Div(style={
-              'backgroundImage': 'url("/static/wiredbrain.svg")',
+              'backgroundImage': 'url("/static/wiredbrain3.svg")',
               'backgroundSize': 'cover',
-              'backgroundPosition': 'left',
+              'backgroundPosition': 'center 40%',
               'width': '100%',
               'height': '40vh',
               'display': 'flex',

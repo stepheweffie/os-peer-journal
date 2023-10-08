@@ -158,6 +158,47 @@ def submit_form(n_clicks, name, last_name, institution, phone, email):
 
 
 @app.callback(
+    [Output("modal", "is_open"), Output("verify-modal", "is_open")],
+    [Input("open-modal", "n_clicks"), Input("close-modal", "n_clicks"), Input("submit-button", "n_clicks"),
+     Input("close-verify-modal", "n_clicks")],
+    [State("modal", "is_open"), State("verify-modal", "is_open")]
+)
+def toggle_modals(open_click, close_click, submit_click, close_verify_click, is_open, is_verify_open):
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        return False, False
+    else:
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+        if button_id == "open-modal" and not is_open:
+            return True, False
+        elif button_id == "close-modal" and is_open:
+            return False, False
+        elif button_id == "submit-button" and is_open:
+            return False, True  # Close the initial modal and open the verification modal
+        elif button_id == "close-verify-modal" and is_verify_open:
+            return False, False  # Close the verification modal
+    return is_open, is_verify_open
+
+
+@app.callback(
+    [Output("error-alert", "is_open"),
+     Output("verify-modal-body", "children")],
+    [Input("submit-button", "n_clicks")],
+    [State("name", "value"), State("email", "value"), State("message", "value")]
+)
+def submit_modal_form(n_clicks, name, email, message):
+    if n_clicks > 0:
+        if not all([name, email, message]):  # Check all fields are filled
+            return True, ""
+        else:
+            # [Your Email Sending Logic Here]
+
+            return False, f"Verify your email to send the message. Check {email}"  # Close the alert and display email verification message
+    return False, ""
+
+
+@app.callback(
     [Output("cookie-consent-offcanvas", "is_open"),
      Output("cookie-consent-offcanvas", "backdrop")],
     [Input("accept-button", "n_clicks"),
