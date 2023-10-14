@@ -40,13 +40,26 @@ email_input = dbc.Form([
         dbc.Input(type="text", id="username-updates--input", placeholder="Enter A Name You Use"),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
     dbc.Col([
-        dbc.Input(type="email", id="email-updates--input", placeholder="Enter Your Email Address"),
-        html.H3("Confirm Your Email For The Most Updated Information.", className="mt-3"),
+        html.Div(
+    [
+        dbc.Input(id="email-input", type="text", placeholder="Email Address", value=""),
+        dbc.FormFeedback("Please provide email...", type="invalid"),
+        dbc.FormFeedback("That looks like an email address :-)", type="valid"),
+        dbc.FormFeedback(
+            "Sorry, email invalid...",
+            type="invalid",
+        ),
+    ]
+),
+        dbc.Button("Submit", id="email-updates-button", className="mt-3", color="dark"),
+        html.Br(),
+        html.H3("", id="check-email-alert", style={'color': '#b388ff'},
+                n_clicks=0),
+        html.H3("Confirm Your Email For The Most Updated Information.", className="mt-3",),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
 
-    dbc.Button("Submit", id="email-button", className="mt-3", color="dark"),
-    html.Div(id="email-output",  style={"width": "6"}, className="mt-3"),
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'})
+
 
 email_form = dbc.Container([
     email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6",
@@ -108,7 +121,7 @@ carousel = dbc.Container(
                 {"key": "1", "src": "/static/slide1.svg",
                     "header": "A New Kind of Academic Journal",
                     "caption": "On The Cutting Edge of Science"},
-                {"key": "2", "src": "/static/slide2.svg",
+                {"key": "2", "src": "/static/wiredbrain31.svg",
                     "header": "Free To Read Forever",
                     "caption": "Eligible Institutions and Businesses Must Subscribe"},
                 {"key": "3", "src": "/static/slide3.svg",
@@ -191,7 +204,9 @@ BODY = html.Div([
             placeholder,
         ]),
         html.Div([
-            dcc.Graph(id='animated-graph'),
+            dbc.Container([
+                dcc.Graph(id='animated-graph')
+            ],),
             dcc.Interval(
                 id='graph-update',
                 interval=100,  # Update every 100 ms

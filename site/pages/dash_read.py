@@ -13,7 +13,7 @@ first_card = dbc.Container([
         dbc.Card(
             [
                 dbc.CardImg(
-                    src="/static/slide4.svg",
+                    src="/static/wiredbrain4.svg",
                     top=True,
                     style={"opacity": 0.3},
                 ),
@@ -45,7 +45,7 @@ second_card = dbc.Container([
         dbc.Card(
             [
                 dbc.CardImg(
-                    src="/static/slide5.svg",
+                    src="/static/wiredbrain9.svg",
                     top=True,
                     style={"opacity": 0.3},
                 ),
@@ -79,6 +79,21 @@ READ = dbc.Container([
             html.Hr(),
     ])
     ]),
+    dbc.Container([
+            dbc.Col([
+                html.Div(style={
+                  'backgroundImage': 'url("/static/wiredbrain32.svg")',
+                  'backgroundSize': 'cover',
+                  'backgroundPosition': 'center 45%',
+                  'width': '100%',
+                  'height': '40vh',
+                  'display': 'flex',
+                  'alignItems': 'left',
+                  'justifyContent': 'left'})
+                ],
+                # f'{about}',
+                className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
+        ], style={'width': '100%'}),
 
     dbc.Row([
         dbc.Container([

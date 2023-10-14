@@ -7,9 +7,13 @@ contact_form = html.Div([
     dbc.Collapse(
         dbc.Form([
             dbc.Container([
-                dbc.Label("For More Information About Subscribing", className="mr-2"),
-                dbc.Row([
+                 dbc.Row([
                     dbc.Container([
+                        dbc.Alert("Thank you for your submission. Please verify your email to send this form.",
+                                  id='collapse-email-alert', color="dark", is_open=False),
+                        dbc.Alert("All fields must be filled!", id='collapse-info-alert', color="primary",
+                                  is_open=True),
+                        dbc.Label("For More Information About Subscribing", className="mr-2"),
                         dbc.Col(dbc.Input(type="text", id="name-input", placeholder="First Name",
                         ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
                     dbc.Container([
@@ -30,12 +34,12 @@ contact_form = html.Div([
                         ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"),
                 dbc.Row([
-                    dbc.Col(dbc.Button("Submit", id="contact-button", className="mt-3", color="primary"))
-                ])
+                    dbc.Col(dbc.Button("Submit", id="subscribe-contact-button", className="mt-3", color="primary"),
+                            className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+                ], id="subscribe-contact-output", className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8",)
                 ]),
-            html.Div(id="contact-output")
         ]),
-        id="collapse"
+        id="collapse", is_open=False
     )
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8")
 
@@ -47,6 +51,21 @@ SUBSCRIBE = dbc.Container([
             html.Hr(),
     ]),
     ]),
+        dbc.Container([
+                dbc.Col([
+                    html.Div(style={
+                      'backgroundImage': 'url("/static/wiredbrain27.svg")',
+                      'backgroundSize': 'cover',
+                      'backgroundPosition': 'center 55%',
+                      'width': '100%',
+                      'height': '40vh',
+                      'display': 'flex',
+                      'alignItems': 'left',
+                      'justifyContent': 'left'})
+                    ],
+                    # f'{contact_text}',
+                    className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
+            ], style={'width': '100%'}),
     dbc.Container([
         dbc.Row([
             dbc.Col(html.H2("We Have Plans")

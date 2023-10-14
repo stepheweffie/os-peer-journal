@@ -1,13 +1,11 @@
 import dash
 from dash import html, dcc
-from dash.dependencies import Input, Output, State
 from dotenv import load_dotenv
 import dash_bootstrap_components as dbc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_utils import add_email, add_contact
 from models import Base
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import numpy as np
 from pages.dash_body import BODY
@@ -54,7 +52,9 @@ app.layout = html.Div([
     dcc.Location(id='url'),
     # HEAD,
     NAVBAR,
-    MAIN,
+    dbc.Container([
+        MAIN,
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-xl-10", style={'max-width': '100%'}),
     # FOOTER,
 ])
 paths = dict()
@@ -110,26 +110,47 @@ def display_url(href, pathname):
         html.P(f"Pathname: {pathname}")
     ]
 
-
 @app.callback(
-    Output("email-output", "children"),
-    Input("email-button", "n_clicks"),
-    State("email-updates-input", "value"),
-    prevent_initial_call=True
+    [Output("email-input", "valid"), Output("email-input", "invalid")],
+    [Input("email-input", "value")],
 )
-def process_email_form(n_clicks, email):
-    if not email:
-        return {}
-    error_message = add_email(address=email)
-    if error_message:
-        return f"Error: {error_message}"
-    # Return a style that hides the container
-    session['form_submitted'] = True
-    return {"display": "none"}
+def check_validity(text):
+    email = ''
+    if text:
+        if text.count("@") == 1:
+            if '@.' in text:
+                return False, True
+            if text.endswith(".com"):
+                email = True
+                session['email'] = text
+            if text.endswith(".org"):
+                email = True
+                session['email'] = text
+            if text.endswith(".edu"):
+                email = True
+                session['email'] = text
+            return email, not email
+        if text.count("@") > 1:
+            return False, True
+        if text.count("@") == 0:
+            return False, True
+    return False, False
 
 
-# Define callback to toggle the collapse
+@app.callback(Output("check-email-alert", "children"),
+              [Input("email-updates-button", "n_clicks")])
+def on_button_click(n):
+    if n:
+        if session['email']:
+            # email sending logic here
+            return f"Please check {session['email']}"
+        else:
+            return "Please provide an email address."
+    return ""
+
+
 @app.callback(
+
     Output("collapse", "is_open"),
     [Input("collapse-button", "n_clicks")],
     [State("collapse", "is_open")]
@@ -139,25 +160,34 @@ def toggle_collapse(n_clicks, is_open):
         return not is_open
     return is_open
 
-# Define callback to manage form submission (Optional, based on your needs)
+# Define callback to manage form submission (Optional, based on your needs
 
 @app.callback(
-    Output("contact-output", "children"),
-    [Input("contact-button", "n_clicks")],
+
+    [Output("collapse-info-alert", "is_open"),
+     Output("collapse-email-alert", "is_open"),
+     Output("subscribe-contact-output", "children")],
+    [Input("subscribe-contact-button", "n_clicks")],
     [State("name-input", "value"),
      State("last-name-input", "value"),
      State("institution-input", "value"),
      State("phone-input", "value"),
-     State("contact-email-input", "value")]
+     State("contact-email-input", "value")],
+     # State("collapse-info-alert", "is_open")]
 )
 def submit_form(n_clicks, name, last_name, institution, phone, email):
-    if n_clicks:
-        # Here you can manage the form data, e.g., store it in a database or send an email
-        return html.P(f"Thank you {name} {last_name} for your submission from {institution}. We will contact you shortly at {email} or {phone}.")
-    return ""
+    if n_clicks > 0:
+        if not all([name, last_name, institution, phone, email]):  # Check all fields are filled
+            return True, False, ""
+        else:
+            # [Your Email Sending Logic Here]
+            # Close the alert and display email verification message
+            return False, True, ""
+    return False, True, ""
 
 
 @app.callback(
+
     [Output("modal", "is_open"), Output("verify-modal", "is_open")],
     [Input("open-modal", "n_clicks"), Input("close-modal", "n_clicks"), Input("submit-button", "n_clicks"),
      Input("close-verify-modal", "n_clicks")],
@@ -169,7 +199,6 @@ def toggle_modals(open_click, close_click, submit_click, close_verify_click, is_
         return False, False
     else:
         button_id = ctx.triggered[0]['prop_id'].split('.')[0]
-
         if button_id == "open-modal" and not is_open:
             return True, False
         elif button_id == "close-modal" and is_open:
@@ -191,14 +220,20 @@ def submit_modal_form(n_clicks, name, email, message):
     if n_clicks > 0:
         if not all([name, email, message]):  # Check all fields are filled
             return True, ""
+        if email.count("@") != 1:  # Check email is valid
+            return True, ""
+        if not email.endswith(".com") and not email.endswith(".org") and not email.endswith(".edu"):
+            return True, ""
         else:
             # [Your Email Sending Logic Here]
 
-            return False, f"Verify your email to send the message. Check {email}"  # Close the alert and display email verification message
+            # Close the alert and display email verification message
+            return False, f"As a precaution, please verify your email in order to send this form. Check {email}"
     return False, ""
 
 
 @app.callback(
+
     [Output("cookie-consent-offcanvas", "is_open"),
      Output("cookie-consent-offcanvas", "backdrop")],
     [Input("accept-button", "n_clicks"),
@@ -216,6 +251,7 @@ def toggle_offcanvas(accept_clicks, reject_clicks):
 
 
 @app.callback(
+
     Output('animated-graph', 'figure'),
     [Input('graph-update', 'n_intervals')]
 )

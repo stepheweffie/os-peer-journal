@@ -19,3 +19,11 @@ class SubscriberForm(FlaskForm):
 
 class UpdateSubscriberForm(SubscriberForm):
     submit = SubmitField('Update')
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Sign In')
+
+

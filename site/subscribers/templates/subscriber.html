@@ -1,7 +1,7 @@
 <!-- templates/read_subscriber.html -->
 {% extends 'base.html' %}
 {% block content %}
-<h2>Subscriber Details</h2>
+<h2>Subscriber Dashboard</h2>
 
 <p><strong>Name:</strong> {{ subscriber.name }}</p>
 <p><strong>Email:</strong> {{ subscriber.email }}</p>
@@ -11,4 +11,7 @@
 <form method="post" action="{{ url_for('delete_subscriber', subscriber_id=subscriber.id) }}">
     <input type="submit" value="Delete">
 </form>
+
+<p>"You are not logged in yet." You need to confirm your account or take another action from this page before you may
+access your dashboard."</p>
 {% endblock %}

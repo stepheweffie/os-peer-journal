@@ -1,6 +1,11 @@
-<!-- templates/update_subscriber.html -->
+<!-- templates/update.html -->
 {% extends 'base.html' %}
 {% block content %}
 <h2>Update Subscriber</h2>
-<!-- form goes here, similar to register.html -->
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name() }}
+    <!-- ... same for other fields ... -->
+    {{ form.submit() }}
+  </form>
 {% endblock %}

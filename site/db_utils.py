@@ -10,7 +10,7 @@ SessionLocal = sessionmaker(bind=engine)
 def add_email(address):
     db_session = SessionLocal()
     try:
-        new_email = NewsletterEmails(address=address)
+        new_email = NewsletterEmails(email=address)
         db_session.add(new_email)
         db_session.commit()
     except Exception as e:
