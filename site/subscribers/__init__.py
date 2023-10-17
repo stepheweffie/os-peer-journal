@@ -3,9 +3,7 @@ from .forms import SubscriberForm, LoginForm
 from .models import db, Subscriber, User, Role, SubscriberType, Tier
 import bcrypt
 from flask import render_template, redirect, url_for,flash, Blueprint, request
-from flask_security import current_user, login_user, login_required
-
-
+from flask_login import current_user, login_user, login_required
 subscribers = Blueprint('subscribers', __name__, template_folder="templates")
 
 
@@ -25,10 +23,10 @@ def register():
                             payment_method=form.payment_method.data)
         db.session.add(sub)
         db.session.commit()
-        flash('Check the email address provided in registration for confirmation link.', 'success')
+        flash('Check the email address provided in registration for confirmation link.')
         return redirect(url_for('subscribers.login'))
     else:
-        flash('Registration unsuccessful.', 'danger')
+        flash('Registration unsuccessful.')
     return render_template('/register.html', form=form)
 
 
@@ -43,8 +41,6 @@ def login():
         if subscriber:
             # Authentication logic (e.g., check password)
             if bcrypt.checkpw(form.password.data.encode('utf-8'), subscriber.password):
-                flash('Login successful!', 'success')
-                # Log the user in (you might be missing this step)
                 login_user(subscriber)
                 next_page = request.args.get('next')
                 if next_page:
@@ -52,13 +48,13 @@ def login():
                 else:
                     return redirect(url_for('subscribers.dashboard'))
             else:
-                flash('Login unsuccessful. Please check email and password', 'danger')
+                flash('Login unsuccessful. Please check email and password')
         else:
-            flash('Email address not found. Please register.', 'danger')
+            flash('Email address not found. Please register.')
     return render_template('login.html', form=form)
 
 
-@login_required
 @subscribers.route('/dashboard')
+@login_required
 def dashboard():
     return render_template('dashboard.html')
