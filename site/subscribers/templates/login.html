@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="content">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    <div class="container">
+    <header>
+        <h1 class="col-md-6 offset-3">Journal Subscription System</h1>
+    </header>
+    </div>
+    </section>
+  <form method="post" action="{{ url_for('subscribers.login') }}" class="ml-auto">
+    {{ form.hidden_tag() }}
+    {{ form.email.label }} {{ form.email() }}
+    {{ form.password.label }} {{ form.password() }}
+    {{ form.submit() }}
+  </form>
+{% endblock %}

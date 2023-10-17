@@ -68,15 +68,15 @@ email_form = dbc.Container([
 
 toast0 = dbc.Container([
     dbc.Toast(
-        [html.H2('Welcome to Research.', className="mb-0"),
-            html.H1("Science on the very edge.", className="mb-0"),
-            html.H1("In a post P vs NP world.", className="mb-0"),
-            html.H1("Reverse engineering the brain.", className="mb-0"),
+        [html.H2('Welcome to Research.', className="ml-2 mb-0"),
+            html.H1("Science on the very edge.", className="ml-2 mb-0"),
+            html.H1("In a post P vs NP world.", className="ml-2 mb-0"),
+            html.H1("Reverse engineering the brain.", className="ml-2 mb-0"),
             ], className="col-xs-12 col-sm-12 col-md-12",
         header_style={"background-color": "black", "color": "white"},
         dismissable=False,
         is_open=True,
-        style={"background-color": "black", "color": "white", "width": "100%"},
+        style={"background-color": "black", "color": "white", "width": "100%", "margin-bottom": "13px"},
     ),
     ])
 
@@ -121,7 +121,7 @@ carousel = dbc.Container(
                 {"key": "1", "src": "/static/slide1.svg",
                     "header": "A New Kind of Academic Journal",
                     "caption": "On The Cutting Edge of Science"},
-                {"key": "2", "src": "/static/wiredbrain31.svg",
+                {"key": "2", "src": "/static/wiredbrain24.svg",
                     "header": "Free To Read Forever",
                     "caption": "Eligible Institutions and Businesses Must Subscribe"},
                 {"key": "3", "src": "/static/slide3.svg",

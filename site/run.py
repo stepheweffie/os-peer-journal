@@ -67,7 +67,7 @@ paths['/contact'] = CONTACT
 paths['/faq'] = FAQ
 paths['/terms'] = TERMS
 paths['/privacy'] = PRIVACY
-# outside app module
+# subscribers app module
 paths['/login'] = 'page_login'
 paths['/logout'] = 'page_logout'
 paths['/register/<token>'] = 'page_register'
@@ -78,7 +78,7 @@ paths['/verify-email/<token>'] = 'page_verify_email_token'
 paths['/verify-email/<token>/<email>'] = 'page_verify_email_token_email'
 paths['/callback'] = 'page_callback'
 paths['/callback/email'] = 'page_callback_email'
-
+# blog app module
 paths['/profile'] = 'page_profile'
 paths['/profile/edit'] = 'page_edit_profile'
 paths['/profile/change-password'] = 'page_change_password'
@@ -90,7 +90,7 @@ paths['/profile/confirm'] = 'page_confirm_profile'
 paths['/profile/confirm/<token>'] = 'page_confirm_profile_token'
 paths['/profile/confirm/<token>/<email>'] = 'page_confirm_profile_token_email'
 paths['/profile/confirm/<token>/<email>/<password>'] = 'page_confirm_profile_token_email_password'
-
+# coffers app module
 paths['/dashboard'] = 'page_dashboard'
 paths['/dashboard/leads'] = 'page_leads'
 paths['/dashboard/leads/add'] = 'page_add_lead'
