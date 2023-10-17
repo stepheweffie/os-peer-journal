@@ -11,6 +11,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # Set the secret key to the same value as the main app
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # Specify the login view (replace with your login route)
 # Create a SQLAlchemyUserDatastore
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 # Initialize Flask-Security with the app and user_datastore
@@ -27,9 +28,6 @@ db.init_app(app)
 migrate = Migrate(app, db)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
-# Initialize Flask-Login
-# login_manager = LoginManager(app)
-# login_manager.login_view = 'login'  # Specify the login view (replace with your login route)
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create the database tables

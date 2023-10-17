@@ -1,9 +1,10 @@
 # subscribers/__init__.py
 from .forms import SubscriberForm, LoginForm
-from .models import db, Subscriber, User, Role  # Import the db instance from models.py
+from .models import db, Subscriber, User, Role, SubscriberType, Tier
 import bcrypt
-from flask import render_template, redirect, url_for,flash, Blueprint
-from flask_security import current_user, login_required
+from flask import render_template, redirect, url_for,flash, Blueprint, request
+from flask_security import current_user, login_user, login_required
+
 
 subscribers = Blueprint('subscribers', __name__, template_folder="templates")
 
@@ -12,13 +13,12 @@ subscribers = Blueprint('subscribers', __name__, template_folder="templates")
 def register():
     form = SubscriberForm()
     if form.validate_on_submit():
+        # Check if the entered value is a valid SubscriberType enum member
         hashed_password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
         sub = Subscriber(name=form.name.data,
                             email=form.email.data,
                             password=hashed_password,
                             confirm_password=hashed_password,
-                            subscriber_type=form.subscriber_type.data,
-                            tier=form.tier.data,
                             address=form.address.data,
                             phone_number=form.phone_number.data,
                             billing_details=form.billing_details.data,
@@ -36,18 +36,29 @@ def register():
 def login():
     form = LoginForm()
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('subscribers.dashboard'))
     if form.validate_on_submit():
+        # Use filter_by to filter by email and use first() to get the first matching result
         subscriber = Subscriber.query.filter_by(email=form.email.data).first()
-        if subscriber and bcrypt.checkpw(form.password.data.encode('utf-8'), subscriber.password):
-            flash('Login successful!', 'success')
-            return redirect(url_for('subscribers.dashboard'))
+        if subscriber:
+            # Authentication logic (e.g., check password)
+            if bcrypt.checkpw(form.password.data.encode('utf-8'), subscriber.password):
+                flash('Login successful!', 'success')
+                # Log the user in (you might be missing this step)
+                login_user(subscriber)
+                next_page = request.args.get('next')
+                if next_page:
+                    return redirect(next_page)
+                else:
+                    return redirect(url_for('subscribers.dashboard'))
+            else:
+                flash('Login unsuccessful. Please check email and password', 'danger')
         else:
-            flash('Login unsuccessful. Please check email and password', 'danger')
-    return render_template('/login.html', form=form)
+            flash('Email address not found. Please register.', 'danger')
+    return render_template('login.html', form=form)
 
 
+@login_required
 @subscribers.route('/dashboard')
-# @login_required
 def dashboard():
     return render_template('dashboard.html')

@@ -9,8 +9,6 @@ class SubscriberForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    subscriber_type = SelectField('Subscriber Type', choices=[(type, type.value) for type in SubscriberType], validators=[DataRequired()])
-    tier = SelectField('Tier', choices=[(tier, tier.value) for tier in Tier], validators=[DataRequired()])
     address = StringField('Address')
     phone_number = StringField('Phone Number')
     billing_details = StringField('Billing Details')

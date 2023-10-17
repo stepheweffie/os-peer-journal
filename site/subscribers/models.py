@@ -16,12 +16,12 @@ class Role(db.Model):
 
 
 class SubscriberType(Enum):
-    COLLEGE_LIBRARY = "College Library"
-    OTHER_LIBRARY = "Other Library"
-    CORPORATION = "Corporation"
-    NONPROFIT = "Nonprofit"
-    INDIVIDUAL = "Individual"
-    GOVERNMENT = "Government Office or Agency"
+    college_library = "College Library"
+    other_library = "Other Library"
+    corporation = "Corporation"
+    nonprofit = "Nonprofit"
+    individual = "Individual"
+    government = "Government Office or Agency"
 
 
 class Tier(Enum):
@@ -32,15 +32,16 @@ class Tier(Enum):
     GOVERNMENT = "Government"
 
 
-class Subscriber(db.Model):
+class Subscriber(db.Model, UserMixin):
     __tablename__ = 'subscriber'
     id = db.Column(db.Integer, primary_key=True)
+    is_active = db.Column(db.Boolean, default=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)  # Store hashed!
     confirm_password = db.Column(db.String(120), nullable=False)  # Store hashed!
-    subscriber_type = db.Column(db.Enum(SubscriberType), nullable=False)
-    tier = db.Column(db.Enum(Tier), nullable=False)  # Can be None if you want to set it later.
+    subscriber_type = db.Column(db.Enum(SubscriberType), nullable=True)
+    tier = db.Column(db.Enum(Tier), nullable=True)  # Can be None if you want to set it later.
     # Billing, contact info, etc.
     address = db.Column(db.String(200))
     phone_number = db.Column(db.String(20))
