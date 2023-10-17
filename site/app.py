@@ -25,7 +25,6 @@ login_manager.login_view = 'subscriber.login'
 def load_user(user_id):
     # Retrieve the user from the database based on user_id using the User or Subscriber model
     return Subscriber.query.get(int(user_id))
-# Configure the database connection URI
 
 
 bootstrap = Bootstrap5(app)

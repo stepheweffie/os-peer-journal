@@ -16,7 +16,7 @@ class SubscriberForm(FlaskForm):
     submit = SubmitField('Register')
 
 
-class UpdateSubscriberForm(SubscriberForm):
+class UpdateForm(SubscriberForm):
     submit = SubmitField('Update')
 
 

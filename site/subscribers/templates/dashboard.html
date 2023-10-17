@@ -1,6 +1,7 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<h2>Subscriber Dashboard</h2>
-<p>Hi {{ current_user.name }}!</p>
+<h2>Account Dashboard</h2>
+<p>Hi, {{ current_user.name }}!</p>
+<p>{{ current_user.email}} is your registered email address</p>
 {% endblock %}
