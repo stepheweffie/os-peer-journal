@@ -4,6 +4,8 @@ from .models import db, Subscriber, User, Role, SubscriberType, Tier
 import bcrypt
 from flask import render_template, redirect, url_for,flash, Blueprint, request
 from flask_login import current_user, login_user, login_required, logout_user
+from werkzeug.routing import BuildError
+
 subscribers = Blueprint('subscribers', __name__, template_folder="templates")
 
 
@@ -55,7 +57,11 @@ def login():
 @subscribers.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    try:
+        return render_template('dashboard.html')
+    except BuildError:
+        return redirect(url_for('subscribers.login'))
+
 
 
 @subscribers.route('/logout')

@@ -18,7 +18,7 @@ security = Security(app, user_datastore)
 # Register the blog blueprint with the main app
 app.register_blueprint(subscribers, url_prefix='/subscriber')
 login_manager = LoginManager(app)
-login_manager.login_view = 'subscriber.login'
+login_manager.login_view = 'subscribers.login'
 
 
 @login_manager.user_loader
