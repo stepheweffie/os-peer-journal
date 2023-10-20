@@ -35,13 +35,15 @@ class Tier(Enum):
 class Subscriber(db.Model, UserMixin):
     __tablename__ = 'subscriber'
     id = db.Column(db.Integer, primary_key=True)
-    is_active = db.Column(db.Boolean, default=True)
+    is_active = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)  # Store hashed!
     confirm_password = db.Column(db.String(120), nullable=False)  # Store hashed!
     subscriber_type = db.Column(db.Enum(SubscriberType), nullable=True)
     tier = db.Column(db.Enum(Tier), nullable=True)  # Can be None if you want to set it later.
+    verify_code = db.Column(db.String(8), nullable=True)
+    verified = db.Column(db.Boolean, default=False)
     # Billing, contact info, etc.
     address = db.Column(db.String(200))
     phone_number = db.Column(db.String(20))
