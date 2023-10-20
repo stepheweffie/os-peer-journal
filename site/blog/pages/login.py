@@ -1,27 +1,11 @@
 from dash import html
-import dash_bootstrap_components as dbc
+import dash
+from .forms.login import login
 
-login = dbc.Container([
-    dbc.Row([
-        dbc.Col([
-            html.H1('Login', className='mb-0'),
-            html.Hr(),
-    ])
-    ]),
-    dbc.Container([
-        dbc.Form([
-            dbc.Col([
-                dbc.Label("Name", className="mr-2"),
-                dbc.Input(type="text", id="login-input-name", placeholder="Enter your name"),
-            ], className="mb-3"),
+dash.register_page(__name__, name='Login', path='/login')
 
-            dbc.Col([
-                dbc.Label("Email", className="mr-2"),
-                dbc.Input(type="email", id="login-input-email", placeholder="Enter your email"),
-            ], className="mb-3"),
+layout = html.Div([
+    html.H1('This is our Login page'),
+    login,
+])
 
-            dbc.Button("Submit", id="login-submit-button", color="primary"),
-        ]),
-    ]),
-    html.Div(id="login-form-output")
-    ])
