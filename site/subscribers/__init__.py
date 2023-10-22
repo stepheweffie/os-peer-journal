@@ -25,10 +25,12 @@ def register():
                             billing_details=form.billing_details.data,
                             payment_method=form.payment_method.data)
         db.session.add(sub)
+        hash_email = bcrypt.hashpw(sub.email.encode('utf-8'), bcrypt.gensalt())
+        sub.verify_code = hash_email
         db.session.commit()
-        email_hash = bcrypt.hashpw(sub.email.encode('utf-8'), bcrypt.gensalt())
-        sub.verify_code = email_hash
-        # verify_url = f'http://127.0.0.1:8080/?subscriber={email_hash}'
+        verify_url = f'http://127.0.0.1:8080/?subscriber={hash_email}'
+        requests.get(verify_url)
+        flash(f'Verification email link and code sent to {form.email.data}')
         # return jsonify({"cherrypy_verify_url": verify_url})
         return redirect(url_for('subscribers.login'))
     return render_template('/register.html', form=form)
@@ -40,25 +42,21 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('subscribers.dashboard'))
     if form.validate_on_submit():
-        # Use filter_by to filter by email and use first() to get the first matching result
         subscriber = Subscriber.query.filter_by(email=form.email.data).first()
         if subscriber:
-            email_hash = subscriber.email
-            email_hash = bcrypt.hashpw(email_hash.encode('utf-8'), bcrypt.gensalt())
+            hash_email = subscriber.verify_code
             if bcrypt.checkpw(form.password.data.encode('utf-8'), subscriber.password):
                 if subscriber.verified is True:
                     login_user(subscriber)
                     return redirect(url_for('subscribers.dashboard'))
                 # Send a verification email each time an unverified user attempts login
-                subscriber.verify_code = email_hash
-                db.session.commit()
-                verify_url = f'http://127.0.0.1:8080/?subscriber={email_hash}'
+                flash(f'You must confirm your email address {form.email.data}.')
+                verify_url = f'http://127.0.0.1:8080/?subscriber={hash_email}'
                 response = requests.get(verify_url)
                 if response.status_code == 200:
-                    flash(f'Verification email link and code sent to {form.email.data}')
-                    flash('To resend verification email, try to login again')
+                    flash(f'Verification link and code sent')
             else:
-                flash('Login unsuccessful. Please check email and password')
+                flash('Login unsuccessful. Please check password')
         else:
             flash('Email address not found. Please register.')
     return render_template('/login.html', form=form)
@@ -71,9 +69,9 @@ def confirm(subscriber=None):
     db.session.commit()
     # return jsonify({"user": user.email, "verified": user.verified})
     # Login Subscriber object
-    login_user(user)
+    # login_user(user)
     if request.method == 'POST':
-        return redirect(url_for('subscribers.dashboard'))
+        return redirect(url_for('subscribers.login'))
     return render_template('/login_confirmation_redirect.html')
 
 

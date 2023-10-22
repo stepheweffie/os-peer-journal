@@ -11,13 +11,10 @@ class Verification(object):
         secret = ''.join(random.sample(string.hexdigits, 6))
         cherrypy.session['secret'] = secret
         cherrypy.session['subscriber'] = subscriber
-        email_text = f'Your code is: {secret}'
         hash_secret = bcrypt.hashpw(secret.encode('utf-8'), bcrypt.gensalt())
-        link = f'http://127.0.0.1:8080/confirm?code={hash_secret}'
-        message = f'{email_text} Button with {link}'
-        send_verify_email(subscriber, message)
-        # confirm_url = f"http://127.0.0.1:8080/confirm?code={secret}"
-        # raise cherrypy.HTTPRedirect(confirm_url)
+        send_verify_email(secret, hash_secret, subscriber)
+        confirm_url = f"http://127.0.0.1:8080/confirm?code={secret}"
+        raise cherrypy.HTTPRedirect(confirm_url)
 
     @cherrypy.expose
     def confirm(self, code):

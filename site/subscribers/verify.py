@@ -1,8 +1,18 @@
-# user = Subscriber.query.filter_by(verify_code=subscriber).first()
-# email = user.email
-# name = user.name
 # Send an email with the code and link
 # You can't name files email.py in flask apps because it conflicts with the email module.
-def send_verify_email(address, message):
-    if address and message:
-        return True
+from models import Subscriber
+
+
+def send_verify_email(code, hash_code, subscriber):
+    recipient = Subscriber.query.filter_by(email_hash=subscriber).first()
+    address = recipient.email
+    name = recipient.name
+    email_text = f'Your code is: {code}'
+    link = f'http://127.0.0.1:8080/confirm?code={hash_code}'
+    print(link)
+    message = f'Thank you, for registering with the journal, {name}. {email_text} Please visit {link} to ' \
+              f'confirm your email address.'
+    print(message)
+
+
+
