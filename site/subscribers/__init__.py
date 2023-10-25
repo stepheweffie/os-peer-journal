@@ -39,26 +39,27 @@ def register():
 @subscribers.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if current_user.is_authenticated:
-        return redirect(url_for('subscribers.dashboard'))
-    if form.validate_on_submit():
-        subscriber = Subscriber.query.filter_by(email=form.email.data).first()
-        if subscriber:
-            hash_email = subscriber.verify_code
-            if bcrypt.checkpw(form.password.data.encode('utf-8'), subscriber.password):
-                if subscriber.verified is True:
-                    login_user(subscriber)
-                    return redirect(url_for('subscribers.dashboard'))
+    if request.method == 'POST':
+        if not form.validate_on_submit():
+            flash('Login unsuccessful. Please check your information and try again.')
+        try:
+            subscriber = Subscriber.query.filter_by(email=form.email.data).first()
+            if not bcrypt.checkpw(form.password.data.encode('utf-8'), subscriber.password):
+                flash('Login unsuccessful. Please check password')
+            if subscriber.verified is False:
                 # Send a verification email each time an unverified user attempts login
-                flash(f'You must confirm your email address {form.email.data}.')
+                hash_email = subscriber.verify_code
                 verify_url = f'http://127.0.0.1:8080/?subscriber={hash_email}'
                 response = requests.get(verify_url)
-                if response.status_code == 200:
-                    flash(f'Verification link and code sent')
+                if response.status_code != 200:
+                    flash(f'You must confirm your email address {form.email.data}.')
+                flash(f'Verification link and code sent')
             else:
-                flash('Login unsuccessful. Please check password')
-        else:
+                login_user(subscriber)
+        except AttributeError:
             flash('Email address not found. Please register.')
+    if current_user.is_authenticated:
+        return redirect(url_for('subscribers.dashboard'))
     return render_template('/login.html', form=form)
 
 

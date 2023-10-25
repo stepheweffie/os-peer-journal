@@ -12,9 +12,9 @@ class Verification(object):
         cherrypy.session['secret'] = secret
         cherrypy.session['subscriber'] = subscriber
         hash_secret = bcrypt.hashpw(secret.encode('utf-8'), bcrypt.gensalt())
-        send_verify_email(secret, hash_secret, subscriber)
-        confirm_url = f"http://127.0.0.1:8080/confirm?code={secret}"
-        raise cherrypy.HTTPRedirect(confirm_url)
+        confirm_url = f"http://127.0.0.1:8080/confirm?code={hash_secret}"
+        # cheat_url = f'http://127.0.0.1:8080/confirm?code={secret}'
+        send_verify_email(secret, confirm_url, subscriber)
 
     @cherrypy.expose
     def confirm(self, code):
@@ -26,14 +26,29 @@ class Verification(object):
                 raise cherrypy.HTTPRedirect(dash_success_url)
             return f'Incorrect code. Please try again.'
         return """<html>
-                    <body>
+         <head>
+         <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+            </head>
+                <body>
                         <form method="post" action="/confirm">
                             <label for="code">Enter verification code:</label>
                             <input type="text" id="code" name="code">
                             <input type="submit" value="Submit">
                         </form>
-                    </body>
-                  </html>"""
+                    <py-config>
+                plugins = [
+                  "https://pyscript.net/latest/plugins/python/py_tutor.py"
+                ]
+            </py-config>
+
+            <section class="pyscript">
+                <py-script>
+                 
+                </py-script>
+            </section>
+     </body>
+   </html>"""
 
     @cherrypy.expose
     def generate(self, length=8):

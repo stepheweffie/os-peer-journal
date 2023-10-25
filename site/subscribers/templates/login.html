@@ -10,16 +10,33 @@
         </ul>
         {% endif %}
         {% endwith %}
-    <div class="container">
-    <header>
-        <h1 class="col-md-6 offset-3">Journal Subscription System</h1>
-    </header>
-    </div>
     </section>
-  <form method="post" action="{{ url_for('subscribers.login') }}" class="ml-auto">
-    {{ form.hidden_tag() }}
-    {{ form.email.label }} {{ form.email() }}
-    {{ form.password.label }} {{ form.password() }}
-    {{ form.submit() }}
-  </form>
+<div class="container">
+    <div class="row m-2">
+        <div class="col-md-12 offset-sm-3 offset-md-4">
+        <header><h1>Subscriber Login</h1></header>
+</div>
+    </div>
+</div>
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 m-3">
+    <div class="row">
+<div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 m-2 ml-auto">
+  <form method="post" action="{{ url_for('subscribers.login') }}">
+      {{ form.csrf_token}}
+        {{ form.hidden_tag() }}
+        {{ form.email.label }} {{ form.email() }}
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 m-2">
+        {{ form.password.label }} {{ form.password() }}
+      </div>
+    </div>
+      <div class="form-group m-2">
+          {{ form.submit (class="btn btn-primary col-sm-2")}}
+          <a href="{{ url_for('subscribers.register') }}" class="link-underline-light m-2">Register</a>
+      </div>
+      </div>
+    </form>
+</div>
+</div>
+
 {% endblock %}
