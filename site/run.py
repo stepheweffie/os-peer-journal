@@ -159,7 +159,6 @@ def toggle_collapse(n_clicks, is_open):
 # Define callback to manage form submission (Optional, based on your needs
 
 @app.callback(
-
     [Output("collapse-info-alert", "is_open"),
      Output("collapse-email-alert", "is_open"),
      Output("subscribe-contact-output", "children")],
@@ -178,7 +177,7 @@ def submit_form(n_clicks, name, last_name, institution, phone, email):
             # [Your Email Sending Logic Here]
             # Close the alert and display email verification message
             return False, True, ""
-    return False, True, ""
+    return True, False, ""
 
 
 @app.callback(

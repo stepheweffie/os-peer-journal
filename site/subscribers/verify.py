@@ -7,7 +7,7 @@ import resend
 # resend.api_key = os.environ["RESEND_API_KEY"]
 
 
-def send_verify_email(code, subscriber, link):
+def send_verify_email(code, link, subscriber):
     recipient = Subscriber.query.filter_by(email_hash=subscriber).first()
     address = recipient.email
     name = recipient.name
