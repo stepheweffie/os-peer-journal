@@ -20,7 +20,7 @@ first_card = dbc.Container([
                 dbc.CardImgOverlay(
                     dbc.CardBody(
                         [
-                            html.H4("Read The Blurb", className="card-title"),
+                            html.H4("Read The Blog", className="card-title"),
                             html.P(
                                 f'{text_1}',
                                 className="card-text col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6",
@@ -98,7 +98,7 @@ READ = dbc.Container([
     dbc.Row([
         dbc.Container([
         dbc.Col([
-            html.H2('Sciencey Stuff Blog', className='m-3 text-left'),
+            html.H2('Scideology', className='m-3 text-left'),
             first_card,
             ]),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),

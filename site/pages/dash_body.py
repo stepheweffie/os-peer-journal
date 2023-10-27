@@ -22,12 +22,13 @@ cookie_offcanvas = dbc.Offcanvas(
             html.H4("Cookie Consent", className="offcanvas-header"),
             html.Div("Do you accept our private non-shared cookies to improve your app experience?",
                      className="offcanvas-body"),
-            dbc.Button("Accept", id="accept-button", color="success", className="me-2"),
-            dbc.Button("Reject", id="reject-button", color="danger", className="me-2"),
+            dbc.Button("Accept", id="accept-button", color="success", className="me-2", n_clicks=0),
+            dbc.Button("Reject", id="reject-button", color="danger", className="me-2", n_clicks=0),
         ],
         id="cookie-consent-offcanvas",
         title="",
-        is_open=True,
+        is_open=False,
+        close_button=True,
         backdrop=True,
     )
 
@@ -35,50 +36,67 @@ cookie_offcanvas = dbc.Offcanvas(
 email_input = dbc.Form([
     html.H2("Stay In The Know."),
     dbc.Label("We Won't Forget To Update You When An Article Is Published", className="mr-2"),
-
     dbc.Col([
         dbc.Input(type="text", id="username-updates--input", placeholder="Enter A Name You Use"),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
     dbc.Col([
-        html.Div(
-    [
-        dbc.Input(id="email-input", type="text", placeholder="Email Address", value=""),
-        dbc.FormFeedback("Please provide email...", type="invalid"),
-        dbc.FormFeedback("That looks like an email address :-)", type="valid"),
-        dbc.FormFeedback(
-            "Sorry, email invalid...",
-            type="invalid",
-        ),
-    ]
-),
+        html.Div([
+            dbc.Input(id="email-input", type="text", placeholder="Email Address", value=""),
+            dbc.FormFeedback("Please provide email...", type="invalid"),
+            dbc.FormFeedback("That looks like an email address :-)", type="valid"),
+            dbc.FormFeedback(
+                "Sorry, email invalid...",
+                type="invalid",
+            ),
+        ]),
         dbc.Button("Submit", id="email-updates-button", className="mt-3", color="dark"),
         html.Br(),
         html.H3("", id="check-email-alert", style={'color': '#b388ff'},
                 n_clicks=0),
-        html.H3("Confirm Your Email For The Most Updated Information.", className="mt-3",),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
-
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'})
 
-
-email_form = dbc.Container([
-    email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6",
-    style={'width': '100%', "color": "white"})
-
-
-toast0 = dbc.Container([
+email_toast = dbc.Container([
     dbc.Toast(
-        [html.H2('Welcome to Research.', className="ml-2 mb-0"),
-            html.H1("Science on the very edge.", className="ml-2 mb-0"),
-            html.H1("In a post P vs NP world.", className="ml-2 mb-0"),
-            html.H1("Reverse engineering the brain.", className="ml-2 mb-0"),
-            ], className="col-xs-12 col-sm-12 col-md-12",
+        dbc.Container([
+            email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
+            style={'width': '100%', "color": "white"}),
         header_style={"background-color": "black", "color": "white"},
         dismissable=False,
         is_open=True,
         style={"background-color": "black", "color": "white", "width": "100%", "margin-bottom": "13px"},
+    )
+])
+
+toast0 = dbc.Container([
+    dbc.Toast(
+        [html.H3('Welcome to Research.', className="ml-2 mb-0"),
+            html.H2("Science on the very edge.", className="ml-2 mb-0"),
+            html.H2("In a post P vs NP world.", className="ml-2 mb-0"),
+            html.H2("Reverse engineering the brain.", className="ml-2 mb-0"),
+            ],
+        header_style={"background-color": "black", "color": "white", "width": "100%"},
+        dismissable=False,
+        is_open=True,
+        style={"background-color": "black", "color": "white", "width": "100%", "margin-bottom": "13px"},
     ),
-    ])
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+
+
+toast01 = dbc.Container([
+    dbc.Toast(
+        [html.H3('Welcome to Research.', className="ml-2 mb-0"),
+            html.H2("Science on the very edge.", className="ml-2 mb-0"),
+            html.H2("In a post P vs NP world.", className="ml-2 mb-0"),
+            html.H2("Reverse engineering the brain.", className="ml-2 mb-0"),
+            ],
+        header_style={"background-color": "black", "color": "white", "width": "100%"},
+        dismissable=False,
+        is_open=True,
+        style={"background-color": "black", "color": "white", "width": "100%", "margin-bottom": "13px"},
+    ),
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+
 
 toast1 = dbc.Toast(
     [html.H2('Welcome to the Journal Without Walls.', className="mb-0"),
@@ -89,17 +107,13 @@ toast1 = dbc.Toast(
     header_style={"background-color": "black", "color": "white", "width": "100%"},
     dismissable=False,
     is_open=True,
-    style={"background-color": "black", "color": "white", "width": "100%"},
-
-)
+    style={"background-color": "black", "color": "white", "width": "100%"},)
 
 
-placeholder = html.Div(
-    [
+placeholder = html.Div([
         dbc.Placeholder(button=True, size='lg', color='black', loading_state=False,
                         className="w-100"),
-    ]
-)
+    ])
 
 
 toast2 = dbc.Toast(
@@ -109,12 +123,11 @@ toast2 = dbc.Toast(
      html.H1("Publish In Jupyter or PDF.", className="mb-0"),
      html.H1("Never Pay To Have Your Work Recognized.", className="mb-0"),
      html.H1("Get Paid To Review And Write.", className="mb-0")],
-    header_style={"background-color": "black", "color": "white", "width": "100%"},
+    header_style={"background-color": "white", "color": "white", "width": "100%"},
     dismissable=False,
     is_open=True,
-    style={"background-color": "white", "color": "black", "width": "100%"},
+    style={"background-color": "white", "color": "black", "width": "100%"},)
 
-)
 
 carousel = dbc.Container(
             dbc.Carousel(items=[
@@ -135,7 +148,6 @@ carousel = dbc.Container(
 
 def update_map():
     fig = go.Figure()
-
     # Generate hover text
     hover_text = [f"State: {state}<br>Status: {'Excluded' if state in EXCLUDED_STATES else 'Included'}"
                   for state in all_states.keys()]
@@ -176,44 +188,63 @@ def update_map():
         title_text="",
         title_x=0.5,  # Center the title
         autosize=True,
-        margin=dict(t=40, b=40, l=40, r=40),
-        paper_bgcolor="white"
+        margin=dict(t=40, b=40, l=4, r=4),
+        paper_bgcolor="black",
     )
     return fig
 
 
 BODY = html.Div([
         dbc.Container([
-            dbc.CardImg(src="/static/logo.svg", top=True),
+            dbc.CardImg(src="/static/bclogoillusory.svg", top=True),
             ]),
+
         dbc.Container([
             dbc.Row([
                 dbc.Container([
                     dbc.Col([
-                        toast0]),
+                        toast0,
+                        toast01,
+                    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
                 dbc.Container([
                     dbc.Col([
-                        email_form]),
+                        email_toast,
+                    ], className="col-xs-12 col-sm-12 col-md-7 col-lg-12 col-xl-12",
+                        style={'max-width': '100%'}),
+                    dbc.Col([
+                        html.H4("Verify your email address to receive the updates.", className="mb-10"),
+                    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
+                        style={'max-width': '100%', 'margin-left': '20px', 'margin-right': 'auto'}),
+
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
-            ]),
-        ]),
-        carousel,
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}
+        )]),
         dbc.Container([
-            toast1,
+            carousel,
             placeholder,
-        ]),
-        html.Div([
-            dbc.Container([
-                dcc.Graph(id='animated-graph')
-            ],),
-            dcc.Interval(
-                id='graph-update',
-                interval=100,  # Update every 100 ms
-                ),
             cookie_offcanvas,
-        ]),
-        html.H1("Entities in These States May Subscribe", style={'textAlign': 'center', 'color': 'white'}),
-        dcc.Graph(id="us-map", style={'height': '85vh'}, figure=update_map()),
-        toast2,
+            toast2,
+            placeholder,
+            toast1,
+            placeholder
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+    ])
+
+sine_waves = dbc.Container([
+        dcc.Graph(id='animated-graph')
     ],)
+
+map_body = html.Div([
+    dcc.Interval(
+        id='graph-update',
+        interval=100,  # Update every 100 ms
+        ),
+    html.H1("Entities in These States May Subscribe", style={'textAlign': 'center'}),
+    dbc.Container([
+        dcc.Graph(id="us-map", figure=update_map()),
+        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-height': '80%'}),
+])
+
+
+

@@ -10,33 +10,37 @@
         </ul>
         {% endif %}
         {% endwith %}
+    <div class="container">
+    <header>
+        <center><h1 class="col-md-6">Account Login</h1></center>
+    </header>
     </section>
+ </div>
+
 <div class="container">
-    <div class="row m-2">
-        <div class="col-md-12 offset-sm-3 offset-md-4">
-        <header><h1>Subscriber Login</h1></header>
-</div>
-    </div>
-</div>
+    <div class="row m-3"><hr>
 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 m-3">
-    <div class="row">
-<div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 m-2 ml-auto">
-  <form method="post" action="{{ url_for('subscribers.login') }}">
-      {{ form.csrf_token}}
-        {{ form.hidden_tag() }}
-        {{ form.email.label }} {{ form.email() }}
-      </div>
-      <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 m-2">
-        {{ form.password.label }} {{ form.password() }}
-      </div>
-    </div>
-      <div class="form-group m-2">
-          {{ form.submit (class="btn btn-primary col-sm-2")}}
-          <a href="{{ url_for('subscribers.register') }}" class="link-underline-light m-2">Register</a>
-      </div>
-      </div>
-    </form>
-</div>
-</div>
+    <div class="row col-xl-4 col-lg-4 col-md-6 col-sm-9 col-xs-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 m-2 ml-auto">
+                  <form method="post" action="{{ url_for('subscribers.login') }}">
+                      {{ form.csrf_token}}
+                        {{ form.hidden_tag() }}
+                      <div class="row">
+                          {{ form.email.label}}
+                          {{ form.email() }}</div>
+                      <div class="row">
+                          {{ form.password.label }}
+                          {{ form.password() }}</div>
+                      <div class="row col-9 mt-2">
+                          {{ form.submit (class="btn btn-primary")}}
+                          <a href="{{ url_for('subscribers.register') }}"
+                             class="link-underline-light ml-0 mt-1">Register</a></div>
+                </div>
+            </div>
+        </div>
+    </div></div></div>
+
 
 {% endblock %}

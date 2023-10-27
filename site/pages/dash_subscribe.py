@@ -3,7 +3,7 @@ from dash import html
 
 
 contact_form = html.Div([
-    dbc.Button("Contact Sales", id="collapse-button", className="mb-3", color="primary"),
+    dbc.Button("Contact Sales", id="subscribe-collapse-button", className="mb-3", color="primary", n_clicks=0),
     dbc.Collapse(
         dbc.Form([
             dbc.Container([
@@ -34,12 +34,12 @@ contact_form = html.Div([
                         ))], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"),
                 dbc.Row([
-                    dbc.Col(dbc.Button("Submit", id="subscribe-contact-button", className="mt-3", color="primary"),
+                    dbc.Col(dbc.Button("Submit", id="subscribe-contact-button", n_clicks=0, className="mt-3", color="primary"),
                             className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
                 ], id="subscribe-contact-output", className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8",)
                 ]),
         ]),
-        id="collapse", is_open=False
+        id="subscribe-collapse", is_open=False
     )
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8")
 

@@ -116,19 +116,16 @@ def display_url(href, pathname):
 )
 def check_validity(text):
     email = ''
+    endings = ['edu', 'com', 'org']
     if text:
         if text.count("@") == 1:
             if '@.' in text:
                 return False, True
-            if text.endswith(".com"):
-                email = True
-                session['email'] = text
-            if text.endswith(".org"):
-                email = True
-                session['email'] = text
-            if text.endswith(".edu"):
-                email = True
-                session['email'] = text
+            for ending in endings:
+                ending = '.' + ending
+                if text.endswith(ending):
+                    email = True
+                    session['email'] = text
             return email, not email
         if text.count("@") > 1:
             return False, True
@@ -139,24 +136,23 @@ def check_validity(text):
 
 @app.callback(Output("check-email-alert", "children"),
               [Input("email-updates-button", "n_clicks")])
-def on_button_click(n):
-    if n:
+def on_button_click(click):
+    if click:
         if session['email']:
             # email sending logic here
             return f"Please check {session['email']}"
-        else:
-            return "Please provide an email address."
+        return "Please provide an email address."
     return ""
 
 
 @app.callback(
 
-    Output("collapse", "is_open"),
-    [Input("collapse-button", "n_clicks")],
-    [State("collapse", "is_open")]
+    Output("subscribe-collapse", "is_open"),
+    [Input("subscribe-collapse-button", "n_clicks")],
+    [State("subscribe-collapse", "is_open")],
 )
 def toggle_collapse(n_clicks, is_open):
-    if n_clicks:
+    if n_clicks > 0:
         return not is_open
     return is_open
 
@@ -173,7 +169,6 @@ def toggle_collapse(n_clicks, is_open):
      State("institution-input", "value"),
      State("phone-input", "value"),
      State("contact-email-input", "value")],
-     # State("collapse-info-alert", "is_open")]
 )
 def submit_form(n_clicks, name, last_name, institution, phone, email):
     if n_clicks > 0:
@@ -233,25 +228,19 @@ def submit_modal_form(n_clicks, name, email, message):
 
 
 @app.callback(
-
     [Output("cookie-consent-offcanvas", "is_open"),
      Output("cookie-consent-offcanvas", "backdrop")],
     [Input("accept-button", "n_clicks"),
      Input("reject-button", "n_clicks")],
+    [State("cookie-consent-offcanvas", "is_open"),
+     State("cookie-consent-offcanvas", "backdrop")],
     prevent_initial_call=True
 )
-def toggle_offcanvas(accept_clicks, reject_clicks):
-    # Close the offcanvas regardless of the button clicked
-    # Here, you can set a session variable to remember the user's choice
-    if accept_clicks:
-        session['cookies_accepted'] = True
-    else:
-        session['cookies_accepted'] = False
-    return False, False
+def toggle_offcanvas(accept, reject, is_open, backdrop):
+    return is_open, backdrop
 
 
 @app.callback(
-
     Output('animated-graph', 'figure'),
     [Input('graph-update', 'n_intervals')]
 )
@@ -297,7 +286,7 @@ def update_graph(n):
             showticklabels=False,  # Remove tick labels
             title_text='',  # Ensure no axis title is displayed
         ),
-        margin=dict(t=20, r=20, l=20, b=20),
+        margin=dict(t=2, r=20, l=20, b=2),
         plot_bgcolor="rgba(0, 0, 0, 0)",
         paper_bgcolor="rgba(0, 0, 0, 0)",
     )
