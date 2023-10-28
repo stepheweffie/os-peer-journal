@@ -25,22 +25,22 @@
             <div class="card-body">
                 <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-12 m-2 ml-auto">
                   <form method="post" action="{{ url_for('subscribers.login') }}">
-                      {{ form.csrf_token}}
-                        {{ form.hidden_tag() }}
+                          {{ form.csrf_token}}
+                          {{ form.hidden_tag() }}
                       <div class="row">
                           {{ form.email.label}}
                           {{ form.email() }}</div>
                       <div class="row">
                           {{ form.password.label }}
                           {{ form.password() }}</div>
-                      <div class="row col-9 mt-2">
-                          {{ form.submit (class="btn btn-primary")}}
+                      <div class="row col-6 mt-2">
+                          {{ form.submit (class="btn btn-primary") }}
+                      <div class="col-6 mt-2">
                           <a href="{{ url_for('subscribers.register') }}"
-                             class="link-underline-light ml-0 mt-1">Register</a></div>
+                             class="row link-underline-light col-12 ml-0 mt-3">Register</a></div></div>
                 </div>
             </div>
         </div>
-    </div></div></div>
-
-
+    </div>
+</div></div></div>
 {% endblock %}

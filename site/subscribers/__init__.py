@@ -11,7 +11,8 @@ subscribers = Blueprint('subscribers', __name__, template_folder="templates")
 
 @subscribers.route('/')
 def index():
-    return redirect(url_for('subscribers.login'))
+    if current_user.is_authenticated:
+        return jsonify({"message": "Thank you, for confirming your email."})
 
 
 @subscribers.route('/register', methods=['GET', 'POST'])
@@ -46,6 +47,8 @@ def register():
 @subscribers.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('subscribers.dashboard'))
     if request.method == 'POST':
         if not form.validate_on_submit():
             flash('Login unsuccessful. Please check your information and try again.')
@@ -61,12 +64,8 @@ def login():
                 if response.status_code != 200:
                     flash(f'You must confirm your email address {form.email.data}.')
                 flash(f'Verification link and code sent')
-                # login_user(subscriber)
-            login_user(subscriber)
         except AttributeError:
             flash('Email address not found. Please register.')
-    if current_user.is_authenticated:
-        return redirect(url_for('subscribers.dashboard'))
     return render_template('/login.html', form=form)
 
 

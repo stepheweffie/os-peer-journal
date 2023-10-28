@@ -1,5 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'dash_base.html' %}
 {% block content %}
 <h2>Account Dashboard</h2>
-<p>Hi, {{ current_user.name }}!</p>
+<p>Hi, {{ current_user.email }}!</p>
+<p>Here are your current subscriptions:</p>
+<a href="{{ url_for('subscribers.update') }}" class="btn btn-primary">Update Account</a>
+<a href="{{ url_for('subscribers.logout') }}" class="btn btn-primary">Logout</a>
 {% endblock %}

@@ -18,8 +18,11 @@ from pages.dash_contact import CONTACT
 from pages.dash_faq import FAQ
 from pages.dash_terms import TERMS
 from pages.dash_privacy import PRIVACY
+from pages.dash_footer import FOOTER
 from flask import Flask, session
 from flask_session import Session
+import re
+from db_utils import add_user_contact, add_email_subscription, add_sales_contact
 
 # Flask & Session Setup
 
@@ -55,7 +58,7 @@ app.layout = html.Div([
     dbc.Container([
         MAIN,
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-xl-10", style={'max-width': '100%'}),
-    # FOOTER,
+    FOOTER,
 ])
 paths = dict()
 paths['/'] = BODY
@@ -134,15 +137,25 @@ def check_validity(text):
     return False, False
 
 
-@app.callback(Output("check-email-alert", "children"),
-              [Input("email-updates-button", "n_clicks")])
-def on_button_click(click):
+@app.callback(
+              Output("invalid-info-alert", "is_open"),
+              Output("check-email-alert", "is_open"),
+              Output("email-under-alert", "is_open"),
+              [Input("email-updates-button", "n_clicks")],
+              [State("email-input", "value"),
+               State("username-updates-input", "value")],
+)
+def on_button_click(click, email, name):
+    email_pattern = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     if click:
-        if session['email']:
-            # email sending logic here
-            return f"Please check {session['email']}"
-        return "Please provide an email address."
-    return ""
+        if not name or not email:
+            return True, False, False
+        if not re.match(email_pattern, email):
+            return True, False, False
+        add_email_subscription(name, email)
+        # email sending logic here
+        return False, True, True
+    return False, False, False
 
 
 @app.callback(
@@ -156,10 +169,12 @@ def toggle_collapse(n_clicks, is_open):
         return not is_open
     return is_open
 
-# Define callback to manage form submission (Optional, based on your needs
 
 @app.callback(
+
     [Output("collapse-info-alert", "is_open"),
+     Output("collapse-success-alert", "is_open"),
+     Output("collapse-phone-alert", "is_open"),
      Output("collapse-email-alert", "is_open"),
      Output("subscribe-contact-output", "children")],
     [Input("subscribe-contact-button", "n_clicks")],
@@ -167,17 +182,25 @@ def toggle_collapse(n_clicks, is_open):
      State("last-name-input", "value"),
      State("institution-input", "value"),
      State("phone-input", "value"),
-     State("contact-email-input", "value")],
+     State("contact-email-input", "value"),
+     State("subscribe-contact-message", "value")]
 )
-def submit_form(n_clicks, name, last_name, institution, phone, email):
+def submit_form(n_clicks, name, last_name, institution, phone, email, message):
+    phone_pattern = '^(\d{10}|(\(\d{3}\)\s?\d{3}-\d{4})|\d{3}-\d{3}-\d{4})$'
+    email_pattern = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     if n_clicks > 0:
-        if not all([name, last_name, institution, phone, email]):  # Check all fields are filled
-            return True, False, ""
+        if not re.match(phone_pattern, phone):
+            return False, False, True, False, ""
+        if not re.match(email_pattern, email):
+            return False, False, False, True, ""
+        if not all([name, last_name, institution, phone, email, message]):  # Check all fields are filled
+            return True, False, False, False, ""
         else:
+            add_sales_contact(first_name=name, last_name=last_name, institution=institution, email=email, phone=phone)
             # [Your Email Sending Logic Here]
             # Close the alert and display email verification message
-            return False, True, ""
-    return True, False, ""
+            return False, True, False, False, ""
+    return False, False, False, False, ""
 
 
 @app.callback(
@@ -219,8 +242,8 @@ def submit_modal_form(n_clicks, name, email, message):
         if not email.endswith(".com") and not email.endswith(".org") and not email.endswith(".edu"):
             return True, ""
         else:
+            add_user_contact(name, email, message)
             # [Your Email Sending Logic Here]
-
             # Close the alert and display email verification message
             return False, f"As a precaution, please verify your email in order to send this form. Check {email}"
     return False, ""
@@ -294,5 +317,6 @@ def update_graph(n):
 
 
 if __name__ == "__main__":
+
     app.run_server(debug=True)
 

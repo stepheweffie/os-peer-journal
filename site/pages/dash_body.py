@@ -37,7 +37,7 @@ email_input = dbc.Form([
     html.H2("Stay In The Know."),
     dbc.Label("We Won't Forget To Update You When An Article Is Published", className="mr-2"),
     dbc.Col([
-        dbc.Input(type="text", id="username-updates--input", placeholder="Enter A Name You Use"),
+        dbc.Input(type="text", id="username-updates-input", placeholder="Enter Name"),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
     dbc.Col([
         html.Div([
@@ -49,16 +49,18 @@ email_input = dbc.Form([
                 type="invalid",
             ),
         ]),
-        dbc.Button("Submit", id="email-updates-button", className="mt-3", color="dark"),
+        dbc.Button("Submit", id="email-updates-button", className="mt-3", color="dark", n_clicks=0),
         html.Br(),
-        html.H3("", id="check-email-alert", style={'color': '#b388ff'},
-                n_clicks=0),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'})
+
 
 email_toast = dbc.Container([
     dbc.Toast(
         dbc.Container([
+            dbc.Alert("Please provide your info.", id="invalid-info-alert", is_open=False, color="danger"),
+            dbc.Alert("Thanks for subscribing! Check your email.", id="check-email-alert", is_open=False,
+                      color="primary"),
             email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
             style={'width': '100%', "color": "white"}),
         header_style={"background-color": "black", "color": "white"},
@@ -213,8 +215,8 @@ BODY = html.Div([
                     ], className="col-xs-12 col-sm-12 col-md-7 col-lg-12 col-xl-12",
                         style={'max-width': '100%'}),
                     dbc.Col([
-                        html.H4("Verify your email address to receive the updates.", className="mb-10"),
-                    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
+                        dbc.Alert("Please, verify to receive updates.", id="email-under-alert", is_open=False, color="primary"),
+                    ], className="col-xs-11 col-sm-11 col-md-11 col-lg-11 col-xl-11",
                         style={'max-width': '100%', 'margin-left': '20px', 'margin-right': 'auto'}),
 
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
