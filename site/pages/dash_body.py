@@ -34,7 +34,7 @@ cookie_offcanvas = dbc.Offcanvas(
 
 
 email_input = dbc.Form([
-    html.H2("Stay In The Know."),
+    html.H2("Stay In The Knowledge."),
     dbc.Label("We Won't Forget To Update You When An Article Is Published", className="mr-2"),
     dbc.Col([
         dbc.Input(type="text", id="username-updates-input", placeholder="Enter Name"),
@@ -87,10 +87,10 @@ toast0 = dbc.Container([
 
 toast01 = dbc.Container([
     dbc.Toast(
-        [html.H3('Welcome to Research.', className="ml-2 mb-0"),
-            html.H2("Science on the very edge.", className="ml-2 mb-0"),
-            html.H2("In a post P vs NP world.", className="ml-2 mb-0"),
-            html.H2("Reverse engineering the brain.", className="ml-2 mb-0"),
+        [html.H3("Let's Prove Ourselves.", className="ml-2 mb-0"),
+            html.H2("New Complexity.", className="ml-2 mb-0"),
+            html.H2("Improved Logic.", className="ml-2 mb-0"),
+            html.H2("The Gateway To Cognition.", className="ml-2 mb-0"),
             ],
         header_style={"background-color": "black", "color": "white", "width": "100%"},
         dismissable=False,
@@ -195,41 +195,53 @@ def update_map():
     )
     return fig
 
-
 BODY = html.Div([
-        dbc.Container([
-            dbc.CardImg(src="/static/bclogoillusory.svg", top=True),
-            ]),
 
         dbc.Container([
             dbc.Row([
                 dbc.Container([
                     dbc.Col([
-                        toast0,
-                        toast01,
-                    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
-                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+                        html.H1("An Academic Journal That Makes Sense", className="mb-0", style={'color': 'white',
+                                                                                  'font-size': '100px'}),
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-30", style={'max-width': '100%'}),
                 dbc.Container([
                     dbc.Col([
-                        email_toast,
+                        dbc.CardImg(src='/static/wiredbrain20.svg', className="mb-10", style={'width': '100%'}),
                     ], className="col-xs-12 col-sm-12 col-md-7 col-lg-12 col-xl-12",
                         style={'max-width': '100%'}),
-                    dbc.Col([
-                        dbc.Alert("Please, verify to receive updates.", id="email-under-alert", is_open=False, color="primary"),
-                    ], className="col-xs-11 col-sm-11 col-md-11 col-lg-11 col-xl-11",
-                        style={'max-width': '100%', 'margin-left': '20px', 'margin-right': 'auto'}),
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-10", style={'max-width': '100%'}),
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+            dbc.Container([
+                html.Br(),
+                dbc.Row([
+                    dbc.Container([
+                        dbc.Col([
+                            toast0,
+                            toast01,
+                        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+                    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+                    dbc.Container([
+                        dbc.Col([
+                            email_toast,
+                        ], className="col-xs-12 col-sm-12 col-md-7 col-lg-12 col-xl-12",
+                            style={'max-width': '100%'}),
+                        dbc.Col([
+                            dbc.Alert("Please, verify to receive updates.", id="email-under-alert", is_open=False, color="primary"),
+                        ], className="col-xs-11 col-sm-11 col-md-11 col-lg-11 col-xl-11",
+                            style={'max-width': '100%', 'margin-left': '20px', 'margin-right': 'auto'}),
 
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
-            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}
-        )]),
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-15", style={'max-width': '100%'})
+        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+        ]),
         dbc.Container([
-            carousel,
             placeholder,
             cookie_offcanvas,
             toast2,
             placeholder,
             toast1,
-            placeholder
+            placeholder,
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
     ])
 

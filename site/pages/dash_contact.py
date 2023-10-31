@@ -8,19 +8,20 @@ contact = dbc.Container([
         dbc.Col(dbc.Button("Message", id="open-modal", className="mt-3", color="primary"),
                 className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
     ], id="open-modal", className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8", ),
-        dbc.Modal([
-            dbc.ModalHeader("Contact Us"),
-            dbc.ModalBody([
-                dbc.Form([
-                    dbc.Input(id="name", placeholder="Your name", type="text"),
-                    dbc.Input(id="email", placeholder="Your email", type="email"),
-                    dbc.Textarea(id="message", placeholder="Your message"),
-                    html.P(id="output", style={"color": "white"})
-            ]),
-                dbc.ModalFooter([
-                    dbc.Button("Close", id="close-modal", className="ml-auto", n_clicks=0, color="secondary"),
-                    dbc.Button("Submit", id="submit-button", className="ml-2", n_clicks=0, color="secondary")
-            ])
+    html.Br(),
+                dbc.Modal([
+                    dbc.ModalHeader("Contact Us"),
+                    dbc.ModalBody([
+                        dbc.Form([
+                            dbc.Input(id="name", placeholder="Your name", type="text"),
+                            dbc.Input(id="email", placeholder="Your email", type="email"),
+                            dbc.Textarea(id="message", placeholder="Your message"),
+                            html.P(id="output", style={"color": "white"})
+                        ]),
+                        dbc.ModalFooter([
+                            dbc.Button("Close", id="close-modal", className="ml-auto", n_clicks=0, color="secondary"),
+                            dbc.Button("Submit", id="submit-button", className="ml-2", n_clicks=0, color="secondary")
+                ])
             ])
         ], id="modal"),
 
@@ -52,12 +53,10 @@ header = dbc.Container([
 
 
 CONTACT = dbc.Container([
-    dbc.Row([
+dbc.Row([
         dbc.Col([
-            html.H1('Contact Us', className='mb-12'),
-            html.Hr(),
-    ]),
-    ]),
+            html.H1('Contact', className='mb-12', style={'color': 'white', 'font-size': '50px'}),
+            html.Hr()])]),
     header,
     contact
 ])

@@ -2,12 +2,10 @@ from dash import html
 import dash_bootstrap_components as dbc
 
 PEOPLE = dbc.Container([
-    dbc.Row([
+dbc.Row([
         dbc.Col([
-            html.H1('Who Are We?', className='mb-0'),
-            html.Hr(),
-    ])
-    ]),
+            html.H1('Our Team', className='mb-12', style={'color': 'white', 'font-size': '50px'}),
+            html.Hr()])]),
     dbc.Container([
                 dbc.Col([
                     html.Div(style={

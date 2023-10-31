@@ -1,9 +1,9 @@
 # subscribers/__init__.py
-from .forms import SubscriberForm, LoginForm, UpdateForm
+from .forms import SubscriberForm, LoginForm, UpdateSubscriberForm as UpdateForm
 from .models import db, Subscriber, User, Role, SubscriberType, Tier
 import bcrypt
 import requests
-from flask import render_template, redirect, url_for, flash, Blueprint, request, jsonify
+from flask import render_template, redirect, url_for, flash, Blueprint, request, jsonify, session
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.routing import BuildError
 subscribers = Blueprint('subscribers', __name__, template_folder="templates")
@@ -83,7 +83,6 @@ def confirm(subscriber=None):
 
 
 @subscribers.route('/dashboard')
-@login_required
 def dashboard():
     try:
         return render_template('/dashboard.html')
@@ -99,11 +98,24 @@ def logout():
 
 
 @subscribers.route('/update', methods=['GET', 'POST'])
-@login_required
 def update():
+    # Assuming you have a way to get the current user's id (e.g., from session)
+    subscriber_id = session.get('subscriber_id')
+
+    subscriber = Subscriber.query.get(subscriber_id)
     form = UpdateForm()
+
     if form.validate_on_submit():
-        # Check if the entered value is a valid SubscriberType enum member
+        subscriber.name = form.name.data
+        subscriber.institution = form.institution.data
+        subscriber.email = form.email.data
+        subscriber.phone_number = form.phone_number.data
+        subscriber.address = form.address.data
+        subscriber.city = form.city.data
+        subscriber.state = form.state.data
+        subscriber.zip_code = form.zip_code.data
+        db.session.commit()
+        flash('Your information has been updated!', 'success')
         return redirect(url_for('subscribers.dashboard'))
     return render_template('/update.html', form=form)
 

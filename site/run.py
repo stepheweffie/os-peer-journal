@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import numpy as np
 from pages.dash_body import BODY
-from pages.dash_navbar import NAVBAR
+from pages.dash_navbar import MAINNAV, NAVBAR
 from pages.dash_read import READ
 from pages.dash_subscribe import SUBSCRIBE
 from pages.dash_about import ABOUT
@@ -51,14 +51,17 @@ app = dash.Dash(external_stylesheets=[dbc.themes.VAPOR],
                 server=server, suppress_callback_exceptions=True)
 MAIN = html.Div(id='display-url-info')
 
+
 app.layout = html.Div([
     dcc.Location(id='url'),
     # HEAD,
+    #MAINNAV
     NAVBAR,
     dbc.Container([
         MAIN,
+        FOOTER,
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-xl-10", style={'max-width': '100%'}),
-    FOOTER,
+
 ])
 paths = dict()
 paths['/'] = BODY
@@ -112,6 +115,11 @@ def display_url(href, pathname):
         html.P(f"Full URL (href): {href}"),
         html.P(f"Pathname: {pathname}")
     ]
+
+# @app.callback(
+
+# )
+
 
 @app.callback(
     [Output("email-input", "valid"), Output("email-input", "invalid")],

@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo
-from subscribers.models import SubscriberType, Tier
 
 
 class SubscriberForm(FlaskForm):
@@ -16,7 +15,15 @@ class SubscriberForm(FlaskForm):
     submit = SubmitField('Register')
 
 
-class UpdateForm(SubscriberForm):
+class UpdateSubscriberForm(SubscriberForm):
+    name = StringField('Name', validators=[DataRequired()])
+    institution = StringField('Institution')
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone_number = StringField('Phone Number')
+    address = StringField('Address')
+    city = StringField('City')
+    state = StringField('State')
+    zip_code = StringField('Zip Code')
     submit = SubmitField('Update')
 
 

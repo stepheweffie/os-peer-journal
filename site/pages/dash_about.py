@@ -20,7 +20,7 @@ about = 'This is some long string of text to describe the journal or blurb which
 ABOUT = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1('About Us', className='mb-0'),
+            html.Center(html.H1('About', className='mb-12', style={'color': 'white', 'font-size': '100px'})),
             html.Hr(),
     ])
     ]),

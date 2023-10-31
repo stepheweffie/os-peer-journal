@@ -75,7 +75,7 @@ second_card = dbc.Container([
 READ = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1('Read', className='mb-0'),
+            html.Center(html.H1('Read', className='mb-12', style={'color': 'white', 'font-size': '100px'})),
             html.Hr(),
     ])
     ]),
@@ -97,17 +97,24 @@ READ = dbc.Container([
 
     dbc.Row([
         dbc.Container([
-        dbc.Col([
-            html.H2('Scideology', className='m-3 text-left'),
-            first_card,
-            ]),
+            html.Br(),
+            dbc.Col([
+                html.Center(html.H1('Scideology', className='mb-12', style={'color': 'white', 'font-size': '50px'})),
+                html.Center(html.Img(src='/static/book.svg', height='30px', width='50px')),
+                first_card,
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+
+
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
         dbc.Container([
-        dbc.Col([
-            html.H2('Peer-Reviewed Articles', className='m-3 text-left'),
-            second_card,
+            html.Br(),
+            dbc.Col([
+                html.Center(html.H1('Peer-Review', className='mb-12', style={'color': 'white', 'font-size': '50px'})),
+                html.Center(html.Img(src='/static/mtone.svg', height='30px', width='50px')),
+                second_card,
+
             ]),
-    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
     ]),
     ], fluid=False)
 
