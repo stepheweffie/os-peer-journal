@@ -41,33 +41,60 @@ SUBSCRIBE = dbc.Container([
                     'font-size': '50px'}),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'marginRight': '0px'}),
             html.Br(),
-
         ])
     ]),
     dbc.Container([
         dbc.Row([
             dbc.Container([
-                dbc.Col(html.Div([
-                    dbc.Col(
-                        html.H2("Education"), className="text-center"),
-                    html.Hr(),
-                    html.H5("Librarians"),
-                    html.H6("Faculty must be covered by an institutional plan."),
-                    html.Center(html.Img(src='/static/puzzle.svg', height='50px', width='75px'))],
+                dbc.Col(
+                    html.Div([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dbc.Col(
+                                    html.H2("Education"), className="text-center"),
+                                html.Hr(),
+                                html.H5("Librarians"),
+                                html.H6("Faculty must be covered by an institutional plan."),
+                                html.Center(html.Img(src='/static/puzz.svg', height='50px', width='75px')),
+                            ])])],
                         className="col-xl-12 p-2 m-6"),
-                        className="col-xl-12 m-1 p-2", style={
-                    'max-width': '100%',
-                    'color': 'white',
-                    'border-radius': '50px 20px',
-                    'border': '1px solid cyan'})
+                    className="col-xl-12 m-1 p-2", style={
+                        'max-width': '100%',
+                        'color': 'white',
+                        'border-radius': '50px 20px',
+                        'border': '1px solid cyan'}),
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+
             dbc.Container([
                 dbc.Col(html.Div([
-                    dbc.Col(
-                        html.H2("Corporate"), className="text-center"),
-                    html.Hr(),
-                    html.H5("Businesses"),
-                    html.H6("Maintain an edge in the marketplace.")],
+                    dbc.Card([
+                        dbc.CardBody([
+                            dbc.Col(
+                                html.H2("Corporate"), className="text-center"),
+                            html.Hr(),
+                            html.H5("Businesses"),
+                            html.H6("Maintain an edge in the marketplace."),
+                            html.Center(html.Img(src='/static/brief.svg', height='50px', width='75px',
+                                                 style={'color': 'white'})),
+                        ])])], className="col-xl-12 p-2 m-6"),
+                        className="col-xl-12 m-1 p-2", style={
+                                                        'max-width': '100%',
+                                                        'color': 'white',
+                                                        'border-radius': '50px 20px',
+                                                        'border': '1px solid cyan'})
+                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+
+            dbc.Container([
+                dbc.Col(html.Div([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dbc.Col(
+                                html.H2("NonProfit"), className="text-center"),
+                            html.Hr(),
+                            html.H5("Organizations"),
+                            html.H6("NonGovernment labs working for better tech."),
+                            html.Center(html.Img(src='/static/heart.svg', height='50px', width='75px')),
+                        ])])],
                                  className="col-xl-12 p-2 m-6"),
                         className="col-xl-12 m-1 p-2", style={
                     'max-width': '100%',
@@ -75,13 +102,18 @@ SUBSCRIBE = dbc.Container([
                     'border-radius': '50px 20px',
                     'border': '1px solid cyan'})
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+
             dbc.Container([
                 dbc.Col(html.Div([
-                    dbc.Col(
-                        html.H2("NonProfit"), className="text-center"),
-                    html.Hr(),
-                    html.H5("Organizations"),
-                    html.H6("NonGovernment labs working for better tech.")],
+                    dbc.Card([
+                        dbc.CardBody([
+                            dbc.Col(
+                                html.H2("Government"), className="text-center"),
+                            html.Hr(),
+                            html.H5("Agencies"),
+                            html.H6("Beyond health research and discovery."),
+                            html.Center(html.Img(src='/static/gov.svg', height='50px', width='75px')),
+                   ])])],
                                  className="col-xl-12 p-2 m-6"),
                         className="col-xl-12 m-1 p-2", style={
                     'max-width': '100%',
@@ -89,20 +121,8 @@ SUBSCRIBE = dbc.Container([
                     'border-radius': '50px 20px',
                     'border': '1px solid cyan'})
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
-            dbc.Container([
-                dbc.Col(html.Div([
-                    dbc.Col(
-                        html.H2("Government"), className="text-center"),
-                    html.Hr(),
-                    html.H5("Agencies"),
-                    html.H6("Beyond health research and discovery.")],
-                                 className="col-xl-12 p-2 m-6"),
-                        className="col-xl-12 m-1 p-2", style={
-                    'max-width': '100%',
-                    'color': 'white',
-                    'border-radius': '50px 20px',
-                    'border': '1px solid cyan'})
-                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+
+
         ], className="m-2"),
         ], className="m-0", fluid=False),
     html.Hr(),

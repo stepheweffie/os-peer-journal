@@ -67,7 +67,7 @@ email_toast = dbc.Container([
         dismissable=False,
         is_open=True,
         style={"background-color": "black", "color": "white", "width": "100%", "margin-bottom": "13px"},
-    )
+        className='block')
 ])
 
 toast0 = dbc.Container([
@@ -212,6 +212,7 @@ BODY = html.Div([
                         style={'max-width': '100%'}),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-10", style={'max-width': '100%'}),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+
             dbc.Container([
                 html.Br(),
                 dbc.Row([
@@ -242,8 +243,7 @@ BODY = html.Div([
             placeholder,
             toast1,
             placeholder,
-            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
-    ])
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),])
 
 sine_waves = dbc.Container([
         dcc.Graph(id='animated-graph')
@@ -254,7 +254,8 @@ map_body = html.Div([
         id='graph-update',
         interval=100,  # Update every 100 ms
         ),
-    html.H1("Entities in These States May Subscribe", style={'textAlign': 'center'}),
+    html.H1("Entities in These States May Subscribe", style={'textAlign': 'center', 'color': 'white',
+                                                             'font-size': '66px'}),
     dbc.Container([
         dcc.Graph(id="us-map", figure=update_map()),
         ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-height': '80%'}),

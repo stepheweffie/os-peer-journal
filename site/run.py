@@ -148,7 +148,6 @@ def check_validity(text):
 @app.callback(
               Output("invalid-info-alert", "is_open"),
               Output("check-email-alert", "is_open"),
-              Output("email-under-alert", "is_open"),
               [Input("email-updates-button", "n_clicks")],
               [State("email-input", "value"),
                State("username-updates-input", "value")],
@@ -157,17 +156,16 @@ def on_button_click(click, email, name):
     email_pattern = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     if click:
         if not name or not email:
-            return True, False, False
+            return True, False
         if not re.match(email_pattern, email):
-            return True, False, False
+            return True, False
         add_email_subscription(name, email)
         # email sending logic here
-        return False, True, True
-    return False, False, False
+        return False, True
+    return False, False
 
 
 @app.callback(
-
     Output("subscribe-collapse", "is_open"),
     [Input("subscribe-collapse-button", "n_clicks")],
     [State("subscribe-collapse", "is_open")],
@@ -179,7 +177,6 @@ def toggle_collapse(n_clicks, is_open):
 
 
 @app.callback(
-
     [Output("collapse-info-alert", "is_open"),
      Output("collapse-success-alert", "is_open"),
      Output("collapse-phone-alert", "is_open"),
@@ -212,7 +209,6 @@ def submit_form(n_clicks, name, last_name, institution, phone, email, message):
 
 
 @app.callback(
-
     [Output("modal", "is_open"), Output("verify-modal", "is_open")],
     [Input("open-modal", "n_clicks"), Input("close-modal", "n_clicks"), Input("submit-button", "n_clicks"),
      Input("close-verify-modal", "n_clicks")],
