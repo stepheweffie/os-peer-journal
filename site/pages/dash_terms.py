@@ -4,7 +4,9 @@ import dash_bootstrap_components as dbc
 TERMS = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1('Terms of Service', className='mb-0'),
+            html.H1('Terms of Service', className='mb-0', style={'color': 'white',
+                                                                 'font-family': 'Triad',
+                                                                 'font-size': '50px'}),
             html.Hr(),
     ])
     ])

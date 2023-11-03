@@ -57,3 +57,39 @@ contact_form = html.Div([
         id="subscribe-collapse", is_open=False)
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8")
 
+email_input = dbc.Form([
+    html.H2("Stay In The Knowledge."),
+    dbc.Label("We Won't Forget To Update You When An Article Is Published", className="mr-2"),
+    dbc.Col([
+        dbc.Input(type="text", id="username-updates-input", placeholder="Enter Name"),
+    ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
+    dbc.Col([
+        html.Div([
+            dbc.Input(id="email-input", type="text", placeholder="Email Address", value=""),
+            dbc.FormFeedback("Please provide email...", type="invalid"),
+            dbc.FormFeedback("That looks like an email address :-)", type="valid"),
+            dbc.FormFeedback(
+                "Sorry, email invalid...",
+                type="invalid",
+            ),
+        ]),
+        dbc.Button("Submit", id="email-updates-button", className="mt-3", color="dark", n_clicks=0),
+        html.Br(),
+    ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
+], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'})
+
+
+email_toast = dbc.Container([
+    dbc.Toast(
+        dbc.Container([
+            dbc.Alert("Please provide your info.", id="invalid-info-alert", is_open=False, color="danger"),
+            dbc.Alert("Thanks for subscribing! Check your email.", id="check-email-alert", is_open=False,
+                      color="primary"),
+            email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
+            style={'width': '100%', "color": "white"}),
+        header_style={"background-color": "black", "color": "white"},
+        dismissable=False,
+        is_open=True,
+        style={"background-color": "black", "color": "white", "font-family": "Aotani", "width": "100%", "margin-bottom": "13px"},
+        className='block')
+])

@@ -1,6 +1,6 @@
 from dash import html
 import dash_bootstrap_components as dbc
-from .dash_body import map_body
+from .dash_map import map_body
 
 with open('pages/text/about.html', 'r') as f:
     f = f.read()
@@ -15,13 +15,14 @@ with open('pages/text/about.html', 'r') as f:
             html.P(text3),
             html.P(text4),
             html.P(text5)
-                 ])
+                 ], style={'font-size': '1.6rem', 'color': 'whitesmoke'})
 
-about = 'This is some long string of text to describe the journal or blurb whichever is linked here'
 ABOUT = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.Center(html.H1('About', className='mb-12', style={'color': 'white', 'font-size': '100px'})),
+            html.Center(html.H1('About', className='mb-12', style={'color': '#00F0FF',
+                                                                   'font-size': '100px',
+                                                                   'font-family': 'Triad'})),
             html.Hr(),
     ])]),
 
@@ -37,20 +38,19 @@ ABOUT = dbc.Container([
               'alignItems': 'left',
               'justifyContent': 'left'}),
             ],
-            f'{about}',
             className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
         ], style={'width': '100%'}),
 
     dbc.Row([
         dbc.Container([
             dbc.Col([
+                map_body,
                 text,
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'width': '100%',
                                                                                    'color': 'whitesmoke',
                                                                                    'font-size': '1.2rem', }),
         ], style={'width': '100%'}),
-    ]),
-    map_body
+    ])
 ])
 
 

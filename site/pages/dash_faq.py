@@ -4,7 +4,9 @@ import dash_bootstrap_components as dbc
 FAQ = dbc.Container([
         dbc.Row([
         dbc.Col([
-            html.H1('FAQ', className='mb-12', style={'color': 'white', 'font-size': '50px'}),
+            html.H1('FAQ', className='mb-12', style={'color': 'white',
+                                                     'font-family': 'Triad',
+                                                     'font-size': '50px'}),
             html.Hr()])]),
             dbc.Container([
             dbc.Col([

@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 
 FOOTER = dbc.Container([
     dbc.Container([
-            dbc.CardImg(src="/static/bclogoillusory.svg", top=True),
+            dbc.CardImg(src="/static/bclogoerbostrans.svg", top=True),
             ]),
         dbc.Row([
             html.Hr(),

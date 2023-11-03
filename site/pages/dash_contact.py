@@ -55,7 +55,9 @@ header = dbc.Container([
 CONTACT = dbc.Container([
 dbc.Row([
         dbc.Col([
-            html.H1('Contact', className='mb-12', style={'color': 'white', 'font-size': '50px'}),
+            html.H1('Contact', className='mb-12', style={'color': 'white',
+                                                         'font-size': '50px',
+                                                         'font-family': 'Triad'}),
             html.Hr()])]),
     header,
     contact

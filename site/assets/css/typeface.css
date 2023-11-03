@@ -1,0 +1,19 @@
+
+@font-face {
+    font-family: 'Triad';
+    src: url('/assets/fonts/triad/Triad.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Aotani';
+    src: url('/assets/fonts/aotani/AotaniThin.otf') format('opentype');
+    font-weight: thin;
+    font-style: normal;
+}
+
+p, nav, button{
+    font-family: 'Aotani', serif;
+}
+

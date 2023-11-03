@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import numpy as np
 from pages.dash_body import BODY
-from pages.dash_navbar import MAINNAV, NAVBAR
+from pages.dash_navbar import NAVBAR
 from pages.dash_read import READ
 from pages.dash_subscribe import SUBSCRIBE
 from pages.dash_about import ABOUT

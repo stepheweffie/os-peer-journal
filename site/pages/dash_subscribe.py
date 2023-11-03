@@ -1,12 +1,14 @@
 import dash_bootstrap_components as dbc
 from dash import html
-from .dash_body import email_toast
-from .dash_forms import contact_form
+from .dash_forms import contact_form, email_toast
 
 SUBSCRIBE = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.Center(html.H1('Subscribe', className='mb-12', style={'color': 'white', 'font-size': '100px'})),
+            html.Center(html.H1('Subscribe', className='mb-12',
+                                style={'color': '#00F0FF',
+                                       'font-size': '100px',
+                                       'font-family': 'Triad'})),
             html.Hr(),
     ]),
     ]),
@@ -16,11 +18,14 @@ SUBSCRIBE = dbc.Container([
               'backgroundImage': 'url("/static/wiredbrain27.svg")',
               'backgroundSize': 'cover',
               'backgroundPosition': 'center 55%',
+              'transition': 'background-size 0.5s ease',
+              'hover': 'background-size 1s ease',
+              'backgroundRepeat': 'no-repeat',
               'width': '100%',
               'height': '40vh',
               'display': 'flex',
               'alignItems': 'left',
-              'justifyContent': 'left'})
+              'justifyContent': 'left'}, className='zoom-out-div')
             ],
             # f'{contact_text}',
             className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
@@ -28,17 +33,17 @@ SUBSCRIBE = dbc.Container([
     dbc.Container([
         dbc.Row([
             dbc.Col(html.H2("Individuals Can Read And Cite Freely")
-                    , className="p-2 m-6 text-center", style={
-                    'max-width': '100%',
-                    'color': 'white'
-                }),
+                    , className="p-2 m-6 text-center", style={'max-width': '100%',
+                                                              'color': 'white',
+                                                              'font-family': 'Aotani'}),
             html.Br(),
             dbc.Col([
                html.Br(),
                html.H2("Institutional Plans", className="text-center", style={
                     'max-width': '100%',
                     'color': 'white',
-                    'font-size': '50px'}),
+                    'font-size': '50px',
+                    'font-family': 'Aotani'}),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'marginRight': '0px'}),
             html.Br(),
         ])
@@ -131,7 +136,9 @@ SUBSCRIBE = dbc.Container([
             dbc.Col(html.Div([
                 dbc.Col([
                     html.Center(html.H2("For More Information", className="text-center",
-                                        style={'color': 'white', 'font-size': '50px'})),
+                                        style={'color': 'white',
+                                               'font-size': '50px',
+                                               'font-family': 'Aotani'})),
                     html.Center(html.Img(src='/static/chat.svg', height='50px', width='75px')),
                     html.Br(),
                     html.Center(contact_form)])],
