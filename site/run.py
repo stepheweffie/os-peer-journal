@@ -8,6 +8,7 @@ from models import Base
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import numpy as np
+from pages.dash_cover import COVER
 from pages.dash_body import BODY
 from pages.dash_navbar import NAVBAR
 from pages.dash_read import READ
@@ -64,7 +65,8 @@ app.layout = html.Div([
 
 ])
 paths = dict()
-paths['/'] = BODY
+paths['/'] = COVER
+paths['/explore'] = BODY
 paths['/read'] = READ
 paths['/subscribe'] = SUBSCRIBE
 paths['/about'] = ABOUT

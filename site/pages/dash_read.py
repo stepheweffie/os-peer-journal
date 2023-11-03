@@ -45,7 +45,7 @@ READ = dbc.Container([
                                                                                      'position': 'relative'}),
             dbc.Container([
                 html.Br(),
-                html.Img(src='/static/purpwork.svg', height='100%', width='120%', style={'position': 'relative',
+                html.Img(src='/static/humanwork.svg', height='100%', width='120%', style={'position': 'relative',
                                                                                          'left': '-10.00%'})]),
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})
 
