@@ -35,16 +35,18 @@ toast01 = dbc.Container([
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
 
 
-toast1 = dbc.Toast(
-    [html.H2('Welcome to the Journal Without Walls.', className="mb-0"),
-     html.H1("A Brand New Journal Experience.", className="mb-0"),
+toast1 = dbc.Container([
+    dbc.Toast(
+    [html.H2('A Journal Without Walls.', className="mb-0"),
+     html.H1("An Academic Revolution.", className="mb-0"),
      html.H1("Read Freely.", className="mb-0"),
      html.H1("Cite Responsibly.", className="mb-0"),
      ],
-    header_style={"background-color": "black", "color": "white", "width": "100%"},
-    dismissable=False,
-    is_open=True,
-    style={"background-color": "black", "color": "white", "width": "100%", "font-family": "Aotani"},)
+        header_style={"background-color": "black", "color": "white", "width": "100%"},
+        dismissable=False,
+        is_open=True,
+        style={"background-color": "black", "color": "white", "width": "100%", "font-family": "Aotani"},)
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'margin-bottom': '13px'})
 
 
 placeholder = html.Div([
@@ -56,7 +58,7 @@ placeholder = html.Div([
 toast2 = dbc.Toast(
     [html.H3('Researchers never have to login to read published articles and notebooks.', className="mb-0"),
      html.Br(),
-     html.H1("Access The Cutting Edge.", className="mb-0"),
+     html.H1("Access The Edge of Science.", className="mb-0"),
      html.H1("Publish In Jupyter or PDF.", className="mb-0"),
      html.H1("Never Pay To Have Your Work Recognized.", className="mb-0"),
      html.H1("Get Paid To Review And Write.", className="mb-0")],

@@ -5,9 +5,9 @@ from .dash_forms import contact_form, email_toast
 SUBSCRIBE = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.Center(html.H1('Subscribe', className='mb-12',
+            html.Center(html.H1('Scribe', className='mb-12',
                                 style={'color': '#00F0FF',
-                                       'font-size': '100px',
+                                       'font-size': '5rem',
                                        'font-family': 'Triad'})),
             html.Hr(),
     ]),
@@ -32,11 +32,11 @@ SUBSCRIBE = dbc.Container([
     ], style={'width': '100%'}),
     dbc.Container([
         dbc.Row([
-            dbc.Col(html.H2("Individuals Can Read And Cite Freely")
-                    , className="p-2 m-6 text-center", style={'max-width': '100%',
-                                                              'color': 'white',
-                                                              'font-family': 'Aotani'}),
-            html.Br(),
+            dbc.Container([
+                dbc.Col(html.H2("Individuals Can Read And Cite Freely")
+                        , className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-2 m-6 text-center",
+                        style={'max-width': '100%', 'color': 'white', 'font-family': 'Aotani'}),
+                html.Br()]),
             dbc.Col([
                html.Br(),
                html.H2("Institutional Plans", className="text-center", style={
@@ -50,6 +50,7 @@ SUBSCRIBE = dbc.Container([
     ]),
     dbc.Container([
         dbc.Row([
+
             dbc.Container([
                 dbc.Col(
                     html.Div([
@@ -68,10 +69,11 @@ SUBSCRIBE = dbc.Container([
                         'color': 'white',
                         'border-radius': '50px 20px',
                         'border': '1px solid cyan'}),
-                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True),
 
             dbc.Container([
-                dbc.Col(html.Div([
+                dbc.Col(
+                    html.Div([
                     dbc.Card([
                         dbc.CardBody([
                             dbc.Col(
@@ -79,15 +81,15 @@ SUBSCRIBE = dbc.Container([
                             html.Hr(),
                             html.H5("Businesses"),
                             html.H6("Maintain an edge in the marketplace."),
-                            html.Center(html.Img(src='/static/brief.svg', height='50px', width='75px',
-                                                 style={'color': 'white'})),
-                        ])])], className="col-xl-12 p-2 m-6"),
-                        className="col-xl-12 m-1 p-2", style={
+                            html.Center(html.Img(src='/static/brief.svg', height='50px', width='75px')),
+                                             ])])],
+                        className="col-xl-12 p-2 m-6"),
+                    className="col-xl-12 m-1 p-2", style={
                                                         'max-width': '100%',
                                                         'color': 'white',
                                                         'border-radius': '50px 20px',
                                                         'border': '1px solid cyan'})
-                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True),
 
             dbc.Container([
                 dbc.Col(html.Div([
@@ -106,7 +108,7 @@ SUBSCRIBE = dbc.Container([
                     'color': 'white',
                     'border-radius': '50px 20px',
                     'border': '1px solid cyan'})
-                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True),
 
             dbc.Container([
                 dbc.Col(html.Div([
@@ -125,11 +127,12 @@ SUBSCRIBE = dbc.Container([
                     'color': 'white',
                     'border-radius': '50px 20px',
                     'border': '1px solid cyan'})
-                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3", fluid=True),
+                ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True),
 
 
-        ], className="m-2"),
-        ], className="m-0", fluid=False),
+        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+        ], className="m-0", fluid=True),
+    html.Br(),
     html.Hr(),
     html.Br(),
     dbc.Container([

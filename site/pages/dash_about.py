@@ -15,13 +15,14 @@ with open('pages/text/about.html', 'r') as f:
             html.P(text3),
             html.P(text4),
             html.P(text5)
-                 ], style={'font-size': '1.6rem', 'color': 'whitesmoke'})
+                 ], style={'font-size': '1.6rem',
+                           'color': 'whitesmoke'})
 
 ABOUT = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.Center(html.H1('About', className='mb-12', style={'color': '#00F0FF',
-                                                                   'font-size': '100px',
+                                                                   'font-size': '5rem',
                                                                    'font-family': 'Triad'})),
             html.Hr(),
     ])]),

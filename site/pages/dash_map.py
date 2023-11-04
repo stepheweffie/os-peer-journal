@@ -59,11 +59,11 @@ def update_map():
             lakecolor="rgb(255, 255, 255)",
             showsubunits=True,
         ),
-        title_text="",
-        title_x=0.5,  # Center the title
         autosize=True,
-        margin=dict(t=40, b=40, l=4, r=4),
-        paper_bgcolor="black",
+        margin=dict(t=4, b=4, l=4, r=4),
+        paper_bgcolor='rgba(0,0,0,0)',
+        hovermode='closest',
+        showlegend=False,
     )
     return fig
 
@@ -73,11 +73,14 @@ map_body = html.Div([
         id='graph-update',
         interval=100,  # Update every 100 ms
         ),
+    html.Br(),
     html.H1("Entities in These States May Subscribe", style={'textAlign': 'center',
-                                                             'color': 'white',
+                                                             'color': 'violet',
                                                              'font-family': 'Aotani',
-                                                             'font-size': '66px'}),
+                                                             'margin-bottom': '-10px',
+                                                           }),
     dbc.Container([
         dcc.Graph(id="us-map", figure=update_map()),
-        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-height': '80%'}),
+        html.Hr(),
+        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-height': '100%'}),
 ])
