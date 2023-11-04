@@ -29,9 +29,10 @@ READ = dbc.Container([
                                                                                         'font-size': '50px',
                                                                                         'font-family': 'Aotani'})),
                             html.Center(html.Img(src='/static/book.svg', height='30px', width='50px')),
+
                             first_card,
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
-                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6", style={'max-width': '100%'}),
                     dbc.Container([
                         html.Br(),
                         dbc.Col([
@@ -39,8 +40,10 @@ READ = dbc.Container([
                                                                                          'font-size': '50px',
                                                                                          'font-family': 'Aotani'})),
                             html.Center(html.Img(src='/static/mtone.svg', height='30px', width='50px')),
-                            second_card]),
-                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'})])
+
+                            second_card
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+                ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6", style={'max-width': '100%'})])
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%',
                                                                                      'position': 'relative'}),
             dbc.Container([

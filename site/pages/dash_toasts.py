@@ -56,13 +56,33 @@ placeholder = html.Div([
 
 
 toast2 = dbc.Toast(
-    [html.H3('Researchers never have to login to read published articles and notebooks.', className="mb-0"),
+    [html.H3('You Have Access.', className="mb-0"),
      html.Br(),
-     html.H1("Access The Edge of Science.", className="mb-0"),
-     html.H1("Publish In Jupyter or PDF.", className="mb-0"),
-     html.H1("Never Pay To Have Your Work Recognized.", className="mb-0"),
-     html.H1("Get Paid To Review And Write.", className="mb-0")],
-    header_style={"background-color": "white", "color": "white", "width": "100%"},
+     html.H1("Use It To Discover.", className="mb-0"),
+     html.H1("Solve Problems.", className="mb-0"),
+     html.H1("Theorize Accurately.", className="mb-0"),
+     html.H1("For Humans, By Humans.", className="mb-0")],
+    header_style={"background-color": "#c1ff72", "color": "black", "width": "100%"},
     dismissable=False,
     is_open=True,
-    style={"background-color": "white", "color": "black", "font-family": "Aotani", "width": "100%"},)
+    style={"background-color": "#c1ff72", "color": "black", "font-family": "Aotani", "width": "100%"},)
+
+
+toast3 = dbc.Toast(
+    [html.H3('Researchers never have to login to read published articles and notebooks.', className="mb-0"),
+        html.Br(),
+        html.H3("Access The Edge of Science.", className="mb-0"),
+        html.H3("Publish In Jupyter or PDF.", className="mb-0"),
+        html.H3("Never Pay To Have Your Work Recognized.", className="mb-0"),
+        html.H3("Get Paid To Review And Write.", className="mb-0")],
+    header_style={"background-color": "#c1ff72", "color": "black", "width": "100%"},
+    dismissable=False,
+    is_open=True,
+    style={"background-color": "#c1ff72",
+           "color": "black",
+           "font-family": "Aotani",
+           "width": "90%",
+           'margin-top': '30px',
+           'margin-bottom': '30px',
+           'padding': '5px'},)
+
