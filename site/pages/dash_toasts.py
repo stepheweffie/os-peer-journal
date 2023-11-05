@@ -62,10 +62,10 @@ toast2 = dbc.Toast(
      html.H1("Solve Problems.", className="mb-0"),
      html.H1("Theorize Accurately.", className="mb-0"),
      html.H1("For Humans, By Humans.", className="mb-0")],
-    header_style={"background-color": "#c1ff72", "color": "black", "width": "100%"},
+    header_style={"background-color": "#aab1ff", "color": "black", "width": "100%"},
     dismissable=False,
     is_open=True,
-    style={"background-color": "#c1ff72", "color": "black", "font-family": "Aotani", "width": "100%"},)
+    style={"background-color": "#aab1ff", "color": "black", "font-family": "Aotani", "width": "100%"},)
 
 
 toast3 = dbc.Toast(

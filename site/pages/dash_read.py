@@ -1,6 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 from .dash_cards import first_card, second_card
+from .dash_toasts import toast2
 blog = []
 articles = []
 
@@ -29,7 +30,7 @@ READ = dbc.Container([
                                                                                         'font-size': '50px',
                                                                                         'font-family': 'Aotani'})),
                             html.Center(html.Img(src='/static/book.svg', height='30px', width='50px')),
-
+                            html.Hr(),
                             first_card,
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6", style={'max-width': '100%'}),
@@ -40,7 +41,7 @@ READ = dbc.Container([
                                                                                          'font-size': '50px',
                                                                                          'font-family': 'Aotani'})),
                             html.Center(html.Img(src='/static/mtone.svg', height='30px', width='50px')),
-
+                            html.Hr(),
                             second_card
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6", style={'max-width': '100%'})])
@@ -48,8 +49,13 @@ READ = dbc.Container([
                                                                                      'position': 'relative'}),
             dbc.Container([
                 html.Br(),
+                toast2,
+                html.Hr(),
                 html.Img(src='/static/humanwork.svg', height='100%', width='120%', style={'position': 'relative',
-                                                                                         'left': '-10.00%'})]),
-    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})
+                                                                                         'left': '-10.00%'}),
+                html.Hr(),
+                toast2,
+                html.Hr(),
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})])
 
 
