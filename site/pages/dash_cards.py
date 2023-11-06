@@ -107,6 +107,7 @@ non_profit_card = dbc.Container([
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True)
 
 
+
 subscribe_cards = dbc.Row([
            education_card,
            corporate_card,

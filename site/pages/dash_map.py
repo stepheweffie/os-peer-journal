@@ -75,7 +75,7 @@ map_body = html.Div([
         ),
     html.Br(),
     html.H1("Entities in These States May Subscribe", style={'textAlign': 'center',
-                                                             'color': 'violet',
+                                                             'color': 'whitesmoke',
                                                              'font-family': 'Aotani',
                                                              'margin-bottom': '-10px',
                                                            }),

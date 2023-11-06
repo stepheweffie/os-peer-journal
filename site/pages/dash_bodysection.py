@@ -25,8 +25,7 @@ video_section = html.Div(
             style={
                 'position': 'relative',
                 'zIndex': 2,
-            }
-        ),
+            }),
         html.Video(
             src='/static/neuropurp.mp4',
             autoPlay=True,
@@ -40,13 +39,11 @@ video_section = html.Div(
                 'height': '110%',
                 'objectFit': 'cover',
                 'zIndex': 1
-            }
-        )
+            })
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={
         'position': 'relative',
         'overflow': 'hidden',
-    }
-)
+    })
 
 
 def half_section(content):
@@ -64,8 +61,7 @@ def _video_half_section(content, video_src):
                 style={
                     'position': 'relative',
                     'zIndex': 2,
-                }
-            ),
+                }),
             html.Video(
                 src=video_src,
                 autoPlay=True,
@@ -79,22 +75,19 @@ def _video_half_section(content, video_src):
                     'height': '100%',
                     'objectFit': 'cover',
                     'zIndex': 1
-                }
-            )
-        ],
+                })],
         className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
         style={
             'position': 'relative',
             'overflow': 'hidden',
-        }
-    )
+        })
 
 
 def video_heading(heading):
     return dbc.Container([
-        html.H1(f'{heading}', className='mb-12', style={'color': '#00F0FF',
+        html.Center(html.H1(f'{heading}', className='mb-12', style={'color': '#FFFFFF',
                                                         'font-family': 'Triad',
-                                                        'font-size': '5rem'}),
+                                                        'font-size': '5rem'})),
     ])
 
 
@@ -106,6 +99,7 @@ half_video_section = _video_half_section(half_body_section, '/static/blueneurons
 half_video_section2 = _video_half_section(half_body_section2, '/static/blueneurons.mp4')
 about_header_video_section = _video_half_section(video_heading(about_text), '/static/neurospike.mp4')
 sub_header_video_section = _video_half_section(video_heading(sub_text), '/static/neurospike.mp4')
+
 eye_body_section = dbc.Container([
     dbc.Container([
             dbc.Col([
@@ -127,7 +121,6 @@ eye_body_section = dbc.Container([
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%',
                                                                              'margin-bottom': '25px'}),
-
     html.Hr(),
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})
 

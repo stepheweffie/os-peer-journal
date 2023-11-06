@@ -3,6 +3,8 @@ from dash import html
 from .dash_forms import email_toast, contact_form
 from .dash_bodysection import sub_header_video_section
 from .dash_cards import subscribe_cards
+
+
 SUBSCRIBE = dbc.Container([
     sub_header_video_section,
         dbc.Container([
