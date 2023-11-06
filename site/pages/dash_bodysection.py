@@ -4,7 +4,7 @@ from dash import html
 import dash_bootstrap_components as dbc
 
 
-body_section = dbc.Container([
+VIDEO_body_section = dbc.Container([
                 dbc.Container([
                         dbc.Col([
                             toast0,
@@ -20,7 +20,7 @@ video_section = html.Div(
     children=[
         html.Div(
             children=[
-               body_section
+               VIDEO_body_section
             ],
             style={
                 'position': 'relative',
@@ -48,15 +48,12 @@ video_section = html.Div(
     }
 )
 
-half_body_section = dbc.Container([
-            html.Center(toast3),
-            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
-            style={'max-width': '100%'})
 
-half_body_section2 = dbc.Container([
-            html.Center(toast3),
-            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
-            style={'max-width': '100%'})
+def half_section(content):
+    return dbc.Container([
+        content,
+    ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
+        style={'max-width': '100%'})
 
 
 def _video_half_section(content, video_src):
@@ -93,10 +90,22 @@ def _video_half_section(content, video_src):
     )
 
 
+def video_heading(heading):
+    return dbc.Container([
+        html.H1(f'{heading}', className='mb-12', style={'color': '#00F0FF',
+                                                        'font-family': 'Triad',
+                                                        'font-size': '5rem'}),
+    ])
+
+
+about_text = 'About'
+sub_text = 'Subscribe'
+half_body_section = half_section(toast3)
+half_body_section2 = half_section(toast3)
 half_video_section = _video_half_section(half_body_section, '/static/blueneurons.mp4')
 half_video_section2 = _video_half_section(half_body_section2, '/static/blueneurons.mp4')
-
-
+about_header_video_section = _video_half_section(video_heading(about_text), '/static/neurospike.mp4')
+sub_header_video_section = _video_half_section(video_heading(sub_text), '/static/neurospike.mp4')
 eye_body_section = dbc.Container([
     dbc.Container([
             dbc.Col([
@@ -104,7 +113,8 @@ eye_body_section = dbc.Container([
        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
     dbc.Container([
             dbc.Col([
-              half_video_section], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+                html.Center(half_video_section),
+              ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
         ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%',
                                                                                  'margin-bottom': '25px'}),
     dbc.Container([
@@ -113,9 +123,11 @@ eye_body_section = dbc.Container([
        ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
     dbc.Container([
         dbc.Col([
-            half_video_section2], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
+            html.Center(half_video_section2),
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%',
                                                                              'margin-bottom': '25px'}),
+
     html.Hr(),
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})
 

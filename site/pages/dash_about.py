@@ -1,6 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 from .dash_map import map_body
+from .dash_bodysection import about_header_video_section
 
 with open('pages/text/about.html', 'r') as f:
     f = f.read()
@@ -21,27 +22,9 @@ with open('pages/text/about.html', 'r') as f:
 ABOUT = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.Center(html.H1('About', className='mb-12', style={'color': '#00F0FF',
-                                                                   'font-size': '5rem',
-                                                                   'font-family': 'Triad'})),
             html.Hr(),
     ])]),
-
-    dbc.Container([
-        dbc.Col([
-            html.Div(style={
-              'backgroundImage': 'url("/static/wiredbrain12.svg")',
-              'backgroundSize': 'cover',
-              'backgroundPosition': 'center 45%',
-              'width': '100%',
-              'height': '40vh',
-              'display': 'flex',
-              'alignItems': 'left',
-              'justifyContent': 'left'}),
-            ],
-            className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'width': '100%'}),
-        ], style={'width': '100%'}),
-
+    about_header_video_section,
     dbc.Row([
         dbc.Container([
             dbc.Col([

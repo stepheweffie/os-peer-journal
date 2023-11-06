@@ -1,0 +1,43 @@
+:root {
+	--background: #219;
+	--primary: #00d5Bf;
+	--secondary: #9d0bf0;
+	--third: #040040;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.blob-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.shape {
+ 	background: linear-gradient(66deg, var(--primary) 0%, var(--secondary) 100%);
+  animation: morph 4s ease-in infinite;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  height: 300px;
+  transition: all 2s ease-in-out;
+  width: 100%;
+  z-index: 5;
+}
+
+@keyframes morph {
+  0% {
+			border-radius:  60% 40% 30% 70% / 60% 30% 70% 40%;
+			background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
+	}
+
+	50% {
+			border-radius:  30% 60% 70% 40% / 50% 60% 30% 60%;
+			background: linear-gradient(45deg, var(--third) 0%, var(--secondary) 100%);
+	}
+
+	100% {
+		border-radius:  60% 40% 30% 70% / 60% 30% 70% 40%;
+		background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
+	}
+}
