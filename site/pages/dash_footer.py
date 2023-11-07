@@ -26,8 +26,9 @@ FOOTER = html.Footer([
     style={
         'width': '120%',
         'margin-left': '-10%',
+        'margin-top': '3%',
         'height': 'auto',
-        'background-image': 'linear-gradient(to bottom, #8624ff, #270850, #13002a)',
+        'background-image': 'linear-gradient(to top, #8624ff, #270850, #13002a)',
         'color': 'white',
         'justify': 'left',
     },

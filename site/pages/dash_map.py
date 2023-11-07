@@ -58,6 +58,7 @@ def update_map():
             showlakes=True,
             lakecolor="rgb(255, 255, 255)",
             showsubunits=True,
+            bgcolor='rgba(0,0,0,0)',
         ),
         autosize=True,
         margin=dict(t=4, b=4, l=4, r=4),
@@ -78,7 +79,9 @@ map_body = html.Div([
                                                              'color': 'whitesmoke',
                                                              'font-family': 'Aotani',
                                                              'margin-bottom': '-10px',
+                                                             'font-size': '3.5rem',
                                                            }),
+    html.Hr(),
     dbc.Container([
         dcc.Graph(id="us-map", figure=update_map()),
         html.Hr(),

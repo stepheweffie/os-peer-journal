@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 from .dash_map import map_body
 from .dash_bodysection import about_header_video_section
 
+
 with open('pages/text/about.html', 'r') as f:
     f = f.read()
     text1 = f[:491]
@@ -17,13 +18,11 @@ with open('pages/text/about.html', 'r') as f:
             html.P(text4),
             html.P(text5)
                  ], style={'font-size': '1.6rem',
-                           'color': 'whitesmoke'})
+                           'color': 'whitesmoke',
+                           'background': 'rgba(0, 0, 0, .9)',
+                           'padding': '3%'})
 
 ABOUT = dbc.Container([
-    dbc.Row([
-        dbc.Col([
-            html.Hr(),
-    ])]),
     about_header_video_section,
     dbc.Row([
         dbc.Container([
@@ -31,11 +30,11 @@ ABOUT = dbc.Container([
                 map_body,
                 text,
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'width': '100%',
-                                                                                   'color': 'whitesmoke',
-                                                                                   'font-size': '1.2rem', }),
+                                                                                     'color': 'whitesmoke',
+                                                                                     'font-size': '1.2rem', }),
         ], style={'width': '100%'}),
     ])
-])
+], fluid=True)
 
 
 

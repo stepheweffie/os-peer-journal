@@ -1,9 +1,8 @@
 
 @font-face {
-    font-family: 'Triad';
-    src: url('/assets/fonts/triad/Triad.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+    font-family: 'Akron';
+    src: url('/assets/fonts/akron-nbp-font/AkronSansBold.ttf') format('truetype');
+    font-weight: bold;
 }
 
 @font-face {
@@ -13,7 +12,19 @@
     font-style: normal;
 }
 
-p, nav{
+p, nav, h5, h6 {
     font-family: 'Aotani', serif;
+}
+
+@font-face {
+    font-family: 'Triad';
+    src: url('/assets/fonts/triad/Triad.ttf') format('truetype');
+    font-weight: thin;
+    font-style: normal;
+}
+
+h2 {
+    font-family: 'Aotani', serif;
+    font-size: xx-large;
 }
 

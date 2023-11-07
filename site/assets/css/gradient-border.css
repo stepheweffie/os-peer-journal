@@ -15,19 +15,19 @@
   height: calc(100% + var(--border-width) * 2);
   background: linear-gradient(
     60deg,
-    hsl(224, 85%, 66%),
-    hsl(269, 85%, 66%),
-    hsl(314, 85%, 66%),
-    hsl(359, 85%, 66%),
-    hsl(44, 85%, 66%),
-    hsl(89, 85%, 66%),
-    hsl(134, 85%, 66%),
-    hsl(179, 85%, 66%)
+    hsl(24, 85%, 66%),
+    hsl(59, 85%, 66%),
+    hsl(94, 85%, 66%),
+    hsl(150, 85%, 66%),
+    hsl(200, 85%, 66%),
+    hsl(266, 85%, 66%),
+    hsl(279, 85%, 66%),
+    hsl(300, 85%, 66%)
   );
   background-size: 300% 300%;
   background-position: 0 0%;
   border-radius: calc(2 * var(--border-width));
-  animation: moveGradient 4s alternate infinite;
+  animation: moveGradient 6s alternate infinite;
 }
 
 @keyframes moveGradient {

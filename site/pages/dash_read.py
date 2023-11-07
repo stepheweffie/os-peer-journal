@@ -1,7 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 from .dash_cards import first_card, second_card
-from .dash_toasts import toast2
+from .dash_toasts import toast2, toast5
 blog = []
 articles = []
 
@@ -27,8 +27,8 @@ READ = dbc.Container([
                         html.Br(),
                         dbc.Col([
                             html.Center(html.H1('Scideology', className='mb-12', style={'color': 'white',
-                                                                                        'font-size': '50px',
-                                                                                        'font-family': 'Aotani'})),
+                                                                                        'font-size': '3.25rem',
+                                                                                        'font-family': 'Akron'})),
                             html.Center(html.Img(src='/static/book.svg', height='30px', width='50px')),
                             html.Hr(),
                             first_card,
@@ -38,8 +38,8 @@ READ = dbc.Container([
                         html.Br(),
                         dbc.Col([
                             html.Center(html.H1('Peer-Review', className='mb-12', style={'color': 'white',
-                                                                                         'font-size': '50px',
-                                                                                         'font-family': 'Aotani'})),
+                                                                                         'font-size': '3.25rem',
+                                                                                         'font-family': 'Akron'})),
                             html.Center(html.Img(src='/static/mtone.svg', height='30px', width='50px')),
                             html.Hr(),
                             second_card
@@ -54,7 +54,7 @@ READ = dbc.Container([
                 html.Img(src='/static/humanwork.svg', height='100%', width='120%', style={'position': 'relative',
                                                                                          'left': '-10.00%'}),
                 html.Hr(),
-                toast2,
+                toast5,
                 html.Hr(),
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})])
 

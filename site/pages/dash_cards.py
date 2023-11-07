@@ -27,7 +27,6 @@ first_card = dbc.Container([
                 )], className="h-100 gradient-border"))], className="h-100")
 
 
-
 second_card = dbc.Container([
     html.Article(
         dbc.Card([dbc.CardImg(
@@ -47,7 +46,7 @@ second_card = dbc.Container([
                                  className="d-flex flex-column h-100"),
                 )], className="h-100 gradient-border"))], className="h-100")
 
-education_card =  dbc.Container([
+education_card = dbc.Container([
                 dbc.Col(
                     html.Div([
                         dbc.Card([

@@ -58,7 +58,7 @@ contact_form = html.Div([
 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8")
 
 email_input = dbc.Form([
-    html.H2("Stay In The Knowledge."),
+    html.H2("Stay In The Knowledge.", style={'color': 'white', 'font-family': 'Akron'}),
     dbc.Label("We Won't Forget To Update You When An Article Is Published", className="mr-2"),
     dbc.Col([
         dbc.Input(type="text", id="username-updates-input", placeholder="Enter Name"),
@@ -76,7 +76,7 @@ email_input = dbc.Form([
         dbc.Button("Submit", id="email-updates-button", className="mt-3", color="dark", n_clicks=0),
         html.Br(),
     ], width=6, className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'width': '100%'}),
-], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'width': '50%'})
+], className="col-xs-12 col-sm-12", style={'max-width': '100%'})
 
 
 em_toast = dbc.Toast(
@@ -86,7 +86,7 @@ em_toast = dbc.Toast(
                           color="primary"),
                 email_input], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",
                 style={'width': '100%',
-                   "color": "white"}),
+                       "color": "white"}),
             header_style={"background-color": "black",
                           "color": "white"},
             dismissable=False,

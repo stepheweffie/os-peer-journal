@@ -86,3 +86,33 @@ toast3 = dbc.Toast(
            'margin-bottom': '30px',
            'padding': '5px'},)
 
+toast4 = dbc.Toast(
+    [html.H3('You Can Participate.', className="mb-0"),
+        html.Br(),
+        html.H3("Science is for everyone.", className="mb-0"),
+        html.H3("An understanding objective.", className="mb-0"),
+        html.H3("A culture of information.", className="mb-0"),
+        html.H3("All right here.", className="mb-0")],
+    header_style={"background-color": "#aab1ff", "color": "black", "width": "100%"},
+    dismissable=False,
+    is_open=True,
+    style={"background-color": "#aab1ff",
+           "color": "white",
+           "font-family": "Aotani",
+           "width": "90%",
+           'margin-top': '30px',
+           'margin-bottom': '30px',
+           'padding': '5px'},)
+
+toast5 = dbc.Toast(
+    [html.H3('Read as often as you like.', className="mb-0"),
+        html.Br(),
+        html.H3("Individuals don't have to pay.", className="mb-0"),
+        html.H3("Exclusive academic and casual content on the blog.", className="mb-0"),
+        html.H3("Peer-review that is anti-retraction.", className="mb-0"),
+        html.H3("More scientific progress per article.", className="mb-0")],
+    header_style={"background-color": "#aab1ff", "color": "black", "width": "100%"},
+    dismissable=False,
+    is_open=True,
+    style={"background-color": "#aab1ff", "color": "black", "font-family": "Aotani", "width": "100%"},)
+
