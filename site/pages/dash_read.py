@@ -8,7 +8,7 @@ articles = []
 READ = dbc.Container([
             dbc.Container([
                 html.Video(
-                    src='/static/neuropurpspin.mp4',
+                    src='/static/neurocomp.mp4',
                     autoPlay=True,
                     loop=True,
                     muted=True,
@@ -51,7 +51,7 @@ READ = dbc.Container([
                 html.Br(),
                 toast2,
                 html.Hr(),
-                html.Img(src='/static/humanwork.svg', height='100%', width='120%', style={'position': 'relative',
+                html.Img(src='/static/humanneuro.svg', height='100%', width='120%', style={'position': 'relative',
                                                                                          'left': '-10.00%'}),
                 html.Hr(),
                 toast5,

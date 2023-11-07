@@ -60,7 +60,7 @@ def video_heading(heading):
                                                                     'font-family': 'Triad',
                                                                     'font-size': '5rem',
                                                                     'background': 'rgba(0, 0, 0, .9)',
-                                                                    'margin-top': '10%'})),
+                                                                    'margin-top': '5%'})),
     ])
 
 
@@ -71,7 +71,7 @@ half_body_section = half_section(toast3)
 half_body_section2 = half_section(toast4)
 half_video_section = _video_section(half_body_section, '/static/blueneurons.mp4')
 half_video_section2 = _video_section(half_body_section2, '/static/blueneurons.mp4')
-about_header_video_section = _video_section(video_heading(about_text), '/static/neurospike.mp4')
+about_header_video_section = _video_section(video_heading(about_text), '/static/neurospiral.mp4')
 sub_header_video_section = _video_section(video_heading(sub_text), '/static/neurospike.mp4')
 
 eye_body_section = dbc.Container([
