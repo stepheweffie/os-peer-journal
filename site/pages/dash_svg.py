@@ -31,3 +31,11 @@ cogcomp = html.Div(html.Img(src='/static/cogcomp.svg', style={'position': 'absol
                    style={'position': 'relative',
                    'padding-top': '50%'})
 
+philcomp = html.Div(html.Img(src='/static/philcomp.svg', style={'position': 'absolute',
+                                                              'top': '0',
+                                                              'width': '110%',
+                                                              'height': '110%',
+                                                              }),
+                   className="d-flex align-items-center justify-content-center",
+                   style={'position': 'relative',
+                   'padding-top': '50%'})

@@ -1,14 +1,17 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
+
+envelope = html.Center(html.Img(src='/static/envelope.svg', height='200px', width='300px'))
 toggle_button_blob = dbc.Container([
     dbc.Row([
-        dbc.Col(dbc.Button("Click To Message", id="open-modal", className="shape", n_clicks=0, style={'color': 'violet',
-                                                                                             'font-family': 'Triad',
-                                                                                             'font-size': '50px'}),
-                className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
-    ], id="open-modal", className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8", )
-    ], className='blob-container')
+        dbc.Col(dbc.Button(envelope,
+                           id="open-modal", className="shape", n_clicks=0, style={'color': 'white',
+                                                                                             'font-family': 'Akron',
+                                                                                             'font-size': '70px'})),
+                 ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"),
+    ], id="open-modal", className="col-xs-12 col-sm-12 col-md-9 col-lg-5 col-xl-5")
+
 
 main_modal = dbc.Modal([
         dbc.ModalHeader("Contact Us"),

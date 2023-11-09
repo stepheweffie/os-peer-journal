@@ -1,5 +1,5 @@
 from .dash_toasts import toast0, toast01, toast1, toast3, toast4
-from .dash_svg import eyecomp, cogcomp
+from .dash_svg import philcomp
 from dash import html
 import dash_bootstrap_components as dbc
 
@@ -66,19 +66,47 @@ def video_heading(heading):
 
 about_text = 'About'
 sub_text = 'Subscribe'
+
+psychophysics = html.Video(src='/static/psychophysics.mp4', autoPlay=True, loop=True, muted=True, width='100%',
+                           className='col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12', style={'max-width': '100%',
+                                                                                               'margin-bottom': '25px'})
+
+candybrain = html.Video(src='/static/candybrain.mp4', autoPlay=True, loop=True, muted=True, width='100%',
+                        className='col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12', style={'max-width': '100%',
+                                                                                               'margin-bottom': '25px'})
+
+spinpower = html.Video(src='/static/spinpower.mp4', autoPlay=True, loop=True, muted=True, width='100%',
+                       className='col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12', style={'max-width': '100%',
+                                                                                             'margin-bottom': '25px'})
+
 video_body_section = _video_section(VIDEO_body_section, '/static/neuropurp.mp4')
 half_body_section = half_section(toast3)
 half_body_section2 = half_section(toast4)
+half_body_psychophysics = half_section(psychophysics)
+half_body_candybrain = half_section(candybrain)
+half_body_spinpower = half_section(spinpower)
 half_video_section = _video_section(half_body_section, '/static/blueneurons.mp4')
 half_video_section2 = _video_section(half_body_section2, '/static/blueneurons.mp4')
-about_header_video_section = _video_section(video_heading(about_text), '/static/neurospiral.mp4')
-sub_header_video_section = _video_section(video_heading(sub_text), '/static/neurospike.mp4')
+half_video_psychophysics = _video_section(half_body_psychophysics, '')
+half_video_candybrain = _video_section(half_body_candybrain, '')
+half_video_spinpower = _video_section(half_body_spinpower, '')
+about_header_video_section = _video_section(video_heading(about_text), '/static/blueneurons.mp4')
+sub_header_video_section = _video_section(video_heading(sub_text), '/static/blueneurons.mp4')
 
 eye_body_section = dbc.Container([
-    dbc.Container([
+    dbc.Row([
+        dbc.Container([
             dbc.Col([
-                eyecomp], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",)
-       ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+                half_video_psychophysics
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",)
+        ], className="col-xs-12 col-sm-8 col-md-6 col-lg-6 col-xl-6", style={'max-width': '100%'}),
+        dbc.Container([
+            dbc.Col([
+                half_video_candybrain
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",)
+       ], fluid=True, className="col-xs-12 col-sm-8 col-md-6 col-lg-6 col-xl-6", style={'max-width': '100%',
+                                                                                '': 'center'}),
+    ]),
     dbc.Container([
             dbc.Col([
                 html.Center(half_video_section),
@@ -87,13 +115,20 @@ eye_body_section = dbc.Container([
                                                                                  'margin-bottom': '25px'}),
     dbc.Container([
             dbc.Col([
-                cogcomp], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",)
-       ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+                half_video_spinpower
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",)
+       ], className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6", style={'max-width': '100%'}),
     dbc.Container([
         dbc.Col([
             html.Center(half_video_section2),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12")
     ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%',
                                                                              'margin-bottom': '25px'}),
-], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'})
+    dbc.Container([
+            dbc.Col([
+                philcomp
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12",)
+       ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%'}),
+], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'max-width': '100%',
+                                                                         'margin-bottom': '5%'})
 

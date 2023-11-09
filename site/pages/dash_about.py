@@ -29,7 +29,7 @@ ABOUT = dbc.Container([
             dbc.Col([
                 map_body,
                 text,
-            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'width': '100%',
+            ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 block", style={'width': '100%',
                                                                                      'color': 'whitesmoke',
                                                                                      'font-size': '1.2rem', }),
         ], style={'width': '100%'}),

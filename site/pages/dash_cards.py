@@ -62,6 +62,7 @@ education_card = dbc.Container([
                     className="col-xl-12 m-1 p-2", style={
                         'max-width': '100%',
                         'color': 'white',
+                        'background-color': 'black',
                         'border-radius': '50px 20px',
                         'border': '1px solid cyan'}),
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True)
@@ -82,6 +83,7 @@ corporate_card = dbc.Container([
                     className="col-xl-12 m-1 p-2", style={
                                                         'max-width': '100%',
                                                         'color': 'white',
+                                                        'background-color': 'black',
                                                         'border-radius': '50px 20px',
                                                         'border': '1px solid cyan'})
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True)
@@ -101,10 +103,10 @@ non_profit_card = dbc.Container([
                         className="col-xl-12 m-1 p-2", style={
                     'max-width': '100%',
                     'color': 'white',
+                    'background-color': 'black',
                     'border-radius': '50px 20px',
                     'border': '1px solid cyan'})
                 ], className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-5", fluid=True)
-
 
 
 subscribe_cards = dbc.Row([

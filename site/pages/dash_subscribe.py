@@ -10,11 +10,11 @@ SUBSCRIBE = dbc.Container([
     dbc.Container([
             dbc.Row([
                 dbc.Container([
-                    dbc.Col(html.H1("Individuals May Cite Freely")
+                    dbc.Col(html.H1("")
                             , className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-2 m-6 text-center",
                             style={'max-width': '100%',
                                    'color': 'white',
-                                   'font-family': 'Aotani',
+                                   'font-family': 'Akron',
                                    }),
                  ]),
                 dbc.Col([
@@ -22,8 +22,9 @@ SUBSCRIBE = dbc.Container([
                         'max-width': '100%',
                         'color': 'white',
                         'font-size': '3.5rem',
-                        'font-family': 'Aotani'}),
+                        'font-family': 'Akron'}),
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12", style={'marginRight': '0px'}),
+                html.Hr(),
                 html.Br(),
         ]), subscribe_cards,
     ]),
@@ -37,13 +38,14 @@ SUBSCRIBE = dbc.Container([
                     html.Center(html.H2("For More Information", className="text-center",
                                         style={'color': 'white',
                                                'font-size': '50px',
-                                               'font-family': 'Aotani'})),
+                                               'font-family': 'Akron'})),
                     html.Center(html.Img(src='/static/chat.svg', height='50px', width='75px')),
                     html.Br(),
                     html.Center(contact_form)])],
                     className="col-xl-12 m-1 p-2", style={
                     'max-width': '100%',
                     'color': 'white',
+                    'background-color': 'black',
                     'border-radius': '50px 20px',
                     'border': '1px solid cyan'}))
             ], className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-10", fluid=True),
