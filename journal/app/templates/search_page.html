@@ -1,0 +1,49 @@
+<!-- templates/front_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Journal Front Page</title>
+</head>
+<body>
+    <h1>Journal Entries</h1>
+    <form action="/journal/search" method="get">
+        <input type="text" name="query" id="searchQuery" placeholder="Search journal entries...">
+        <input type="submit" value="Search">
+    </form>
+
+    <div id="entries">
+        {% for entry in entries %}
+        <div class="entry">
+            <h2><a href="{{ url_for('journal.get_entry', entry_id=entry.id) }}">{{ entry.title }}</a></h2>
+            <p>By {{ entry.author }} on {{ entry.created_at }}</p>
+            <img src="{{ entry.thumbnail }}" alt="Thumbnail for {{ entry.title }}">
+            <p>{{ entry.abstract[:150] }}...</p> <!-- Display first 150 characters of content -->
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="searchResults">
+        <!-- Search results will be inserted here -->
+    </div>
+
+    <script>
+        document.getElementById('searchForm').onsubmit = function(event) {
+            event.preventDefault();
+            var query = document.getElementById('searchQuery').value;
+            fetch('/journal/entries?query=' + query)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous results
+                    document.getElementById('searchResults').innerHTML = '';
+                    // Insert new results
+                    data.forEach(entry => {
+                        var div = document.createElement('div');
+                        div.innerHTML = `<a href="/journal/entry/${entry.id}">${entry.title}</a>`;
+                        document.getElementById('searchResults').appendChild(div);
+                    });
+                });
+        };
+    </script>
+</body>
+</html>

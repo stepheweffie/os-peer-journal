@@ -1,28 +1,15 @@
-from flask import Flask
-import cherrypy
-
-
-def create_app():
-    app = Flask(__name__)
-
-    # ... (your app setup code)
-
-    return app
-
+from __init__ import create_app
+'''
+Published submissions to publishedpapers.db go into the api reference.
+Journal entries are published to the front page of the journal, styled with links, and part of
+the readable presentation content.
+'''
 
 app = create_app()
 
-if __name__ == "__main__":
-    # Wrap the Flask app for CherryPy
-    d = cherrypy.wsgiserver.WSGIPathInfoDispatcher({'/': app})
+if __name__ == '__main__':
+    with app.app_context():
+        pass
+        # db.create_all()  # Creating tables if they don't exist
+    app.run()
 
-    # Define the CherryPy WSGI server
-    server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', 5000), d)
-
-    try:
-        print("Server is starting on http://0.0.0.0:5000/")
-        server.start()
-    except KeyboardInterrupt:
-        print("Server is stopping...")
-        server.stop()
-        print("Server stopped.")

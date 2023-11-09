@@ -2,7 +2,10 @@ from flask_restful import Resource, reqparse
 from flask import request
 from werkzeug.utils import secure_filename
 import os
+from flask import render_template
 from __init__ import UPLOAD_FOLDER, db, PublishedPapers
+from flask import current_app as app
+
 
 task_parser = reqparse.RequestParser()
 task_parser.add_argument('title', required=True, help="Title cannot be blank!")
@@ -59,8 +62,12 @@ class TaskPapers(Resource):
         return '', 204
 
 
-# For accepted papers to the journal (after review)
 def initialize_routes(api):
     api.add_resource(PaperUploadResource, '/upload_paper')
     api.add_resource(TaskListPapers, '/papers')
     api.add_resource(TaskPapers, '/papers/<int:task_id>')
+
+
+@app.route('/submit_paper', methods=['GET'])
+def submit_paper():
+    return render_template('submit_paper.html')

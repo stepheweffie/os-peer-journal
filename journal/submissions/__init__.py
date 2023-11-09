@@ -1,9 +1,11 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
+
+
 api = Api()
 UPLOAD_FOLDER = 'papers'  # change this to your desired upload folder
 ALLOWED_EXTENSIONS = {'pdf', 'ipynb'}
-from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
@@ -23,6 +25,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///publishedpapers.db'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_BINDS'] = {
         'publishedpapers': 'sqlite:///publishedpapers.db',
@@ -30,8 +33,6 @@ def create_app():
 
     db.init_app(app)
     api.init_app(app)
-    from views import initialize_routes
-    initialize_routes(api)
     with app.app_context():
         import views
         # db.drop_all()
