@@ -34,7 +34,7 @@ def create_app():
     db.init_app(app)
     api.init_app(app)
     with app.app_context():
-        import views
+        import routes
         # db.drop_all()
         db.create_all()
         # papers = PublishedPapers.query.all()

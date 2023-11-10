@@ -1,5 +1,5 @@
-from flask import jsonify, request, Blueprint, render_template
-from models import JournalEntry
+from flask import jsonify, request, Blueprint, render_template, current_app as app
+from .models import JournalEntry
 import json
 
 journal = Blueprint('journal', __name__)
@@ -17,6 +17,11 @@ def load_entries():
 def save_entries(all_entries):
     with open('entries.json', 'w') as f:
         json.dump(entries, f, default=lambda o: o.__dict__, indent=4)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 @journal.route('/entries', methods=['GET'])
@@ -84,3 +89,5 @@ def search_entries():
     # Filter entries based on the query being in the title or the author's name
     filtered_entries = [entry for entry in entries if query in entry.title.lower() or query in entry.author.lower()]
     return render_template('search_page.html', entries=filtered_entries)
+
+
