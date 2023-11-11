@@ -7,9 +7,8 @@ from flask_migrate import Migrate
 from models import db, User, bcrypt
 from config import UPLOAD_FOLDER
 import os
-from config import BASE_DIR
 from flask_bootstrap import Bootstrap5
-from submissions.__init__ import PublishedPapers
+from submissions.app import PublishedPapers
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -36,7 +35,6 @@ class UserModelView(ModelView):
 def create_app(config_filename):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_pyfile(config_filename)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
     salt = os.urandom(16).hex()
     app.config['SECURITY_PASSWORD_SALT'] = salt
     db.init_app(app)
@@ -76,7 +74,7 @@ def create_database(app):
 
 
 def init_app():
-    app = create_app('/Users/savantlab/PycharmProjects/journal-with-admin/journal/admin/config.py')
+    app = create_app('/Users/savantlab/PycharmProjects/savantlab_journal/journal/admin/config.py')
     create_database(app)
     return app
 
