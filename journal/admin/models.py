@@ -6,8 +6,8 @@ from flask_security import SQLAlchemyUserDatastore
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
-# admin_email = app.config['ADMIN_EMAIL']
 # Create database connection object
+
 roles_users = db.Table(
     'roles_users',
     db.metadata,
@@ -19,6 +19,7 @@ roles_users = db.Table(
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
+    is_admin = db.Column(db.Boolean, default=False)
     username = db.Column(db.String(150), unique=True, nullable=True)
     password = db.Column(db.String(150), nullable=True)
     email = db.Column(db.String(255), unique=True, nullable=True)
