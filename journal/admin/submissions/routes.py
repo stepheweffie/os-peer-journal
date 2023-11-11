@@ -3,7 +3,7 @@ from flask import request, url_for, redirect
 from werkzeug.utils import secure_filename
 import os
 from flask import render_template
-from app import UPLOAD_FOLDER, db, PublishedPapers
+from .app import UPLOAD_FOLDER, db, PublishedPapers
 from flask import current_app as app
 
 

@@ -1,3 +1,5 @@
+'''flask run '''
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
@@ -35,14 +37,17 @@ def create_app():
     db.init_app(app)
     api.init_app(app)
     with app.app_context():
-        import routes
-        # db.drop_all()
+        from . import routes
         db.create_all()
-        # papers = PublishedPapers.query.all()
-        # print(papers)
     return app
 
 
+app = create_app()
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  # Creating tables if they don't exist
+    app.run()
 
 
 

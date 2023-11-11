@@ -3,7 +3,7 @@ from models import JournalEntry
 import json
 import requests
 
-api = Blueprint('journal', __name__)
+api = Blueprint('api', __name__)
 current_id = 0  # This will help us assign unique IDs to entries
 
 
