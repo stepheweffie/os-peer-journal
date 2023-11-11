@@ -76,7 +76,7 @@ def create_database(app):
 
 
 def init_app():
-    app = create_app('/Users/savantlab/PycharmProjects/savantlab_journal/journal/admin/config.py')
+    app = create_app('/Users/savantlab/PycharmProjects/journal-with-admin/journal/admin/config.py')
     create_database(app)
     return app
 

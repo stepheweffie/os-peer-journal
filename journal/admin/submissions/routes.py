@@ -1,9 +1,9 @@
 from flask_restful import Resource, reqparse
-from flask import request
+from flask import request, url_for, redirect
 from werkzeug.utils import secure_filename
 import os
 from flask import render_template
-from __init__ import UPLOAD_FOLDER, db, PublishedPapers
+from app import UPLOAD_FOLDER, db, PublishedPapers
 from flask import current_app as app
 
 
@@ -66,6 +66,11 @@ def initialize_routes(api):
     api.add_resource(PaperUploadResource, '/upload_paper')
     api.add_resource(TaskListPapers, '/papers')
     api.add_resource(TaskPapers, '/papers/<int:task_id>')
+
+
+@app.route('/')
+def index():
+    return redirect(url_for('submit_paper'))
 
 
 @app.route('/submit_paper', methods=['GET'])
