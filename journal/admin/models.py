@@ -28,8 +28,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True, nullable=True)
     date_created = db.Column(db.DateTime())
     password_hash = db.Column(db.String(128))
-    active = db.Column(db.Boolean())
-    authenticated = db.Column(db.Boolean(), default=False)
+    verified = db.Column(db.Boolean(), default=False)
     # papers = db.relationship('PublishedPapers', backref='title', lazy=True)
     fs_uniquifier = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
     roles = db.relationship('Role',
@@ -44,25 +43,25 @@ class User(db.Model, UserMixin):
     def check_password(self, hashed_password):
         return bcrypt.check_password_hash(self.password_hash, hashed_password)
 
-    def reset_password(self, username, new_password):
-        reset_user = self.query.filter_by(username=username).first()
+    def reset_password(self, email, new_password):
+        reset_user = self.query.filter_by(email=email).first()
         if reset_user:
             self.set_password(new_password)
             if self.check_password(new_password):
                 db.session.commit()
-                print(f"Password for user {username} has been reset.")
+                print(f"Password for user email {email} has been reset.")
         else:
-            print(f"No user found with username {username}.")
+            print(f"No user found with email {email}.")
 
-    def delete(self, username):
-        user = self.query.filter_by(username=username).first()
+    def delete(self, email):
+        user = self.query.filter_by(username=email).first()
         if user:
             if user.check_password(user.password):
                 db.session.delete(user)
                 db.session.commit()
-                return f"User with username {username} deleted."
+                return f"User with username {email} deleted."
         else:
-            return f"No user found with username {username}."
+            return f"No user found with username {email}."
 
     def serialize(self):
         return {
@@ -88,6 +87,18 @@ class User(db.Model, UserMixin):
     @staticmethod
     def get_one(email):
         return User.query.filter_by(email=email).first()
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
 
 
 class UserSchema(Schema):

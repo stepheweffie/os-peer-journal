@@ -1,5 +1,5 @@
-from flask import Flask, redirect, url_for
-from flask_login import LoginManager
+from flask import Flask, redirect, url_for, request
+from flask_login import LoginManager, current_user, login_user
 from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
@@ -22,13 +22,15 @@ def load_user(user_id):
 class AdminIndex(AdminIndexView):
     @expose('/')
     def index(self):
+        if not current_user.is_authenticated:
+            return redirect(url_for('auth.login'))
         return self.render('admin/index.html')
 
 
 class UserModelView(ModelView):
     column_list = ('first_name', 'last_name', 'email', 'date_created')
     column_searchable_list = ('first_name', 'last_name', 'email', 'date_created')
-    column_filters = ('first_name', 'last_name', 'is_admin', 'email', 'active', 'authenticated')
+    column_filters = ('first_name', 'last_name', 'is_admin', 'email', 'verified')
     form_excluded_columns = ('fs_uniquifier', 'password_hash')
 
 
@@ -57,6 +59,7 @@ def create_app(config_filename):
 
 def create_database(app):
     with app.app_context():
+        db.drop_all()
         Migrate(app, db)
         db.create_all()
         # Marshmallow must come after db.create_all()
