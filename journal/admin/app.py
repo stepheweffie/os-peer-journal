@@ -4,7 +4,7 @@ from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_migrate import Migrate
-from models import db, User, bcrypt
+from models import db, User, bcrypt, ma
 from config import UPLOAD_FOLDER
 import os
 from flask_bootstrap import Bootstrap5
@@ -26,9 +26,9 @@ class AdminIndex(AdminIndexView):
 
 
 class UserModelView(ModelView):
-    column_list = ('username', 'email')
-    column_searchable_list = ('username', 'email')
-    column_filters = ('username', 'email', 'active', 'authenticated')
+    column_list = ('first_name', 'last_name', 'email', 'date_created')
+    column_searchable_list = ('first_name', 'last_name', 'email', 'date_created')
+    column_filters = ('first_name', 'last_name', 'is_admin', 'email', 'active', 'authenticated')
     form_excluded_columns = ('fs_uniquifier', 'password_hash')
 
 
@@ -59,6 +59,7 @@ def create_database(app):
     with app.app_context():
         Migrate(app, db)
         db.create_all()
+        ma.init_app(app)
         # Check if the admin user already exists
         admin = User.query.filter_by(email='admin@admin.com').first()
         if not admin:

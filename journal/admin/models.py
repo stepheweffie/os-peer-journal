@@ -3,9 +3,11 @@ from flask_security import UserMixin
 from flask_bcrypt import Bcrypt
 import uuid
 from flask_security import SQLAlchemyUserDatastore
+from flask_marshmallow import Marshmallow, Schema
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+ma = Marshmallow()
 # Create database connection object
 
 roles_users = db.Table(
@@ -27,6 +29,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     active = db.Column(db.Boolean())
     authenticated = db.Column(db.Boolean(), default=False)
+    # papers = db.relationship('PublishedPapers', backref='title', lazy=True)
     fs_uniquifier = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
     roles = db.relationship('Role',
                             secondary='roles_users',
@@ -50,7 +53,7 @@ class User(db.Model, UserMixin):
         else:
             print(f"No user found with username {username}.")
 
-    def delete_user(self, username):
+    def delete(self, username):
         user = self.query.filter_by(username=username).first()
         if user:
             if user.check_password(user.password):
@@ -59,6 +62,40 @@ class User(db.Model, UserMixin):
                 return f"User with username {username} deleted."
         else:
             return f"No user found with username {username}."
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'is_admin': self.is_admin,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'active': self.active,
+            'authenticated': self.authenticated,
+            # 'papers': self.papers,
+            'date_created': self.date_created
+        }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @staticmethod
+    def get_all():
+        return User.query.all()
+
+    @staticmethod
+    def get_one(email):
+        return User.query.filter_by(email=email).first()
+
+
+class UserSchema(Schema):
+    class Meta:
+        fields = ('id', 'is_admin', 'first_name', 'last_name', 'email', 'date_created')
+
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
 
 class Role(db.Model):

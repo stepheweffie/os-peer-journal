@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, Email
 from flask_login import login_user, login_required, logout_user, current_user
-from models import User
+from models import User, users_schema
 
 
 auth = Blueprint('auth', __name__)
@@ -39,3 +39,19 @@ def logout():
     logout_user()
     flash('Logged out successfully!', 'success')
     return redirect(url_for('auth.login'))
+
+
+@auth.route("/api/users")
+@login_required
+def users():
+    all_users = User.query.all()
+    result = users_schema.dump(all_users)
+    return {'users': result}
+
+
+@auth.route("/api/papers")
+@login_required
+def papers():
+    all_papers = User.query.all().papers
+    result = users_schema.dump(all_papers)
+    return {'papers': result}

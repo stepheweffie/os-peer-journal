@@ -3,7 +3,7 @@ from flask import request, url_for, redirect
 from werkzeug.utils import secure_filename
 import os
 from flask import render_template
-from .app import UPLOAD_FOLDER, db, PublishedPapers
+from app import UPLOAD_FOLDER, db, PublishedPapers
 from flask import current_app as app
 
 
@@ -27,7 +27,7 @@ class PaperUploadResource(Resource):
         db.session.add(paper)
         db.session.commit()
 
-        return {"message": "Paper uploaded and saved successfully"}, 201
+        return redirect(url_for('success_page'))  # Replace 'success_page' with your desired endpoint
 
 
 class TaskListPapers(Resource):
@@ -63,9 +63,9 @@ class TaskPapers(Resource):
 
 
 def initialize_routes(api):
-    api.add_resource(PaperUploadResource, '/upload_paper')
+    api.add_resource(PaperUploadResource, '/submit_paper')
     api.add_resource(TaskListPapers, '/papers')
-    api.add_resource(TaskPapers, '/papers/<int:task_id>')
+    api.add_resource(TaskPapers, '/papers/<string:paper_id>')
 
 
 @app.route('/')
@@ -73,6 +73,20 @@ def index():
     return redirect(url_for('submit_paper'))
 
 
-@app.route('/submit_paper', methods=['GET'])
+@app.route('/submit_paper', methods=['GET', 'POST'])
 def submit_paper():
+
     return render_template('submit_paper.html')
+
+
+@app.route('/papers', methods=['GET'])
+def papers():
+    return render_template('papers.html', papers=PublishedPapers.query.all())
+
+
+@app.route('/success_page', methods=['GET'])
+def success_page():
+    success = '''
+    <h1>Success!</h1>
+    '''
+    return success
