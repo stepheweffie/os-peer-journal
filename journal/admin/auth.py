@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, Blueprint, request
+from flask import render_template, redirect, url_for, Blueprint, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, Email
@@ -24,10 +24,9 @@ def login():
             password = request.form.get('password')
             user = User.query.filter_by(email=email).first()
             if user and user.check_password(password):
-                login_user(user, remember=True)
+                login_user(user, remember=True, force=False, fresh=True)
                 return redirect(url_for('admin.index'))
             return redirect(url_for('auth.login'))
-        flash('Please fill out the form to log in.', 'danger')
     if current_user.is_authenticated:
         return redirect(url_for('admin.index'))
     return render_template('login.html', form=form)
@@ -37,7 +36,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logged out successfully!', 'success')
     return redirect(url_for('auth.login'))
 
 
