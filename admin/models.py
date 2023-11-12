@@ -22,10 +22,11 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     is_admin = db.Column(db.Boolean, default=False)
-    username = db.Column(db.String(150), unique=True, nullable=True)
+    first_name = db.Column(db.String(150), nullable=True)
+    last_name = db.Column(db.String(150), nullable=True)
     password = db.Column(db.String(150), nullable=True)
     email = db.Column(db.String(255), unique=True, nullable=True)
-    confirmed_at = db.Column(db.DateTime())
+    date_created = db.Column(db.DateTime())
     password_hash = db.Column(db.String(128))
     active = db.Column(db.Boolean())
     authenticated = db.Column(db.Boolean(), default=False)

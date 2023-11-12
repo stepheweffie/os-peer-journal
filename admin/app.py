@@ -59,11 +59,12 @@ def create_database(app):
     with app.app_context():
         Migrate(app, db)
         db.create_all()
+        # Marshmallow must come after db.create_all()
         ma.init_app(app)
         # Check if the admin user already exists
         admin = User.query.filter_by(email='admin@admin.com').first()
         if not admin:
-            admin = User(id='1', username='admin', email='admin@admin.com')
+            admin = User(id='1', email='admin@admin.com')
             admin.set_password('secret')  # Set the password using your set_password method
             admin.is_admin = True  # Set the admin flag to True
             # Create the admin user
