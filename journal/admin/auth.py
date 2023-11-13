@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, Blueprint, request
+from flask import render_template, redirect, url_for, Blueprint, request, jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, Email
@@ -48,10 +48,3 @@ def users():
     return redirect(url_for('auth.login'))
 
 
-@auth.route("/api/papers")
-def papers():
-    if current_user.is_authenticated:
-        all_papers = User.query.all().papers
-        result = users_schema.dump(all_papers)
-        return {'papers': result}
-    return redirect(url_for('auth.login'))

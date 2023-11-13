@@ -9,6 +9,10 @@ from config import UPLOAD_FOLDER
 import os
 from submissions.app import PublishedPapers
 import datetime
+from flask_bootstrap import Bootstrap5
+from forms import UploadForm
+from flask_wtf.csrf import CSRFProtect
+
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
@@ -21,9 +25,13 @@ def load_user(user_id):
 class AdminIndex(AdminIndexView):
     @expose('/')
     def index(self):
+        form = UploadForm()
+        papers = ['paper1', 'paper2', 'paper3']
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
-        return self.render('admin/index.html')
+        if not current_user.is_admin:
+            return self.render('admin/index.html', form=form, papers=papers)
+        return self.render('admin/admin_index.html', form=form, papers=papers)
 
 
 class UserModelView(ModelView):
@@ -36,6 +44,8 @@ class UserModelView(ModelView):
 def create_app(config_filename):
     app = Flask(__name__, instance_relative_config=True)
     # Absolute path to config.py
+    Bootstrap5(app)
+    CSRFProtect(app)
     app.config.from_pyfile(config_filename)
     salt = os.urandom(16).hex()
     app.config['SECURITY_PASSWORD_SALT'] = salt
@@ -44,7 +54,7 @@ def create_app(config_filename):
     login_manager.init_app(app)
     app.config['SESSION_TYPE'] = 'filesystem'
     bcrypt.init_app(app)
-    admin = Admin(app, name='Admin', template_mode='bootstrap4', index_view=AdminIndex())
+    admin = Admin(app, name='Admin', template_mode='bootstrap3', index_view=AdminIndex())
     admin.add_view(UserModelView(User, db.session))
     admin.add_view(FileAdmin(os.path.join(os.path.dirname(__file__), UPLOAD_FOLDER), name='Uploaded Papers'))
     admin.add_view(ModelView(PublishedPapers, db.session))

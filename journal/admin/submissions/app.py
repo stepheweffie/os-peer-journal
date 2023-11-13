@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Api
 import logging
+from flask_marshmallow import Marshmallow, Schema
 
 
-api = Api()
 UPLOAD_FOLDER = 'papers'  # change this to your desired upload folder
 ALLOWED_EXTENSIONS = {'pdf', 'ipynb'}
 db = SQLAlchemy()
+ma = Marshmallow()
 
 
 class PublishedPapers(db.Model):
@@ -15,12 +15,27 @@ class PublishedPapers(db.Model):
     __bind_key__ = 'publishedpapers'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True, nullable=False)
-    abstract = db.Column(db.Text, nullable=False)
     authors = db.Column(db.String(200), nullable=False)
-    filepath = db.Column(db.String(200), nullable=False)  # Path to where the file is saved
-    filename = db.Column(db.String(200), nullable=False)  # Name of the file
-    date = db.Column(db.String(200), nullable=False)  # Date of publication
+    abstract = db.Column(db.Text, nullable=False)
     file = db.Column(db.LargeBinary, nullable=False)  # The actual file
+    filepath = db.Column(db.String(200), nullable=True)  # Path to where the file is saved
+    filename = db.Column(db.String(200), nullable=True)  # Name of the file
+    reviewed = db.Column(db.Boolean, default=False, nullable=True)  # Whether the paper has been reviewed or not
+    reviewed_by = db.Column(db.String(200), nullable=True)  # The reviewer's name
+    reviewed_date = db.Column(db.String(200), nullable=True)  # The date of review
+    review_data = db.Column(db.Text, nullable=True)  # The review data
+    pub_date = db.Column(db.String(200), nullable=True)  # Date of publication
+    published_by = db.Column(db.String(200), nullable=True)  # The publisher's name
+    published = db.Column(db.Boolean, default=False, nullable=True)  # Whether the paper has been published or not
+
+
+class ReviewPaperSchema(Schema):
+    class Meta:
+        fields = ('title', 'authors', 'abstract', 'reviewed', 'reviewed_by', 'reviewed_date', 'review_data', 'filename')
+
+
+paper_schema = ReviewPaperSchema()
+papers_schema = ReviewPaperSchema(many=True)
 
 
 def create_app():
@@ -32,17 +47,16 @@ def create_app():
     app.config['SQLALCHEMY_BINDS'] = {
         'publishedpapers': 'sqlite:///publishedpapers.db',
     }
-
     db.init_app(app)
-    api.init_app(app)
+    ma.init_app(app)
 
     try:
         with app.app_context():
             import routes
+            # db.drop_all()
             db.create_all()
     except Exception as e:
         logging.error(f"Error during app initialization: {str(e)}")
-
     return app
 
 
