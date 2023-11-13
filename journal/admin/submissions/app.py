@@ -2,7 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import logging
 from flask_marshmallow import Marshmallow, Schema
-
+import os
+import os.path as op
+from flask_wtf.csrf import CSRFProtect
 
 UPLOAD_FOLDER = 'papers'  # change this to your desired upload folder
 ALLOWED_EXTENSIONS = {'pdf', 'ipynb'}
@@ -40,6 +42,7 @@ papers_schema = ReviewPaperSchema(many=True)
 
 def create_app():
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'secret_key'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///publishedpapers.db'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -47,6 +50,7 @@ def create_app():
     app.config['SQLALCHEMY_BINDS'] = {
         'publishedpapers': 'sqlite:///publishedpapers.db',
     }
+    CSRFProtect(app)
     db.init_app(app)
     ma.init_app(app)
 
@@ -61,6 +65,11 @@ def create_app():
 
 
 if __name__ == '__main__':
+    file_path = op.join(op.dirname(__file__), 'papers')
+    try:
+        os.mkdir(file_path)
+    except OSError:
+        pass
     app = create_app()
     app.run()
 
