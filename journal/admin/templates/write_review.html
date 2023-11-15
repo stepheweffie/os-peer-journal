@@ -1,0 +1,58 @@
+{% extends 'admin/model/create.html' %}
+
+{% block body %}
+
+{{ super() }}
+<script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+            console.log( editor );
+    } )
+    .catch( error => {
+            console.error( error );
+    } );
+
+// Function to populate the select field with file options
+    function populateSelectField() {
+        const selectField = document.getElementById('filename');
+        // Add the default option if it doesn't exist
+        if (!selectField.querySelector('option[value=""]')) {
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select A Paper';
+            selectField.appendChild(defaultOption);
+        }
+        // Fetch file paths and directory contents from the server
+        fetch('/admin/submissions')
+            .then(response => response.json())
+            .then(data => {
+                // Clear any existing options
+                selectField.innerHTML = '';
+
+                // Extract and populate the select field with filenames only
+                data.files.forEach(filePath => {
+                    // Extract the filename from the full filepath
+                    const filename = filePath.split('/').pop();
+
+                    // Create and add an option with just the filename
+                    const option = document.createElement('option');
+                    option.value = filename;
+                    option.textContent = filename;
+                    selectField.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching file paths:', error);
+            });
+    }
+
+    // Call the populateSelectField function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        populateSelectField();});
+
+</script>
+
+
+{% endblock %}

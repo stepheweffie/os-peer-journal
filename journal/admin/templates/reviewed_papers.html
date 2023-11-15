@@ -1,0 +1,7 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ name }} was accessed using {{ request.method }} request.
+
+  <br>
+  <a href="{{ url_for('admin.index') }}">Return</a>
+{% endblock %}
