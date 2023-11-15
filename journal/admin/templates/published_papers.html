@@ -1,0 +1,23 @@
+{% extends 'admin/master.html' %}
+{% block main_menu %}
+{% endblock %}
+{% block body %}
+{{ name }} was accessed using {{ request.method }} request.
+
+  <br>
+{% if files %}
+<h3>Your Published Submissions:</h3>
+  <ul>
+    {% for file in files %}
+    <h4><li>{{ file|extract_filename }}</li></h4>
+    {% endfor %}
+  </ul>
+{% else %}
+<h3><p>You have not been published yet.</p></h3>
+{% endif %}
+
+<br>
+
+  <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
+
+{% endblock %}
