@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 import uuid
 from flask_security import SQLAlchemyUserDatastore
 from flask_marshmallow import Marshmallow, Schema
-
+import datetime
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 ma = Marshmallow()
@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     verified = db.Column(db.Boolean(), default=False)
     fs_uniquifier = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
+    papers = db.relationship('Paper', backref='users', lazy=True)
     roles = db.relationship('Role',
                             secondary='roles_users',
                             backref=db.backref('users',
@@ -70,7 +71,7 @@ class User(db.Model, UserMixin):
             'last_name': self.last_name,
             'email': self.email,
             'authenticated': self.authenticated,
-            # 'papers': self.papers,
+            'papers': self.papers,
             'date_created': self.date_created
         }
 
@@ -98,6 +99,19 @@ class User(db.Model, UserMixin):
     @property
     def is_anonymous(self):
         return False
+
+
+class Paper(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    authors = db.Column(db.String(255), nullable=False)
+    abstract = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
+    file = db.Column(db.String(255), nullable=False)
+    under_review = db.Column(db.Boolean, default=True)
+    reviewer = db.Column(db.String(255), nullable=True)
+    published = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
 class UserSchema(Schema):

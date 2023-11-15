@@ -3,15 +3,16 @@ from flask_admin.actions import action
 from forms import UploadForm, CKTextAreaWidget
 from flask.views import MethodView
 from flask_admin.contrib.sqla import ModelView
-from flask import redirect, url_for, request, jsonify
+from flask import redirect, url_for, request, jsonify, flash
 from flask_login import current_user
 from flask_admin import AdminIndexView, expose_plugview, expose
 import os
 import datetime
-from models import db
+from models import db, Paper
 from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
+from file_utils import copy_papers
 
 
 def extract_filename(path):
@@ -24,19 +25,39 @@ jinja_env.filters['extract_filename'] = extract_filename
 
 
 directory_path = 'submissions/papers/uploads'  # Replace with your actual directory path
-uploaded_files = []
+submitted_files = []
 try:
     for root, _, filenames in os.walk(directory_path):
         for filename in filenames:
-            uploaded_files.append(os.path.join(root, filename))
+            submitted_files.append(os.path.join(root, filename))
 except OSError as e:
     jsonify(error=str(e))
 
 
 class AdminIndex(AdminIndexView):
-    @expose('/')
+    @expose('/', methods=['GET', 'POST'])
     def index(self):
         form = UploadForm()
+        if request.method == 'POST':
+            if 'file' in request.files:
+                file = request.files['file']
+                paper = Paper()
+                if file.filename:
+                    dir_path = 'submissions/papers/uploads'
+                    file.save(os.path.join(dir_path, file.filename))
+                    paper.file = file.filename
+                    paper.authors = request.form['authors']
+                if form.validate():
+                    paper.title = request.form['title']
+                    paper.abstract = request.form['abstract']
+                    paper.timestamp = datetime.datetime.now()
+                    paper.user_id = current_user.id
+                    db.session.add(paper)
+                    db.session.commit()
+                    copy_papers(paper.file)
+                    flash('Your paper has been submitted successfully!', 'success')
+                    return redirect('/admin/submitted_papers')
+
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
@@ -45,8 +66,12 @@ class AdminIndex(AdminIndexView):
 
     @expose_plugview('/submitted_papers')
     class SubmittedPapers(MethodView):
-        def __init__(self, files=uploaded_files):
-            self.files = files  # Store the list of files as an instance variable
+        def __init__(self, files=None):
+            # Check if current_user is not None and has the papers attribute
+            if current_user and hasattr(current_user, 'papers'):
+                self.files = current_user.papers
+            else:
+                self.files = []
 
         def get(self, cls):
             return cls.render('submitted_papers.html', request=request, name="GET Your Papers", files=self.files)
@@ -56,30 +81,42 @@ class AdminIndex(AdminIndexView):
 
     @expose_plugview('/reviewed_papers')
     class Reviews(MethodView):
+        def __init__(self, files=None):
+            self.files = Paper.query.filter_by(reviewer=current_user.email).all()
+
         def get(self, cls):
-            return cls.render('reviewed_papers.html', request=request, name="GET Review")
+            return cls.render('reviewed_papers.html', request=request, name="GET Review", files=self.files)
 
         def post(self, cls):
-            return cls.render('reviewed_papers.html', request=request, name="POST Review")
+            return cls.render('reviewed_papers.html', request=request, name="POST Review", files=self.files)
 
     @expose_plugview('/published_papers')
     class Published(MethodView):
+        def __init__(self, files=None):
+            # Check if current_user is not None and has the papers attribute
+            if current_user and hasattr(current_user, 'papers'):
+                papers = current_user.papers
+                self.files = [p for p in papers if p.published]
+            else:
+                self.files = []
+
         def get(self, cls):
-            return cls.render('published_papers.html', request=request, name="GET Published")
+            return cls.render('published_papers.html', request=request, name="GET Published", files=self.files)
 
-    @expose('/submissions')
-    def get_submissions(self):
-        # Return the list of current sumbissions as JSON data
-        return jsonify(files=uploaded_files)
+    @expose('/review_submissions')
+    def get_review_submissions(self):
+        # Return the list of current submissions for review as JSON data
+        files = Paper.query.filter(Paper.user_id != current_user.id).all()
+        return jsonify(files=files)
 
-    @expose('/papers')
-    def get_all_papers(self):
+    @expose('/all_papers')
+    def get_all_papers_ever(self):
         # Return the list of all papers as JSON data
-        files = []
+        files = Paper.query.all()
         return jsonify(files=files)
 
     @expose('/logout')
-    def logout_view(self):
+    def logout_user(self):
         return redirect(url_for('auth.logout'))
 
 

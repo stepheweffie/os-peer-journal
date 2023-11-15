@@ -2,7 +2,7 @@ from flask_admin.form import BaseForm
 from flask_admin.form.upload import FileUploadField
 from wtforms import TextAreaField
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.widgets import TextArea
 from wtforms.validators import InputRequired, Length, Email
 
@@ -14,13 +14,12 @@ class LoginForm(FlaskForm):
 
 
 class UploadForm(BaseForm):
-    upload = FileUploadField('Paper Submission Upload', namegen='', allowed_extensions=['pdf', 'ipynb'],
-                             base_path='submissions/papers', allow_overwrite=True)
+    title = StringField('Paper Title', validators=[InputRequired(), Length(min=4, max=50)])
+    abstract = TextAreaField('Abstract', validators=[InputRequired(), Length(min=4, max=500)])
+    authors = StringField('Authors', validators=[InputRequired(), Length(min=4, max=50)])
+    file = FileUploadField('Paper Submission Upload', namegen='', allowed_extensions=['pdf', 'ipynb'],
+                           base_path='submissions/papers/uploads', allow_overwrite=True)
     submit = SubmitField('Submit')
-
-
-class PaperSelectForm(FlaskForm):
-    filename = SelectField('Choose Paper', choices=[('option1', 'Option 1'), ('option2', 'Option 2')])
 
 
 class CKTextAreaWidget(TextArea):
