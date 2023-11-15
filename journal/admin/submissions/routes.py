@@ -3,16 +3,14 @@ from app import db, PublishedPapers
 from flask import current_app as app
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, TextAreaField, SubmitField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import datetime
-import os
+from schemas import published_papers_schema, submitted_papers_schema, reviewed_papers_schema
 
 
 class PublishPaperForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    abstract = TextAreaField('Abstract', validators=[DataRequired()])
-    authors = StringField('Authors', validators=[DataRequired()])
     file = FileField('File', validators=[FileRequired()])
     submit = SubmitField('Submit')
 
@@ -29,9 +27,7 @@ def publish_paper():
         if form.validate_on_submit():
             title = request.form['title']
             paper = PublishedPapers.query.filter_by(title=title).first()
-            paper.abstract = request.form['abstract']
-            paper.authors = request.form['authors']
-            paper.file = request.files['file'].read()
+            paper.file = request.files['file']
             paper.published = True
             paper.pub_date = datetime.datetime.now()
             db.session.add(paper)
@@ -48,11 +44,22 @@ def success_page():
     return success
 
 
-@app.route("/unreviewed_papers")
-def unreviewed_papers():
-    pdf_papers = os.listdir('papers/pdf')
-    ipynb_papers = os.listdir('papers/notebooks')
-    titles = pdf_papers + ipynb_papers
-    return {"unreviewed_papers": titles}
+@app.route("/submitted_papers")
+def submitted_papers():
+    all_papers = PublishedPapers.query.filter_by(reviewed=False).all()
+    result = submitted_papers_schema.dump(all_papers)
+    return {'submitted_papers': result}
 
 
+@app.route("/published_papers")
+def published_papers():
+    all_papers = PublishedPapers.query.filter_by(published=True).all()
+    result = published_papers_schema.dump(all_papers)
+    return {'published_papers': result}
+
+
+@app.route("/reviewed_papers")
+def submitted_papers():
+    all_papers = PublishedPapers.query.filter_by(reviewed=True).all()
+    result = reviewed_papers_schema.dump(all_papers)
+    return {'reviewed_papers': result}

@@ -10,21 +10,36 @@ class ReviewedPaperSchema(Schema):
                   'reviewed_by',
                   'reviewed_date',
                   'review_data',
-                  'filename')
+                  )
 
 
 class SubmittedPaperSchema(Schema):
     class Meta:
-        fields = ('title',
+        fields = ('id',
+                  'title',
                   'authors',
                   'abstract',
-                  'file',
-                  'filepath',
-                  'filename')
+                  )
+
+
+class PublisheddPaperSchema(Schema):
+    class Meta:
+        fields = ('id',
+                  'title',
+                  'authors',
+                  'abstract',
+                  'reviewed',
+                  'reviewed_by',
+                  'reviewed_date',
+                  'review_data',
+                  'pub_date',
+                  'published',
+                  'published_by',
+                  )
 
 
 reviewed_paper_schema = ReviewedPaperSchema()
 reviewed_papers_schema = ReviewedPaperSchema(many=True)
 submitted_paper_schema = SubmittedPaperSchema()
 submitted_papers_schema = SubmittedPaperSchema(many=True)
-
+published_papers_schema = PublisheddPaperSchema(many=True)

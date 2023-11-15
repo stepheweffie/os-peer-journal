@@ -41,7 +41,7 @@ class AdminIndex(AdminIndexView):
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
             return self.render('admin/index.html', form=form)
-        return self.render('admin/index.html', form=form)
+        return self.render('admin/admin_index.html', form=form)
 
     @expose_plugview('/submitted_papers')
     class SubmittedPapers(MethodView):
@@ -49,31 +49,34 @@ class AdminIndex(AdminIndexView):
             self.files = files  # Store the list of files as an instance variable
 
         def get(self, cls):
-            return cls.render('submitted_papers.html', request=request, name="GET Paper", files=self.files)
+            return cls.render('submitted_papers.html', request=request, name="GET Your Papers", files=self.files)
 
         def post(self, cls):
-            return cls.render('submitted_papers.html', request=request, name="POST Paper", files=self.files)
+            return cls.render('submitted_papers.html', request=request, name="POST Your Papers", files=self.files)
 
     @expose_plugview('/reviewed_papers')
     class Reviews(MethodView):
         def get(self, cls):
-            return cls.render('reviewed_papers.html', request=request, name="GET Reviews")
+            return cls.render('reviewed_papers.html', request=request, name="GET Review")
 
         def post(self, cls):
             return cls.render('reviewed_papers.html', request=request, name="POST Review")
 
     @expose_plugview('/published_papers')
-    class Reviews(MethodView):
+    class Published(MethodView):
         def get(self, cls):
-            return cls.render('published_papers.html', request=request, name="GET Reviews")
-
-        def post(self, cls):
-            return cls.render('published_papers.html', request=request, name="POST Review")
+            return cls.render('published_papers.html', request=request, name="GET Published")
 
     @expose('/submissions')
     def get_submissions(self):
-        # Return the list of files as JSON data
+        # Return the list of current sumbissions as JSON data
         return jsonify(files=uploaded_files)
+
+    @expose('/papers')
+    def get_all_papers(self):
+        # Return the list of all papers as JSON data
+        files = []
+        return jsonify(files=files)
 
     @expose('/logout')
     def logout_view(self):
