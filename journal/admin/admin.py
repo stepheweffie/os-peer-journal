@@ -41,32 +41,31 @@ class AdminIndex(AdminIndexView):
         form = UploadForm()
         if request.method == 'POST':
             upload = request.files.get('file')
-            if form.validate():
-                form.process(request.form)
-                if upload is None or upload.filename == '':
-                    flash('No selected file', 'danger')
-                    return redirect('/admin')
 
-                if form.file.is_file_allowed(upload):
-                    if upload is not None:
-                        form.timestamp = form.timestamp
+            form.process(request.form)
+            if upload is None or upload.filename == '':
+                flash('No selected file', 'danger')
+                return redirect('/admin')
 
-                        upload.save(os.path.join(directory_path, upload.filename))
-                        paper = Paper(user=current_user,
-                                      title=form.title.data,
-                                      authors=form.authors.data,
-                                      abstract=form.abstract.data,
-                                      timestamp=form.timestamp,
-                                      under_review=False)
-                        db.session.add(paper)
-                        db.session.commit()
-                        current_user.papers.append(paper)
-                        copy_papers(paper.file)
-                        flash('Your paper has been submitted successfully!', 'success')
-                        return redirect('/admin/submitted_papers')
-                flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
-            flash('Form validation error. Please check your form and try again.', 'danger')
-            return redirect('/admin')
+            if form.file.is_file_allowed(upload):
+                if upload is not None:
+                    print(upload.filename)
+                    paper = Paper(user=current_user,
+                                  title=form.title.data,
+                                  authors=form.authors.data,
+                                  abstract=form.abstract.data,
+                                  timestamp=form.timestamp,
+                                  under_review=False)
+                    db.session.add(paper)
+                    db.session.commit()
+                    # current_user.papers.append(paper)
+                    # copy_papers(upload)
+                    flash('Your paper has been submitted successfully!', 'success')
+                    return redirect('/admin/submitted_papers')
+
+            flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
+        # flash('Form validation error. Please check your form and try again.', 'danger')
+
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
