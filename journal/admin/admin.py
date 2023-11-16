@@ -40,31 +40,26 @@ class AdminIndex(AdminIndexView):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
         if request.method == 'POST':
-            upload = request.files.get('file')
-
             form.process(request.form)
+            upload = request.files['file']
+            print(upload)
+
             if upload is None or upload.filename == '':
                 flash('No selected file', 'danger')
                 return redirect('/admin')
-
-            if form.file.is_file_allowed(upload):
-                if upload is not None:
-                    print(upload.filename)
-                    paper = Paper(user=current_user,
-                                  title=form.title.data,
-                                  authors=form.authors.data,
-                                  abstract=form.abstract.data,
-                                  timestamp=form.timestamp,
-                                  under_review=False)
-                    db.session.add(paper)
-                    db.session.commit()
-                    # current_user.papers.append(paper)
-                    # copy_papers(upload)
-                    flash('Your paper has been submitted successfully!', 'success')
-                    return redirect('/admin/submitted_papers')
-
-            flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
-        # flash('Form validation error. Please check your form and try again.', 'danger')
+            paper = Paper(
+                          title=form.title.data,
+                          authors=form.authors.data,
+                          abstract=form.abstract.data,
+                          timestamp=form.timestamp,
+                          file=upload.filename,
+                          under_review=False)
+            db.session.add(paper)
+            db.session.commit()
+            # current_user.papers.append(paper)
+            # copy_papers(upload)
+            flash('Your paper has been submitted successfully!', 'success')
+            return redirect('/admin/submitted_papers')
 
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
