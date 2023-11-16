@@ -3,13 +3,14 @@ from flask_login import LoginManager
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_migrate import Migrate
-from models import db, User, bcrypt, ma
+from models import db, User, bcrypt, ma, Paper
 from config import UPLOAD_FOLDER
 import os
 import datetime
 from flask_bootstrap import Bootstrap5
 from flask_wtf.csrf import CSRFProtect
-from admin import AdminIndex, UserModelView, PublishedPapersModelView, ReviewModelView, extract_filename
+from admin import AdminIndex, UserModelView, PublishedPapersModelView, ReviewModelView, extract_filename, \
+    SubmissionsModelView
 from submissions.app import PublishedPapers, Review
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -41,6 +42,7 @@ def create_app(config_filename):
     admin.add_view(FileAdmin(os.path.join(os.path.dirname(__file__), UPLOAD_FOLDER), name='Uploaded Papers'))
     admin.add_view(PublishedPapersModelView(PublishedPapers, db.session))
     admin.add_view(ReviewModelView(Review, db.session))
+    admin.add_view(SubmissionsModelView(Paper, db.session, name='Submissions'))
     from auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 

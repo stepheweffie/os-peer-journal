@@ -13,7 +13,6 @@ from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
 from file_utils import copy_papers
-import logging
 
 
 def extract_filename(path):
@@ -42,9 +41,7 @@ class AdminIndex(AdminIndexView):
         form = UploadForm()
         if request.method == 'POST':
             upload = request.files.get('file')
-            logging.info(f'Uploaded file: {upload.filename}')
-            print(form.data, form.errors, Paper.query.all(), upload)
-            if request.method == 'POST' and form.validate():
+            if form.validate():
                 form.process(request.form)
                 if upload is None or upload.filename == '':
                     flash('No selected file', 'danger')
@@ -52,8 +49,8 @@ class AdminIndex(AdminIndexView):
 
                 if form.file.is_file_allowed(upload):
                     if upload is not None:
-                        print(upload)
                         form.timestamp = form.timestamp
+
                         upload.save(os.path.join(directory_path, upload.filename))
                         paper = Paper(user=current_user,
                                       title=form.title.data,
@@ -68,6 +65,7 @@ class AdminIndex(AdminIndexView):
                         flash('Your paper has been submitted successfully!', 'success')
                         return redirect('/admin/submitted_papers')
                 flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
+            flash('Form validation error. Please check your form and try again.', 'danger')
             return redirect('/admin')
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
@@ -145,9 +143,9 @@ class UserModelView(ModelView):
 
 
 class PublishedPapersModelView(ModelView):
-    column_list = ('title', 'authors', 'reviewed', 'reviewed_by', 'review_date', 'filename', 'published', 'pub_date')
+    column_list = ('title', 'authors', 'reviewed_by', 'review_date', 'filename', 'published', 'pub_date')
     column_searchable_list = ('title', 'authors', 'reviewed_by', 'review_date', 'filename')
-    column_filters = ('title', 'authors', 'reviewed', 'reviewed_by', 'review_date',  'filename', 'published', 'pub_date')
+    column_filters = ('title', 'authors', 'reviewed_by', 'review_date',  'filename', 'published', 'pub_date')
     form_excluded_columns = ('file', 'filepath', 'published_by')
     can_create = False
     can_edit = True
@@ -203,3 +201,16 @@ class ReviewModelView(ModelView):
                    '</textarea></form>'
                    '</div>'),
     ]
+
+
+class SubmissionsModelView(ModelView):
+    can_create = False
+    can_edit = True
+    can_delete = False
+    can_export = True
+    page_size = 10
+    column_list = ('title', 'authors', 'timestamp', 'file', 'under_review', 'reviewer', 'published')
+    column_default_sort = ('timestamp', True)
+    column_searchable_list = ('title', 'authors', 'timestamp', 'file', 'reviewer')
+    column_filters = ('title', 'authors', 'timestamp', 'file', 'under_review', 'reviewer', 'published')
+    form_excluded_columns = ('file', 'filepath', 'published_by')
