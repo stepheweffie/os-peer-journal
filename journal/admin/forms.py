@@ -5,6 +5,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.widgets import TextArea
 from wtforms.validators import InputRequired, Length, Email
+from flask_login import current_user
+import datetime
 
 
 class LoginForm(FlaskForm):
@@ -19,6 +21,7 @@ class UploadForm(BaseForm):
     authors = StringField('Authors', validators=[InputRequired(), Length(min=4, max=50)])
     file = FileUploadField('Paper Submission Upload', namegen='', allowed_extensions=['pdf', 'ipynb'],
                            base_path='submissions/papers/uploads', allow_overwrite=True)
+    timestamp = datetime.datetime.now()
     submit = SubmitField('Submit')
 
 

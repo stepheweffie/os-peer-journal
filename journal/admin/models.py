@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     verified = db.Column(db.Boolean(), default=False)
     fs_uniquifier = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
-    papers = db.relationship('Paper', backref='users', lazy=True)
+    papers = db.relationship('Paper', back_populates='user')
     roles = db.relationship('Role',
                             secondary='roles_users',
                             backref=db.backref('users',
@@ -111,7 +111,8 @@ class Paper(db.Model):
     under_review = db.Column(db.Boolean, default=True)
     reviewer = db.Column(db.String(255), nullable=True)
     published = db.Column(db.Boolean, default=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User', back_populates='papers')
 
 
 class UserSchema(Schema):

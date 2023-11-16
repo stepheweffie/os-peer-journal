@@ -17,7 +17,7 @@
         const selectField = document.getElementById('filename');
 
         // Fetch file paths and directory contents from the server
-        fetch('/admin/submissions')
+        fetch('/admin/review_submissions')
             .then(response => response.json())
             .then(data => {
                 // Clear any existing options

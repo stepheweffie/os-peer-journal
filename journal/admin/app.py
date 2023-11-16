@@ -9,7 +9,7 @@ import os
 import datetime
 from flask_bootstrap import Bootstrap5
 from flask_wtf.csrf import CSRFProtect
-from admin import AdminIndex, UserModelView, PaperModelView, ReviewModelView, extract_filename
+from admin import AdminIndex, UserModelView, PublishedPapersModelView, ReviewModelView, extract_filename
 from submissions.app import PublishedPapers, Review
 
 login_manager = LoginManager()
@@ -40,7 +40,7 @@ def create_app(config_filename):
     admin = Admin(app, name='', template_mode='bootstrap3', index_view=AdminIndex())
     admin.add_view(UserModelView(User, db.session))
     admin.add_view(FileAdmin(os.path.join(os.path.dirname(__file__), UPLOAD_FOLDER), name='Uploaded Papers'))
-    admin.add_view(PaperModelView(PublishedPapers, db.session))
+    admin.add_view(PublishedPapersModelView(PublishedPapers, db.session))
     admin.add_view(ReviewModelView(Review, db.session))
     from auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
@@ -70,12 +70,11 @@ def create_database(app):
             admin.is_admin = True  # Set the admin flag to True
             admin.date_created = datetime.datetime.now()
             # Create the admin user
-            db.session.add(admin)
-            db.session.commit()
+            admin.save()
             print('Admin user created successfully.')
         if admin.is_admin is False:
             admin.is_admin = True
-            db.session.commit()
+            admin.save()
 
 
 def init_app():

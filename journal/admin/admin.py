@@ -37,27 +37,34 @@ except OSError as e:
 class AdminIndex(AdminIndexView):
     @expose('/', methods=['GET', 'POST'])
     def index(self):
+        # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
         if request.method == 'POST':
-            if 'file' in request.files:
-                file = request.files['file']
-                paper = Paper()
-                if file.filename:
-                    dir_path = 'submissions/papers/uploads'
-                    file.save(os.path.join(dir_path, file.filename))
-                    paper.file = file.filename
-                    paper.authors = request.form['authors']
-                if form.validate():
-                    paper.title = request.form['title']
-                    paper.abstract = request.form['abstract']
-                    paper.timestamp = datetime.datetime.now()
-                    paper.user_id = current_user.id
+            print(form.data, form.errors, request.form.deepcopy())
+        if request.method == 'POST' and form.validate():
+            form.process(request.form)
+            upload = request.files.get('file')
+            if upload is None or upload.filename == '':
+                flash('No selected file', 'danger')
+                return redirect('/admin')
+            if form.file.is_file_allowed(upload):
+                if upload is not None:
+                    form.timestamp = form.timestamp
+                    upload.save(os.path.join(directory_path, upload.filename))
+                    paper = Paper(user=current_user,
+                                  title=form.title.data,
+                                  authors=form.authors.data,
+                                  abstract=form.abstract.data,
+                                  timestamp=form.timestamp,
+                                  under_review=False)
                     db.session.add(paper)
                     db.session.commit()
+                    current_user.papers.append(paper)
                     copy_papers(paper.file)
                     flash('Your paper has been submitted successfully!', 'success')
                     return redirect('/admin/submitted_papers')
-
+            flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
+            return redirect('/admin')
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
@@ -109,7 +116,7 @@ class AdminIndex(AdminIndexView):
         files = Paper.query.filter(Paper.user_id != current_user.id).all()
         return jsonify(files=files)
 
-    @expose('/all_papers')
+    @expose('/all_papers_ever')
     def get_all_papers_ever(self):
         # Return the list of all papers as JSON data
         files = Paper.query.all()
@@ -133,7 +140,7 @@ class UserModelView(ModelView):
     column_editable_list = ('is_admin', 'first_name', 'last_name', 'email')
 
 
-class PaperModelView(ModelView):
+class PublishedPapersModelView(ModelView):
     column_list = ('title', 'authors', 'reviewed', 'reviewed_by', 'review_date', 'filename', 'published', 'pub_date')
     column_searchable_list = ('title', 'authors', 'reviewed_by', 'review_date', 'filename')
     column_filters = ('title', 'authors', 'reviewed', 'reviewed_by', 'review_date',  'filename', 'published', 'pub_date')
@@ -175,8 +182,8 @@ class ReviewModelView(ModelView):
     can_export = True
     column_list = ('title', 'authors', 'reviewed_by', 'review_date', 'fail')
     column_searchable_list = ('title', 'authors', 'reviewed_by', 'review_date')
-    column_filters = ('title', 'authors', 'reviewed_by', 'review_date')
-    form_excluded_columns = ('review_date', 'authors', 'title', 'reviewed_by')
+    column_filters = ('title', 'authors', 'reviewed_by', 'review_date', 'fail')
+    form_excluded_columns = ('review_date', 'authors', 'title', 'reviewed_by', 'fail')
     create_template = 'write_review.html'
     form_extra_fields = {
         'review': TextAreaField('Review', widget=CKTextAreaWidget())}
