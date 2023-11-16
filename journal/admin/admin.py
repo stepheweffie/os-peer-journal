@@ -42,8 +42,6 @@ class AdminIndex(AdminIndexView):
         if request.method == 'POST':
             form.process(request.form)
             upload = request.files['file']
-            print(upload)
-
             if upload is None or upload.filename == '':
                 flash('No selected file', 'danger')
                 return redirect('/admin')
@@ -56,8 +54,8 @@ class AdminIndex(AdminIndexView):
                           under_review=False)
             db.session.add(paper)
             db.session.commit()
-            # current_user.papers.append(paper)
-            # copy_papers(upload)
+            current_user.papers.append(paper)
+            upload.save(os.path.join(directory_path, upload.filename))
             flash('Your paper has been submitted successfully!', 'success')
             return redirect('/admin/submitted_papers')
 
