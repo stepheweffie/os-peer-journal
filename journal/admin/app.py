@@ -11,7 +11,6 @@ from flask_bootstrap import Bootstrap5
 from flask_wtf.csrf import CSRFProtect
 from admin import AdminIndex, UserModelView, PublishedPapersModelView, ReviewModelView, extract_filename
 from submissions.app import PublishedPapers, Review
-
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
@@ -19,7 +18,7 @@ login_manager.login_message_category = 'info'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return User.query.get(int(user_id))
 
 
 def create_app(config_filename):

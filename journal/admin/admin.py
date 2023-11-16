@@ -13,6 +13,7 @@ from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
 from file_utils import copy_papers
+import logging
 
 
 def extract_filename(path):
@@ -40,30 +41,33 @@ class AdminIndex(AdminIndexView):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
         if request.method == 'POST':
-            print(form.data, form.errors, request.form.deepcopy())
-        if request.method == 'POST' and form.validate():
-            form.process(request.form)
             upload = request.files.get('file')
-            if upload is None or upload.filename == '':
-                flash('No selected file', 'danger')
-                return redirect('/admin')
-            if form.file.is_file_allowed(upload):
-                if upload is not None:
-                    form.timestamp = form.timestamp
-                    upload.save(os.path.join(directory_path, upload.filename))
-                    paper = Paper(user=current_user,
-                                  title=form.title.data,
-                                  authors=form.authors.data,
-                                  abstract=form.abstract.data,
-                                  timestamp=form.timestamp,
-                                  under_review=False)
-                    db.session.add(paper)
-                    db.session.commit()
-                    current_user.papers.append(paper)
-                    copy_papers(paper.file)
-                    flash('Your paper has been submitted successfully!', 'success')
-                    return redirect('/admin/submitted_papers')
-            flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
+            logging.info(f'Uploaded file: {upload.filename}')
+            print(form.data, form.errors, Paper.query.all(), upload)
+            if request.method == 'POST' and form.validate():
+                form.process(request.form)
+                if upload is None or upload.filename == '':
+                    flash('No selected file', 'danger')
+                    return redirect('/admin')
+
+                if form.file.is_file_allowed(upload):
+                    if upload is not None:
+                        print(upload)
+                        form.timestamp = form.timestamp
+                        upload.save(os.path.join(directory_path, upload.filename))
+                        paper = Paper(user=current_user,
+                                      title=form.title.data,
+                                      authors=form.authors.data,
+                                      abstract=form.abstract.data,
+                                      timestamp=form.timestamp,
+                                      under_review=False)
+                        db.session.add(paper)
+                        db.session.commit()
+                        current_user.papers.append(paper)
+                        copy_papers(paper.file)
+                        flash('Your paper has been submitted successfully!', 'success')
+                        return redirect('/admin/submitted_papers')
+                flash('File type not allowed. Please upload a PDF or IPYNB file.', 'danger')
             return redirect('/admin')
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))

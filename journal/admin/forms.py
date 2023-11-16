@@ -5,8 +5,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.widgets import TextArea
 from wtforms.validators import InputRequired, Length, Email
-from flask_login import current_user
 import datetime
+import os
 
 
 class LoginForm(FlaskForm):
@@ -15,15 +15,23 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
+def custom_namegen(obj, file_data):
+    original_filename = file_data.filename
+    base, extension = os.path.splitext(original_filename)
+    base = base.replace('.', '_')
+    modified_filename = f'{base}{extension}'
+    return modified_filename
+
+
 class UploadForm(BaseForm):
     title = StringField('Paper Title', validators=[InputRequired(), Length(min=4, max=50)])
     abstract = TextAreaField('Abstract', validators=[InputRequired(), Length(min=4, max=500)])
     authors = StringField('Authors', validators=[InputRequired(), Length(min=4, max=50)])
-    file = FileUploadField('Paper Submission Upload', namegen='', allowed_extensions=['pdf', 'ipynb'],
+    file = FileUploadField('Paper Submission Upload', namegen=custom_namegen, allowed_extensions=['pdf', 'ipynb'],
                            base_path='submissions/papers/uploads', allow_overwrite=True)
     timestamp = datetime.datetime.now()
-    submit = SubmitField('Submit')
 
+    submit = SubmitField('Submit')
 
 class CKTextAreaWidget(TextArea):
     def __call__(self, field, **kwargs):
