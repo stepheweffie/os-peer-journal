@@ -14,7 +14,7 @@ from flask_admin.form import rules
 from jinja2 import Environment
 from file_utils import copy_papers
 
-
+# Might not need this extra env stuff now
 def extract_filename(path):
     return path.split('/')[-1]  # Split by '/' and get the last part
 
@@ -41,24 +41,26 @@ class AdminIndex(AdminIndexView):
         form = UploadForm()
         if request.method == 'POST':
             form.process(request.form)
-            upload = request.files['file']
-            if upload is None or upload.filename == '':
-                flash('No selected file', 'danger')
-                return redirect('/admin')
-            paper = Paper(
-                          title=form.title.data,
-                          authors=form.authors.data,
-                          abstract=form.abstract.data,
-                          timestamp=form.timestamp,
-                          file=upload.filename,
-                          under_review=False)
-            db.session.add(paper)
-            db.session.commit()
-            current_user.papers.append(paper)
-            upload.save(os.path.join(directory_path, upload.filename))
-            flash('Your paper has been submitted successfully!', 'success')
-            return redirect('/admin/submitted_papers')
+            if form.validate():
+                upload = request.files['file']
+                if upload is None or upload.filename == '':
+                    flash('No selected file', 'danger')
+                    return redirect('/admin')
+                paper = Paper(
+                              title=form.title.data,
+                              authors=form.authors.data,
+                              abstract=form.abstract.data,
+                              timestamp=form.timestamp,
+                              file=upload.filename,
+                              under_review=False)
 
+                paper.user_id = current_user.id
+                db.session.add(paper)
+                db.session.commit()
+                upload.save(os.path.join(directory_path, upload.filename))
+                flash('Your paper has been submitted successfully!', 'success')
+                return redirect('/admin/submitted_papers')
+            flash('Invalid form submission', 'danger')
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
@@ -201,8 +203,8 @@ class SubmissionsModelView(ModelView):
     can_delete = False
     can_export = True
     page_size = 10
-    column_list = ('title', 'authors', 'timestamp', 'file', 'under_review', 'reviewer', 'published')
+    column_list = ('title', 'authors', 'timestamp', 'file', 'under_review', 'reviewer', 'user_id', 'published')
     column_default_sort = ('timestamp', True)
-    column_searchable_list = ('title', 'authors', 'timestamp', 'file', 'reviewer')
-    column_filters = ('title', 'authors', 'timestamp', 'file', 'under_review', 'reviewer', 'published')
+    column_searchable_list = ('title', 'authors', 'timestamp', 'file', 'reviewer', 'user_id')
+    column_filters = ('title', 'authors', 'timestamp', 'file', 'under_review', 'reviewer', 'user_id', 'published')
     form_excluded_columns = ('file', 'filepath', 'published_by')
