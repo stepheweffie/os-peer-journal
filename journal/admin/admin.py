@@ -40,6 +40,7 @@ class AdminIndex(AdminIndexView):
     def index(self):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
+        csrf_token = generate_csrf()
         papers = Paper.query.filter(Paper.user_id != current_user.id).all()
         papers_data = [
             {"id": paper.id, "title": paper.title, "authors": paper.authors}
@@ -48,13 +49,14 @@ class AdminIndex(AdminIndexView):
         if request.method == 'POST':
             if 'review' in request.form:
                 form.process(request.form)
-                csrf_token = generate_csrf()
+                csrf_token = request.form.get('csrf_token')
                 title = request.form.get('title')
                 print(request.form.items())
                 if form.validate():
                     return redirect('/admin/write_review', csrf_token=csrf_token, title=title)
                 else:
                     flash('Invalid form submission', 'danger')
+
             form.process(request.form)
             if form.validate():
                 upload = request.files['file']
@@ -76,13 +78,12 @@ class AdminIndex(AdminIndexView):
                 upload.save(os.path.join(directory_path, upload.filename))
                 flash('Your paper has been submitted successfully!', 'success')
                 return redirect('/admin/submitted_papers')
-            flash('Invalid form submission', 'danger')
 
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
-            return self.render('admin/index.html', form=form, data=papers_data)
-        return self.render('admin/admin_index.html', form=form, data=papers_data)
+            return self.render('admin/index.html', form=form, data=papers_data, csrf_token=csrf_token)
+        return self.render('admin/admin_index.html', form=form, data=papers_data, csrf_token=csrf_token)
 
 
     @expose_plugview('/submitted_papers')
@@ -172,7 +173,6 @@ class AdminIndex(AdminIndexView):
             if form.validate_on_submit():
                 flash('Your review has been submitted successfully!', 'success')
                 return redirect(Review.post)
-            flash('Invalid form submission', 'danger')
         return self.render('user_write_review.html', form=form, paper=paper, title=title, csrf_token=csrf_token)
 
     @expose('/review_submissions')

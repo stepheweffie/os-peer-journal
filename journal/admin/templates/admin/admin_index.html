@@ -27,7 +27,6 @@
     <div class="row-fluid">
 <h2>Submit A Paper</h2>
     <form method="POST" enctype="multipart/form-data">
-               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <h4><label for="title">Title:</label></h4>
         <input class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" type="text" id="title" name="title" required>
         <br><br>
@@ -61,7 +60,6 @@
         {% endfor %}
     </select>
     <br><br>
-        <input type="hidden" name="csrf_token"  value="{{ csrf_token() }}">
     <button class="btn btn-primary" id="reviewButton" name="review" value="Review" style="width: 150px;">Review</button>
     <br><br>
 </div>
