@@ -12,6 +12,8 @@ from models import db, Paper, User
 from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
+import json
+from flask_wtf.csrf import generate_csrf
 
 # Might not need this extra env stuff now
 def extract_filename(path):
@@ -38,7 +40,21 @@ class AdminIndex(AdminIndexView):
     def index(self):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
+        papers = Paper.query.filter(Paper.user_id != current_user.id).all()
+        papers_data = [
+            {"id": paper.id, "title": paper.title, "authors": paper.authors}
+            for paper in papers
+        ]
         if request.method == 'POST':
+            if 'review' in request.form:
+                form.process(request.form)
+                csrf_token = generate_csrf()
+                title = request.form.get('title')
+                print(request.form.items())
+                if form.validate():
+                    return redirect('/admin/write_review', csrf_token=csrf_token, title=title)
+                else:
+                    flash('Invalid form submission', 'danger')
             form.process(request.form)
             if form.validate():
                 upload = request.files['file']
@@ -51,7 +67,8 @@ class AdminIndex(AdminIndexView):
                               abstract=form.abstract.data,
                               timestamp=form.timestamp,
                               file=upload.filename,
-                              under_review=False)
+                              under_review=False,
+                              user_id=current_user.id)
 
                 paper.user_id = current_user.id
                 db.session.add(paper)
@@ -60,11 +77,12 @@ class AdminIndex(AdminIndexView):
                 flash('Your paper has been submitted successfully!', 'success')
                 return redirect('/admin/submitted_papers')
             flash('Invalid form submission', 'danger')
+
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin:
-            return self.render('admin/index.html', form=form)
-        return self.render('admin/admin_index.html', form=form)
+            return self.render('admin/index.html', form=form, data=papers_data)
+        return self.render('admin/admin_index.html', form=form, data=papers_data)
 
 
     @expose_plugview('/submitted_papers')
@@ -136,24 +154,45 @@ class AdminIndex(AdminIndexView):
             return redirect('/admin')
         return self.render('settings.html', request=request, name="Settings", form=form)
 
-    @expose('/write_review')
+    @expose('/write_review', methods=['GET', 'POST'])
     def write_review(self):
         # handle the form here and save the review
+        csrf_token = request.form.get('csrf_token')
+        title = request.form.get('title')
+        print(csrf_token)
+        try:
+            paper_id = request.form.get('paper_id')
+            paper = Paper.query.get(paper_id)
+            paper = paper.title
+        except AttributeError:
+            paper = None
+
         form = ReviewForm()
         if request.method == 'POST':
             if form.validate_on_submit():
-
                 flash('Your review has been submitted successfully!', 'success')
                 return redirect(Review.post)
             flash('Invalid form submission', 'danger')
-        return self.render('user_write_review.html', form=ReviewForm())
+        return self.render('user_write_review.html', form=form, paper=paper, title=title, csrf_token=csrf_token)
 
     @expose('/review_submissions')
     def get_review_submissions(self):
         # Return the list of current submissions for review as JSON data
         files = Paper.query.filter(Paper.user_id != current_user.id).all()
-        files_data = [{"title": file.title, "authors": file.authors, "abstract": file.abstract} for file in files]
-        return jsonify(files=files_data)
+        data = {
+            "total": len(files),  # Total number of records
+            "totalNotFiltered": len(files),  # Total number of records without filtering
+            "rows": [
+                {
+                    "id": file.id,
+                    "title": file.title,
+                    "authors": file.authors
+                }
+                for file in files
+            ]
+        }
+        json_data = json.dumps(data)
+        return json_data
 
     @expose('/logout')
     def logout_user(self):

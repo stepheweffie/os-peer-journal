@@ -1,6 +1,10 @@
 {% extends 'admin/model/create.html' %}
 {% block body %}
 {{ super() }}
+<form method="POST">
+    <input type="hidden" name="csrf_token"  value="{{ csrf_token() }}">
+    <button class="btn btn-primary" type="submit" value="Submit" style="width: 150px;">Submit</button>
+</form>
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
