@@ -8,7 +8,7 @@
   <h3>Your Current Submissions:</h3>
   <ul>
     {% for file in files %}
-    <h4><li>{{ file|extract_filename }}</li></h4>
+    <h4><li>{{ file.title }}</li></h4>
     {% endfor %}
   </ul>
 {% else %}

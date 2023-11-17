@@ -12,7 +12,6 @@ from models import db, Paper
 from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
-from file_utils import copy_papers
 
 # Might not need this extra env stuff now
 def extract_filename(path):
@@ -112,18 +111,24 @@ class AdminIndex(AdminIndexView):
         files = Paper.query.filter(Paper.user_id != current_user.id).all()
         return jsonify(files=files)
 
-    @expose('/all_papers_ever')
-    def get_all_papers_ever(self):
-        # Return the list of all papers as JSON data
-        files = Paper.query.all()
-        return jsonify(files=files)
-
     @expose('/logout')
     def logout_user(self):
         return redirect(url_for('auth.logout'))
 
 
 class UserModelView(ModelView):
+    def on_model_change(self, form, model, is_created):
+        super().on_model_change(form, model, is_created)
+        model.email = form.email.data
+        model.first_name = form.first_name.data
+        model.last_name = form.last_name.data
+        model.is_admin = form.is_admin.data
+        model.date_created = datetime.datetime.now()
+        model.set_password(form.password.data)
+
+        if is_created:
+            model.save()
+
     column_list = ('first_name', 'last_name', 'email', 'date_created')
     column_searchable_list = ('first_name', 'last_name', 'email', 'date_created')
     column_filters = ('first_name', 'last_name', 'is_admin', 'email', 'verified')

@@ -33,6 +33,7 @@ class UploadForm(BaseForm):
 
     submit = SubmitField('Submit')
 
+
 class CKTextAreaWidget(TextArea):
     def __call__(self, field, **kwargs):
         # add WYSIWYG class to existing classes
