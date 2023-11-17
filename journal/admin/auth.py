@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, Blueprint, request
+from flask import render_template, redirect, url_for, Blueprint, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from models import User, users_schema
 from forms import LoginForm
@@ -41,3 +41,14 @@ def users():
     return redirect(url_for('auth.login'))
 
 
+@auth.route("/reset_password", methods=["GET", "POST"])
+def reset_password():
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        email = form['email']
+        user = User.get_one(email=email)
+        if user:
+            # user.send_reset_email()
+            print(form)
+        return redirect(url_for('auth.login'))
+    return render_template('reset_password.html', request=request, name="Reset Password")

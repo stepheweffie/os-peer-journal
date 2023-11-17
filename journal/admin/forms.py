@@ -2,7 +2,7 @@ from flask_admin.form import BaseForm
 from flask_admin.form.upload import FileUploadField
 from wtforms import TextAreaField
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, EmailField, URLField, SelectField
 from wtforms.widgets import TextArea
 from wtforms.validators import InputRequired, Length, Email
 import datetime
@@ -49,3 +49,14 @@ class CKTextAreaField(TextAreaField):
 class ReviewForm(FlaskForm):
     review = CKTextAreaField('Review', validators=[InputRequired(), Length(min=4, max=500)])
     submit = SubmitField('Submit')
+
+
+class SettingsForm(FlaskForm):
+    first_name = StringField('First Name', validators=[Length(min=4, max=50)])
+    last_name = StringField('Last Name', validators=[Length(min=4, max=50)])
+    email = EmailField('Email', validators=[Email(), Length(min=4, max=50)])
+    website = URLField('Your Website', validators=[Length(min=4, max=50)])
+    payment = SelectField('Payment', choices=[('paypal', 'PayPal'), ('venmo', 'Venmo'), ('cashapp', 'Cash App'),
+                                              ('bank', 'Bank Transfer')])
+    password = PasswordField('Password', validators=[Length(min=6, max=80)])
+    password_confirm = PasswordField('Confirm Password', validators=[Length(min=6, max=80)])

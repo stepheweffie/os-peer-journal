@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(150), nullable=True)
     password = db.Column(db.String(150), nullable=True)
     email = db.Column(db.String(255), unique=True, nullable=True)
+    website = db.Column(db.String(255), nullable=True)
     date_created = db.Column(db.DateTime())
     password_hash = db.Column(db.String(128))
     verified = db.Column(db.Boolean(), default=False)
@@ -43,7 +44,7 @@ class User(db.Model, UserMixin):
     def check_password(self, hashed_password):
         return bcrypt.check_password_hash(self.password_hash, hashed_password)
 
-    def reset_password(self, email, new_password):
+    def change_password(self, email, new_password):
         reset_user = self.get_one(email)
         if reset_user:
             self.set_password(new_password)
@@ -117,7 +118,7 @@ class Paper(db.Model):
 
 class UserSchema(Schema):
     class Meta:
-        fields = ('id', 'first_name', 'last_name', 'email', 'is_active', 'date_created')
+        fields = ('id', 'first_name', 'last_name', 'is_admin', 'email', 'website', 'verified', 'date_created')
 
 
 user_schema = UserSchema()

@@ -1,12 +1,80 @@
-{% extends 'admin/admin_index.html' %}
+{% extends 'admin/index.html' %}
 {% block brand %}
 <h5></h5>
 {% endblock %}
-{% block main_menu %}
-{% endblock %}
-{% block menu_links %}
-{% endblock %}
 {% block body %}
-{{ super() }}
+Settings Page
+<h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
+<br>
+<form method="POST" action="{{ url_for('admin.settings') }}">
+    <input type="hidden" name="csrf_token"  value="{{ csrf_token() }}">
+            <h4><label for="first_name">First Name:</label></h4>
+        <input class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" type="text" id="first_name"
+               name="first_name"><br>
+        <h4><label for="last_name">Last Name:</label></h4>
+        <input class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" type="text" id="last_name"
+               name="last_name"><br>
+        <h4><label for="email">Email</label></h4>
+        <input class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" type="email" id="email"
+               name="email"><br>
+        <h4><label for="payment">Payment Method</label></h4>
+        <select class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" id="payment" name="payment">
+            <option value="paypal">Paypal</option>
+            <option value="venmo">Venmo</option>
+            <option value="cashapp">CashApp</option>
+            <option value="bank">Bank Transfer</option>
+        </select><br><br>
+        <button class="btn btn-primary" type="submit" value="Submit" style="width: 150px;">Submit</button>
+</form><br><br>
+
+<h4><label>Password</label></h4>
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePasswordModal">
+    Change Password
+</button><br><br>
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <form method="POST" action="{{ url_for('admin.user_password') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="form-group">
+                        <label for="newpassword">New Password</label>
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmpassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" required>
+                    </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="submitPasswordChange">Save changes</button>
+                </div>
+                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Handle click event for the "Change Password" button
+        $("#submitPasswordChange").click(function () {
+            // Retrieve the new password and confirmation
+            var newPassword = $("#newPassword").val();
+            var confirmPassword = $("#confirmPassword").val();
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return;
+            }
+        });
+    });
+</script>
 {% endblock %}
-```

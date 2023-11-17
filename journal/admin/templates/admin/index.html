@@ -1,4 +1,7 @@
 {% extends 'admin/admin_index.html' %}
+{% block head %}
+{{ super() }}
+{% endblock %}
 {% block brand %}
 <h5></h5>
 {% endblock %}
@@ -22,8 +25,10 @@
 <button type="button" class="btn btn-lg btn-primary col-xs-12 col-sm-10 col-md-10 col-lg-2 col-xl-2"
         style="margin: 8px;">Published</button>
         </a>
+   <a href="http://127.0.0.1:5050/admin/settings">
 <button type="button" class="btn btn-lg btn-primary col-xs-12 col-sm-10 col-md-10 col-lg-2 col-xl-2"
         style="margin: 8px;">Settings</button>
+       </a>
 </div>
 {% endblock %}
 {% block body %}

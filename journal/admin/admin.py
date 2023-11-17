@@ -1,6 +1,6 @@
 from wtforms import TextAreaField
 from flask_admin.actions import action
-from forms import UploadForm, CKTextAreaWidget, ReviewForm
+from forms import UploadForm, CKTextAreaWidget, ReviewForm, SettingsForm
 from flask.views import MethodView
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, url_for, request, jsonify, flash
@@ -8,7 +8,7 @@ from flask_login import current_user
 from flask_admin import AdminIndexView, expose_plugview, expose
 import os
 import datetime
-from models import db, Paper
+from models import db, Paper, User
 from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
@@ -66,9 +66,6 @@ class AdminIndex(AdminIndexView):
             return self.render('admin/index.html', form=form)
         return self.render('admin/admin_index.html', form=form)
 
-    @expose('/write_review')
-    def write_review(self):
-        return self.render('user_write_review.html', form=ReviewForm())
 
     @expose_plugview('/submitted_papers')
     class SubmittedPapers(MethodView):
@@ -109,6 +106,47 @@ class AdminIndex(AdminIndexView):
         def get(self, cls):
             return cls.render('published_papers.html', request=request, name="GET Published", files=self.files)
 
+    @expose("/user_password", methods=["GET", "POST"])
+    def user_password(self):
+        form = request.form.to_dict()
+        if request.method == 'POST':
+            if len(form['newpassword']) < 6:
+                flash('Password must be at least 8 characters long!', 'danger')
+                return redirect('/admin')
+            user = User.get_one(email=current_user.email)
+            user.change_password(user.email, form['newpassword'])
+            user.save()
+            flash('Your password has been updated!', 'success')
+        return redirect('/admin')
+
+    @expose('/settings', methods=['GET', 'POST'])
+    def settings(self):
+        form = SettingsForm()
+        if request.method == 'POST':
+            if form.first_name.data:
+                current_user.first_name = form.first_name.data
+            if form.last_name.data:
+                current_user.last_name = form.last_name.data
+            if form.email.data:
+                current_user.email = form.email.data
+            if form.website.data:
+                current_user.website = form.website.data
+            db.session.commit()
+            flash('Your settings have been updated!', 'success')
+            return redirect('/admin')
+        return self.render('settings.html', request=request, name="Settings", form=form)
+
+    @expose('/write_review')
+    def write_review(self):
+        # handle the form here and save the review
+        form = ReviewForm()
+        if request.method == 'POST':
+            if form.validate_on_submit():
+
+                flash('Your review has been submitted successfully!', 'success')
+                return redirect(Review.post)
+            flash('Invalid form submission', 'danger')
+        return self.render('user_write_review.html', form=ReviewForm())
 
     @expose('/review_submissions')
     def get_review_submissions(self):
@@ -130,15 +168,17 @@ class UserModelView(ModelView):
         model.last_name = form.last_name.data
         model.is_admin = form.is_admin.data
         model.date_created = datetime.datetime.now()
-        model.set_password(form.password.data)
-
         if is_created:
+            model.set_password(form.password.data)
             model.save()
+        if form.password.data:
+            model.change_password(model.email, form.password.data)
+        model.save()
 
     column_list = ('first_name', 'last_name', 'email', 'date_created')
     column_searchable_list = ('first_name', 'last_name', 'email', 'date_created')
     column_filters = ('first_name', 'last_name', 'is_admin', 'email', 'verified')
-    form_excluded_columns = ('fs_uniquifier', 'password_hash')
+    form_excluded_columns = ('fs_uniquifier', 'password_hash', 'website', 'papers', 'date_created')
     can_create = True
     can_edit = True
     can_delete = True

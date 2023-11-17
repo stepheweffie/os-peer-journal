@@ -1,4 +1,7 @@
-{% extends 'admin/master.html' %}
+{% extends 'admin/index.html' %}
+{% block brand %}
+<h5></h5>
+{% endblock %}
 {% block main_menu %}
 {% endblock %}
 {% block body %}
@@ -11,7 +14,7 @@
   <h3>Reviewed By You:</h3>
   <ul>
     {% for file in files %}
-    <h4><li>{{ file|extract_filename }}</li></h4>
+    <h4><li>{{ file.title }}</li></h4>
     {% endfor %}
   </ul>
 {% else %}
