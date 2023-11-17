@@ -44,3 +44,8 @@ class CKTextAreaWidget(TextArea):
 
 class CKTextAreaField(TextAreaField):
     widget = CKTextAreaWidget()
+
+
+class ReviewForm(FlaskForm):
+    review = CKTextAreaField('Review', validators=[InputRequired(), Length(min=4, max=500)])
+    submit = SubmitField('Submit')

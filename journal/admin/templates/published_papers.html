@@ -3,7 +3,7 @@
 {% endblock %}
 {% block body %}
 {{ name }} was accessed using {{ request.method }} request.
-
+  <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
   <br>
 {% if files %}
 <h3>Your Published Submissions:</h3>
@@ -17,7 +17,4 @@
 {% endif %}
 
 <br>
-
-  <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
-
 {% endblock %}

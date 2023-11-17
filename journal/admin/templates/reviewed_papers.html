@@ -5,7 +5,8 @@
 {{ name }} was accessed using {{ request.method }} request.
 
   <br>
-
+<h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
+<h4><a href="{{ url_for('admin.write_review') }}">Write A Review</a></h4>
 {% if files %}
   <h3>Reviewed By You:</h3>
   <ul>
@@ -19,7 +20,4 @@
 {% endif %}
 
 <br>
-
-  <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
-
 {% endblock %}

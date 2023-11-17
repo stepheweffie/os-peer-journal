@@ -4,6 +4,7 @@
 {% block body %}
 {{ name }} was accessed using {{ request.method }} request.
   <br>
+<h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
 {% if files %}
   <h3>Your Current Submissions:</h3>
   <ul>
@@ -15,5 +16,5 @@
 <h3><p>You have no current submissions.</p></h3>
 {% endif %}
 <br>
-  <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
+
 {% endblock %}

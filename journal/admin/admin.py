@@ -1,6 +1,6 @@
 from wtforms import TextAreaField
 from flask_admin.actions import action
-from forms import UploadForm, CKTextAreaWidget
+from forms import UploadForm, CKTextAreaWidget, ReviewForm
 from flask.views import MethodView
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, url_for, request, jsonify, flash
@@ -66,6 +66,10 @@ class AdminIndex(AdminIndexView):
             return self.render('admin/index.html', form=form)
         return self.render('admin/admin_index.html', form=form)
 
+    @expose('/write_review')
+    def write_review(self):
+        return self.render('user_write_review.html', form=ReviewForm())
+
     @expose_plugview('/submitted_papers')
     class SubmittedPapers(MethodView):
         def __init__(self, files=None):
@@ -81,7 +85,7 @@ class AdminIndex(AdminIndexView):
         def post(self, cls):
             return cls.render('submitted_papers.html', request=request, name="POST Your Papers", files=self.files)
 
-    @expose_plugview('/reviewed_papers')
+    @expose_plugview('/reviews')
     class Reviews(MethodView):
         def __init__(self, files=None):
             self.files = Paper.query.filter_by(reviewer=current_user.email).all()
@@ -105,11 +109,13 @@ class AdminIndex(AdminIndexView):
         def get(self, cls):
             return cls.render('published_papers.html', request=request, name="GET Published", files=self.files)
 
+
     @expose('/review_submissions')
     def get_review_submissions(self):
         # Return the list of current submissions for review as JSON data
         files = Paper.query.filter(Paper.user_id != current_user.id).all()
-        return jsonify(files=files)
+        files_data = [{"title": file.title, "authors": file.authors, "abstract": file.abstract} for file in files]
+        return jsonify(files=files_data)
 
     @expose('/logout')
     def logout_user(self):
