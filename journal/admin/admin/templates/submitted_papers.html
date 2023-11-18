@@ -5,6 +5,9 @@
 {% block main_menu %}
 {% endblock %}
 {% block body %}
+<div class="container col-xs-12 col-sm-12 col-md-6 col-lg-12 col-xl-12" style="padding: 30px;">
+    <h1>Submitted Papers</h1>
+
 {{ name }} was accessed using {{ request.method }} request.
   <br>
 <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
@@ -21,3 +24,4 @@
 <br>
 
 {% endblock %}
+</div>

@@ -6,8 +6,8 @@
 {% block brand %}
 <h5></h5>
 {% endblock %}
-{% block main_menu %}
-{% endblock %}
+{% block page_body %}
+
 {% block menu_links %}
 <div class="container col-xs-12 col-sm-12 col-md-6 col-lg-12 col-xl-12" style="">
     <a href="http://127.0.0.1:5050/admin/logout">
@@ -32,8 +32,11 @@
        </a>
 </div>
 {% endblock %}
+
+
 {% block body %}
 {{ super() }}
+{% endblock %}
 {% endblock %}
 {% block tail_js %}
 {{ super() }}

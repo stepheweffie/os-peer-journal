@@ -9,7 +9,9 @@
 {{super ()}}
 {% endblock %}
 {% block body %}
-Settings Page
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding: 30px;">
+  <h1>Settings</h1>
+
 <h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
 <br>
 <form method="POST" action="{{ url_for('admin.settings') }}">
@@ -73,7 +75,7 @@ Settings Page
         </div>
     </div>
 </div>
-
+</div>
 </script>
 <script>
     $(document).ready(function () {
