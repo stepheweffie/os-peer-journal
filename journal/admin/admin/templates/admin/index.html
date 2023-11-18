@@ -32,20 +32,11 @@
        </a>
 </div>
 {% endblock %}
-{% with messages = get_flashed_messages() %}
-   {% if messages %}
-     <ul class="flashes">
-        {% for message in messages %}
-         <div class="message_flash">{{ message }}</div>
-        {% endfor %}
-    </ul>
-  {% endif %}
- {% endwith %}
-
 {% block body %}
 {{ super() }}
 {% endblock %}
 {% endblock %}
+
 {% block tail_js %}
 {{ super() }}
 {% endblock %}

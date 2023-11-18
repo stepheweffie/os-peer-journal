@@ -112,7 +112,8 @@ class AdminIndex(AdminIndexView):
                 paper = Paper.query.filter_by(title=title).first()
                 paper.under_review = True
                 paper.reviewer = current_user.email
-                paper.save()
+                db.session.add(paper)
+                db.session.commit()
                 reviewed = Review(
                                 title=title,
                                 authors=paper.authors,
@@ -174,13 +175,11 @@ class AdminIndex(AdminIndexView):
     @expose('/write_review', methods=['GET', 'POST'])
     def write_review(self):
         title = request.args.get('title')
-        # handle the form here and save the review
         form = ReviewForm()
         form.title.data = title
+        # handle the form here and save the review
         if request.method == 'POST':
-            if form.validate_on_submit():
-                return redirect('/admin/reviews')
-            flash('Please fill out all fields!', 'danger')
+            return redirect('/admin/reviews')
         return self.render('user_write_review.html', form=form, title=title)
 
     @expose('/review_submissions')

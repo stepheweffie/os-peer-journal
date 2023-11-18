@@ -47,7 +47,7 @@ class CKTextAreaField(TextAreaField):
 
 
 class ReviewForm(FlaskForm):
-    title = StringField('Paper Title', Length(min=4, max=200)])
+    title = StringField('Paper Title', validators=[InputRequired(), Length(min=4, max=500)])
     review = CKTextAreaField('Review', validators=[InputRequired(), Length(min=4, max=500)])
     submit = SubmitField('Submit')
 

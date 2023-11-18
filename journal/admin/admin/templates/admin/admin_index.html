@@ -46,7 +46,9 @@
 </nav>
 {% endblock %}
 
-{% with messages = get_flashed_messages() %}
+{% block body %}
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" style="padding: 30px;">
+    {% with messages = get_flashed_messages() %}
    {% if messages %}
      <ul class="flashes">
         {% for message in messages %}
@@ -55,10 +57,6 @@
     </ul>
   {% endif %}
  {% endwith %}
-
-{% block body %}
-
-<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" style="padding: 30px;">
     <h1>Contribute</h1>
     <div class="row-fluid">
     <h2>Submit A Paper</h2>
