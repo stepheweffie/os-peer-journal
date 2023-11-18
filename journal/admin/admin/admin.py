@@ -13,7 +13,6 @@ from submissions.app import Review
 from flask_admin.form import rules
 from jinja2 import Environment
 import json
-from flask_wtf.csrf import generate_csrf
 
 # Might not need this extra env stuff now
 def extract_filename(path):
@@ -51,6 +50,8 @@ class AdminIndex(AdminIndexView):
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
         if not current_user.is_admin and request.method == 'GET':
+
+            # TODO is_visible admin ModelViews
             return self.render('admin/index.html', form=form, data=papers_data)
         if current_user.is_admin and request.method == 'GET':
             return self.render('admin/admin_index.html', form=form, data=papers_data)
@@ -198,6 +199,9 @@ class AdminIndex(AdminIndexView):
 
 
 class UserModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
     def on_model_change(self, form, model, is_created):
         super().on_model_change(form, model, is_created)
         model.email = form.email.data
@@ -225,6 +229,8 @@ class UserModelView(ModelView):
 
 
 class PublishedPapersModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
     column_list = ('title', 'authors', 'reviewed_by', 'review_date', 'filename', 'published', 'pub_date')
     column_searchable_list = ('title', 'authors', 'reviewed_by', 'review_date', 'filename')
     column_filters = ('title', 'authors', 'reviewed_by', 'review_date',  'filename', 'published', 'pub_date')
@@ -238,6 +244,9 @@ class PublishedPapersModelView(ModelView):
 
 
 class ReviewModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
     @action('toggle_activation', 'Fail',
             'Sure you want to grade the paper?')
     def toggle_activation(self, titles):
@@ -286,6 +295,8 @@ class ReviewModelView(ModelView):
 
 
 class SubmissionsModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
     can_create = False
     can_edit = True
     can_delete = False
