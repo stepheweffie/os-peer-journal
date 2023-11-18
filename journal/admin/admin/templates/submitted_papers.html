@@ -1,0 +1,23 @@
+{% extends 'admin/index.html' %}
+{% block brand %}
+<h5></h5>
+{% endblock %}
+{% block main_menu %}
+{% endblock %}
+{% block body %}
+{{ name }} was accessed using {{ request.method }} request.
+  <br>
+<h4><a href="{{ url_for('admin.index') }}">Return</a></h4>
+{% if files %}
+  <h3>Your Current Submissions:</h3>
+  <ul>
+    {% for file in files %}
+    <h4><li>{{ file.title }}</li></h4>
+    {% endfor %}
+  </ul>
+{% else %}
+<h3><p>You have no current submissions.</p></h3>
+{% endif %}
+<br>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'admin/index.html' %}
+{% block brand %}
+<h5></h5>
+{% endblock %}
+{% block body %}
+<h2>Review for {{ paper }}</h2>
+
+<form class ="form-group" method="post" id="wysiwyg" action="/admin/reviews">
+<textarea class ="form-control" id="editor" name="review">
+</textarea>
+</form><br><br>
+
+<button type="submit" form="wysiwyg" class="btn btn-lg btn-primary">Submit</button>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+            console.log( editor );
+    } )
+    .catch( error => {
+            console.error( error );
+    } );
+    </script>
+
+{% endblock %}
