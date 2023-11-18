@@ -10,19 +10,35 @@
 {% block brand %}
 
 {% endblock %}
+{% block page_body %}
 
-{% block main_menu %}
-{% endblock %}
 {% block menu_links %}
-          <ul class="nav navbar-nav navbar-left" style="font-size: large;">
-              <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <a href="http://127.0.0.1:5050/admin/logout">Logout</a>
-                  <a href="http://127.0.0.1:5050/admin/user">Users</a>
-                  <a href="http://127.0.0.1:5050/admin/publishedpapers">Published Papers</a>
-                  <a href="http://127.0.0.1:5050/admin/paper_reviews">Reviews</a>
-                  <a href="http://127.0.0.1:5050/admin/submissions">Submissions</a>
-          </ul>
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="font-size: large;">
+                   <a href="http://127.0.0.1:5050/admin/logout">
+                    <button type="button" class="btn btn-lg btn-outline-info col-xs-12 col-sm-10 col-md-12 col-lg-2
+                    col-xl-2" style="margin: 8px;">Logout</button>
+                   </a>
+
+                  <a href="http://127.0.0.1:5050/admin/user" style="margin: 8px;">
+                      <button type="button" class="btn btn-lg btn-info col-xs-12 col-sm-10 col-md-12 col-lg-2
+                    col-xl-2" style="margin: 8px;">Users</button>
+                  </a>
+
+                  <a href="http://127.0.0.1:5050/admin/published_papers" style="margin: 8px;">
+                      <button type="button" class="btn btn-lg btn-info col-xs-12 col-sm-10 col-md-12 col-lg-2
+                    col-xl-2" style="margin: 8px;">Published Papers</button>
+                    </a>
+
+                  <a href="http://127.0.0.1:5050/admin/paper_reviews" style="margin: 8px;">
+                      <button type="button" class="btn btn-lg btn-info col-xs-12 col-sm-10 col-md-12 col-lg-2
+                    col-xl-2" style="margin: 8px;">Paper Reviews</button>
+                    </a>
+                  <a href="http://127.0.0.1:5050/admin/submissions" style="margin: 8px;">
+                      <button type="button" class="btn btn-lg btn-info col-xs-12 col-sm-10 col-md-12 col-lg-2
+                    col-xl-2" style="margin: 8px;">Submissions</button>
+                  </a>
 </div>
+
 {% endblock %}
 {% block body %}
 
@@ -101,6 +117,7 @@ document.getElementById('reviewButton').addEventListener('click', function() {
 
 </script>
 </div>
+{% endblock %}
 {% endblock %}
 {% endblock %}
 {% block tail_js %}
