@@ -1,5 +1,4 @@
 {% extends 'admin/master.html' %}
-
 {% block title %}Contribute{% endblock %}
 {% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -8,10 +7,14 @@
 {% endblock %}
 
 {% block brand %}
-
 {% endblock %}
 {% block page_body %}
-
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
 {% block menu_links %}
 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="font-size: large;">
                    <a href="http://127.0.0.1:5050/admin/logout">
@@ -38,7 +41,8 @@
                     col-xl-2" style="margin: 8px;">Submissions</button>
                   </a>
 </div>
-
+    </div>
+</nav>
 {% endblock %}
 {% block body %}
 
@@ -85,6 +89,7 @@
     <button class="btn btn-primary" id="reviewButton" name="review" value="Review" style="width: 150px;">Review</button>
     <br><br>
 </div>
+    </div>
 <script>
 
 document.getElementById('reviewButton').addEventListener('click', function() {
