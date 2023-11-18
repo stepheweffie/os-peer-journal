@@ -16,15 +16,22 @@
 <button type="submit" form="wysiwyg" class="btn btn-lg btn-primary">Submit</button>
 </div>
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
-<script>
-    ClassicEditor
-    .create( document.querySelector( '#editor' ) )
-    .then( editor => {
-            console.log( editor );
-    } )
-    .catch( error => {
-            console.error( error );
-    } );
-    </script>
 
+<script>
+    let editorInstance;
+
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            editorInstance = editor;
+            console.log(editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    document.getElementById('wysiwyg').addEventListener('submit', function() {
+        document.querySelector('#editor').value = editorInstance.getData();
+    });
+</script>
 {% endblock %}

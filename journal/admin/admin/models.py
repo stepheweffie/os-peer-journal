@@ -109,7 +109,7 @@ class Paper(db.Model):
     abstract = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
     file = db.Column(db.String(255), nullable=False)
-    under_review = db.Column(db.Boolean, default=True)
+    under_review = db.Column(db.Boolean, default=False)
     reviewer = db.Column(db.String(255), nullable=True)
     published = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

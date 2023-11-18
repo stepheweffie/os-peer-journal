@@ -46,7 +46,15 @@
 </nav>
 {% endblock %}
 
-
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+     <ul class="flashes">
+        {% for message in messages %}
+         <div class="message_flash">{{ message }}</div>
+        {% endfor %}
+    </ul>
+  {% endif %}
+ {% endwith %}
 
 {% block body %}
 
@@ -62,7 +70,9 @@
         <br><br>
 
         <h4><label for="abstract">Abstract:</label></h4>
-        <textarea class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="abstract" name="abstract" required></textarea>
+        <textarea class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" rows="10" cols="50"
+                  style="font-size: 16px;"
+                  id="abstract" name="abstract" required></textarea>
         <br><br>
 
         <h4><label for="authors">Authors:</label></h4>

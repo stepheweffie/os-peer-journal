@@ -155,19 +155,30 @@ class AdminIndex(AdminIndexView):
     def write_review(self):
         title = request.args.get('title')
         # handle the form here and save the review
-        try:
-            paper_id = request.form.get('paper_id')
-            paper = Paper.query.get(paper_id)
-            paper = paper.title
-        except AttributeError:
-            paper = None
-
         form = ReviewForm()
         if request.method == 'POST':
             if form.validate_on_submit():
+                try:
+                    paper = Paper.query.filter_by(title=title).first()
+                    paper.under_review = True
+                    paper.reviewer = current_user.email
+                    paper.save()
+                    review = Review(
+                                    title=title,
+                                    authors=paper.authors,
+                                    filename=paper.file,
+                                    reviewed_by=paper.reviewer,
+                                    review_date=datetime.datetime.now(),
+                                    review=form.review.data,
+                                    )
+                    db.session.add(review)
+                    db.session.commit()
+                except AttributeError:
+                    paper = None
+                    pass
                 flash('Your review has been submitted successfully!', 'success')
-                return redirect(Review.post)
-        return self.render('user_write_review.html', form=form, paper=paper, title=title)
+                return redirect('/admin/reviews')
+        return self.render('user_write_review.html', form=form, title=title)
 
     @expose('/review_submissions')
     def get_review_submissions(self):
