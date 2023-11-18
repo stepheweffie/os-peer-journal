@@ -106,6 +106,26 @@ class AdminIndex(AdminIndexView):
             return cls.render('reviewed_papers.html', request=request, name="GET Review", files=self.files)
 
         def post(self, cls):
+            title = request.form.get('title')
+            review = request.form.get('review')
+            try:
+                paper = Paper.query.filter_by(title=title).first()
+                paper.under_review = True
+                paper.reviewer = current_user.email
+                paper.save()
+                reviewed = Review(
+                                title=title,
+                                authors=paper.authors,
+                                filename=paper.file,
+                                reviewed_by=paper.reviewer,
+                                review_date=datetime.datetime.now(),
+                                review=review,
+                                )
+                db.session.add(reviewed)
+                db.session.commit()
+            except AttributeError:
+                paper = None
+                pass
             return cls.render('reviewed_papers.html', request=request, name="POST Review", files=self.files)
 
     @expose_plugview('/published_papers')
@@ -156,29 +176,11 @@ class AdminIndex(AdminIndexView):
         title = request.args.get('title')
         # handle the form here and save the review
         form = ReviewForm()
+        form.title.data = title
         if request.method == 'POST':
             if form.validate_on_submit():
-                review = request.form.get('review')
-                try:
-                    paper = Paper.query.filter_by(title=title).first()
-                    paper.under_review = True
-                    paper.reviewer = current_user.email
-                    paper.save()
-                    reviewed = Review(
-                                    title=title,
-                                    authors=paper.authors,
-                                    filename=paper.file,
-                                    reviewed_by=paper.reviewer,
-                                    review_date=datetime.datetime.now(),
-                                    review=review,
-                                    )
-                    db.session.add(reviewed)
-                    db.session.commit()
-                except AttributeError:
-                    paper = None
-                    pass
-                flash('Your review has been submitted successfully!', 'success')
                 return redirect('/admin/reviews')
+            flash('Please fill out all fields!', 'danger')
         return self.render('user_write_review.html', form=form, title=title)
 
     @expose('/review_submissions')
