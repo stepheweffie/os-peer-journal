@@ -27,6 +27,7 @@
     <div class="row-fluid">
 <h2>Submit A Paper</h2>
     <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
         <h4><label for="title">Title:</label></h4>
         <input class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" type="text" id="title" name="title" required>
         <br><br>

@@ -41,24 +41,28 @@ class AdminIndex(AdminIndexView):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
         csrf_token = generate_csrf()
-        papers = Paper.query.filter(Paper.user_id != current_user.id).all()
+        papers = Paper.query.filter_by(user_id=current_user.id).all()
         papers_data = [
             {"id": paper.id, "title": paper.title, "authors": paper.authors}
             for paper in papers
         ]
-        if request.method == 'POST':
-            if 'review' in request.form:
-                form.process(request.form)
-                csrf_token = request.form.get('csrf_token')
-                title = request.form.get('title')
-                print(request.form.items())
-                if form.validate():
-                    return redirect('/admin/write_review', csrf_token=csrf_token, title=title)
-                else:
-                    flash('Invalid form submission', 'danger')
 
+        if not current_user.is_authenticated:
+            return redirect(url_for('auth.login'))
+        if not current_user.is_admin and request.method == 'GET':
+            return self.render('admin/index.html', form=form, data=papers_data, csrf_token=csrf_token)
+        if current_user.is_admin and request.method == 'GET':
+            return self.render('admin/index.html', form=form, data=papers_data, csrf_token=csrf_token)
+
+        if request.method == 'POST':
             form.process(request.form)
+            csrf_token = request.form.get('csrf_token')
+
             if form.validate():
+                if 'review' in request.form:
+                    title = request.form.get('title')
+                    return redirect('/admin/write_review', csrf_token=csrf_token, title=title)
+
                 upload = request.files['file']
                 if upload is None or upload.filename == '':
                     flash('No selected file', 'danger')
@@ -72,18 +76,12 @@ class AdminIndex(AdminIndexView):
                               under_review=False,
                               user_id=current_user.id)
 
-                paper.user_id = current_user.id
                 db.session.add(paper)
                 db.session.commit()
                 upload.save(os.path.join(directory_path, upload.filename))
                 flash('Your paper has been submitted successfully!', 'success')
                 return redirect('/admin/submitted_papers')
-
-        if not current_user.is_authenticated:
-            return redirect(url_for('auth.login'))
-        if not current_user.is_admin:
-            return self.render('admin/index.html', form=form, data=papers_data, csrf_token=csrf_token)
-        return self.render('admin/admin_index.html', form=form, data=papers_data, csrf_token=csrf_token)
+            flash('Invalid form submission', 'danger')
 
 
     @expose_plugview('/submitted_papers')
@@ -131,7 +129,7 @@ class AdminIndex(AdminIndexView):
         if request.method == 'POST':
             if len(form['newpassword']) < 6:
                 flash('Password must be at least 8 characters long!', 'danger')
-                return redirect('/admin')
+                return redirect('/login')
             user = User.get_one(email=current_user.email)
             user.change_password(user.email, form['newpassword'])
             user.save()
@@ -160,7 +158,6 @@ class AdminIndex(AdminIndexView):
         # handle the form here and save the review
         csrf_token = request.form.get('csrf_token')
         title = request.form.get('title')
-        print(csrf_token)
         try:
             paper_id = request.form.get('paper_id')
             paper = Paper.query.get(paper_id)
