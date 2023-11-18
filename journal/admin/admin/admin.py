@@ -40,8 +40,9 @@ class AdminIndex(AdminIndexView):
     def index(self):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
         form = UploadForm()
-        csrf_token = generate_csrf()
-        papers = Paper.query.filter_by(user_id=current_user.id).all()
+
+        papers = Paper.query.filter(Paper.user_id != current_user.id).all()
+
         papers_data = [
             {"id": paper.id, "title": paper.title, "authors": paper.authors}
             for paper in papers
