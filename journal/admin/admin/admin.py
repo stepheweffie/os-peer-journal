@@ -1,6 +1,6 @@
 from wtforms import TextAreaField
 from flask_admin.actions import action
-from forms import UploadForm, CKTextAreaWidget, ReviewForm, SettingsForm
+from forms import UploadForm, CKTextAreaWidget, ReviewForm, SettingsForm, ReviewSelect
 from flask.views import MethodView
 from flask_admin.contrib.sqla import ModelView
 from flask import redirect, url_for, request, jsonify, flash
@@ -38,52 +38,48 @@ class AdminIndex(AdminIndexView):
     @expose('/', methods=['GET', 'POST'])
     def index(self):
         # Handles a BaseForm instance (differently than a FlaskForm instance)
-        form = UploadForm()
-
         papers = Paper.query.filter(Paper.user_id != current_user.id).all()
 
         papers_data = [
             {"id": paper.id, "title": paper.title, "authors": paper.authors}
             for paper in papers
         ]
-
         if not current_user.is_authenticated:
             return redirect(url_for('auth.login'))
+        form = UploadForm()
         if not current_user.is_admin and request.method == 'GET':
-
-            # TODO is_visible admin ModelViews
             return self.render('admin/index.html', form=form, data=papers_data)
         if current_user.is_admin and request.method == 'GET':
             return self.render('admin/admin_index.html', form=form, data=papers_data)
 
         if request.method == 'POST':
+            if 'review' in request.form:
+                selected_title = request.form.get('paper_title')
+                print(selected_title)
+                return redirect(url_for('admin.write_review', title=selected_title))
+
             form.process(request.form)
-            csrf_token = request.form.get('csrf_token')
-
-            if form.validate():
-                if 'review' in request.form:
-                    title = request.form.get('title')
-                    return redirect('/admin/write_review', csrf_token=csrf_token, title=title)
-
-                upload = request.files['file']
-                if upload is None or upload.filename == '':
-                    flash('No selected file', 'danger')
-                    return redirect('/admin')
-                paper = Paper(
-                              title=form.title.data,
-                              authors=form.authors.data,
-                              abstract=form.abstract.data,
-                              timestamp=form.timestamp,
-                              file=upload.filename,
-                              under_review=False,
-                              user_id=current_user.id)
-
-                db.session.add(paper)
-                db.session.commit()
-                upload.save(os.path.join(directory_path, upload.filename))
-                flash('Your paper has been submitted successfully!', 'success')
+            if not form.validate():
                 return redirect('/admin/submitted_papers')
-            flash('Invalid form submission', 'danger')
+
+            upload = request.files['file']
+            if upload is None or upload.filename == '':
+                flash('No selected file', 'danger')
+                return redirect('/admin')
+            paper = Paper(
+                          title=form.title.data,
+                          authors=form.authors.data,
+                          abstract=form.abstract.data,
+                          timestamp=form.timestamp,
+                          file=upload.filename,
+                          under_review=False,
+                          user_id=current_user.id)
+
+            db.session.add(paper)
+            db.session.commit()
+            upload.save(os.path.join(directory_path, upload.filename))
+            flash('Your paper has been submitted successfully!', 'success')
+            return self.render('admin/index.html', form=form, data=papers_data)
 
 
     @expose_plugview('/submitted_papers')
@@ -157,9 +153,8 @@ class AdminIndex(AdminIndexView):
 
     @expose('/write_review', methods=['GET', 'POST'])
     def write_review(self):
+        title = request.args.get('title')
         # handle the form here and save the review
-        csrf_token = request.form.get('csrf_token')
-        title = request.form.get('title')
         try:
             paper_id = request.form.get('paper_id')
             paper = Paper.query.get(paper_id)
@@ -172,7 +167,7 @@ class AdminIndex(AdminIndexView):
             if form.validate_on_submit():
                 flash('Your review has been submitted successfully!', 'success')
                 return redirect(Review.post)
-        return self.render('user_write_review.html', form=form, paper=paper, title=title, csrf_token=csrf_token)
+        return self.render('user_write_review.html', form=form, paper=paper, title=title)
 
     @expose('/review_submissions')
     def get_review_submissions(self):

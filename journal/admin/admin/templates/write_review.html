@@ -7,11 +7,13 @@
 {% endblock %}
 
 {% block body %}
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 {{ super() }}
 <form method="POST">
-    <input type="hidden" name="csrf_token"  value="{{ csrf_token() }}">
+        <input type="hidden" name="csrf_token"  value="{{ csrf_token() }}">
     <button class="btn btn-primary" type="submit" value="Submit" style="width: 150px;">Submit</button>
 </form>
+</div>
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
@@ -59,6 +61,7 @@
 
 
 {% endblock %}
+</div>
 {% block tail_js %}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity=
         "sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

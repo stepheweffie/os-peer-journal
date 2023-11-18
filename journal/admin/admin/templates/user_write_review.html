@@ -4,7 +4,9 @@
 <h5></h5>
 {% endblock %}
 {% block body %}
-<h2>Review for {{ paper }}</h2>
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding: 30px;">
+
+<h2>Review for {{ title }}</h2>
 
 <form class ="form-group" method="post" id="wysiwyg" action="/admin/reviews">
 <textarea class ="form-control" id="editor" name="review">
@@ -12,7 +14,7 @@
 </form><br><br>
 
 <button type="submit" form="wysiwyg" class="btn btn-lg btn-primary">Submit</button>
-
+</div>
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 <script>
     ClassicEditor

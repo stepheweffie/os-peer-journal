@@ -60,3 +60,9 @@ class SettingsForm(FlaskForm):
                                               ('bank', 'Bank Transfer')])
     password = PasswordField('Password', validators=[Length(min=6, max=80)])
     password_confirm = PasswordField('Confirm Password', validators=[Length(min=6, max=80)])
+
+
+class ReviewSelect(FlaskForm):
+    review = SelectField('Review')
+    title = StringField('Paper Title')
+    submit = SubmitField('Review')
