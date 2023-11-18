@@ -37,12 +37,13 @@ def create_app(config_filename):
     app.config['SESSION_TYPE'] = 'filesystem'
     app.jinja_env.filters['extract_filename'] = extract_filename
     bcrypt.init_app(app)
-    admin = Admin(app, name='', template_mode='bootstrap3', index_view=AdminIndex())
+    admin = Admin(app, name='Contribute', template_mode='bootstrap3', index_view=AdminIndex())
     admin.add_view(UserModelView(User, db.session))
-    admin.add_view(FileAdmin(os.path.join(os.path.dirname(__file__), UPLOAD_FOLDER), name='Uploaded Papers'))
-    admin.add_view(PublishedPapersModelView(PublishedPapers, db.session))
-    admin.add_view(ReviewModelView(Review, db.session))
-    admin.add_view(SubmissionsModelView(Paper, db.session, name='Submissions'))
+    admin.add_view(FileAdmin(os.path.join(os.path.dirname(__file__), UPLOAD_FOLDER), name='Uploaded Papers',
+                             endpoint='uploaded'))
+    admin.add_view(PublishedPapersModelView(PublishedPapers, db.session, endpoint='published_papers'))
+    admin.add_view(ReviewModelView(Review, db.session, endpoint='paper_reviews'))
+    admin.add_view(SubmissionsModelView(Paper, db.session, name='Submissions', endpoint='submissions'))
     from auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 

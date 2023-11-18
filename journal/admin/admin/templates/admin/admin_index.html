@@ -1,4 +1,5 @@
 {% extends 'admin/master.html' %}
+
 {% block title %}Contribute{% endblock %}
 {% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -7,12 +8,28 @@
 {% endblock %}
 
 {% block brand %}
+
+{% endblock %}
+
+{% block main_menu %}
+{% endblock %}
+{% block menu_links %}
+          <ul class="nav navbar-nav navbar-left" style="font-size: large;">
+              <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <a href="http://127.0.0.1:5050/admin/logout">Logout</a>
+                  <a href="http://127.0.0.1:5050/admin/user">Users</a>
+                  <a href="http://127.0.0.1:5050/admin/publishedpapers">Published Papers</a>
+                  <a href="http://127.0.0.1:5050/admin/paper_reviews">Reviews</a>
+                  <a href="http://127.0.0.1:5050/admin/submissions">Submissions</a>
+          </ul>
+</div>
 {% endblock %}
 {% block body %}
-<h1>Contribute</h1>
-<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" style="padding: 30px;">
+    <h1>Contribute</h1>
     <div class="row-fluid">
-<h2>Submit A Paper</h2>
+    <h2>Submit A Paper</h2>
     <form method="POST" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
@@ -38,9 +55,9 @@
     </div>
 
 {% block table %}
-
-<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" style="padding: 30px;">
 <div class="select container col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <br><br>
     <h2>Review A Paper</h2>
     <select class="form-control" id="paperSelect">
         <option value="">Select a Paper</option>
