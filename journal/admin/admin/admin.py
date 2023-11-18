@@ -158,20 +158,21 @@ class AdminIndex(AdminIndexView):
         form = ReviewForm()
         if request.method == 'POST':
             if form.validate_on_submit():
+                review = request.form.get('review')
                 try:
                     paper = Paper.query.filter_by(title=title).first()
                     paper.under_review = True
                     paper.reviewer = current_user.email
                     paper.save()
-                    review = Review(
+                    reviewed = Review(
                                     title=title,
                                     authors=paper.authors,
                                     filename=paper.file,
                                     reviewed_by=paper.reviewer,
                                     review_date=datetime.datetime.now(),
-                                    review=form.review.data,
+                                    review=review,
                                     )
-                    db.session.add(review)
+                    db.session.add(reviewed)
                     db.session.commit()
                 except AttributeError:
                     paper = None

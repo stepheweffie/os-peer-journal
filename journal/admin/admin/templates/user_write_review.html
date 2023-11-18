@@ -9,6 +9,7 @@
 <h2>Review for {{ title }}</h2>
 
 <form class ="form-group" method="post" id="wysiwyg" action="/admin/reviews">
+    <input type="hidden" name="csrf_token"  value="{{ csrf_token() }}">
 <textarea class ="form-control" id="editor" name="review">
 </textarea>
 </form><br><br>
